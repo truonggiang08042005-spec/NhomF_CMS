@@ -1,187 +1,272 @@
-<?php
-/**
- * Header file for the Twenty Twenty WordPress default theme.
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package WordPress
- * @subpackage Twenty_Twenty
- * @since Twenty Twenty 1.0
- */
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php wp_head(); ?>
 
-?><!DOCTYPE html>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<html class="no-js" <?php language_attributes(); ?>>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
 
-	<head>
+        /* Khung Header chính */
+        .exact-header-navbar {
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            padding-right: 15px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
 
-		<meta charset="<?php bloginfo( 'charset' ); ?>">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        /* 1. Bên Trái: Logo & Home */
+        .header-left-group {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
 
-		<link rel="profile" href="https://gmpg.org/xfn/11">
+        .brand-logo-box {
+            background-color: #f1f1f1;
+            padding: 0 25px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #555555;
+            font-weight: 500;
+            border-right: 1px solid #e5e5e5;
+        }
 
-		<?php wp_head(); ?>
+        .brand-logo-box a {
+            text-decoration: none;
+            color: #555555;
+        }
 
-	</head>
+        .home-tab-box {
+            background-color: #e2e2e2;
+            padding: 0 25px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #444444;
+        }
 
-	<body <?php body_class(); ?>>
+        .home-tab-box a {
+            text-decoration: none;
+            color: #444444;
+        }
 
-		<?php
-		wp_body_open();
-		?>
+        /* 2. Ô Tìm Kiếm */
+        .header-search-form {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 20px;
+        }
 
-		<header id="site-header" class="header-footer-group">
+        .header-search-form input[type="search"] {
+            border: 1px solid #cccccc !important;
+            border-radius: 4px !important;
+            padding: 7px 12px !important;
+            font-size: 14px !important;
+            outline: none !important;
+            width: 200px;
+            background: #ffffff !important;
+            color: #333333 !important;
+            height: 38px !important;
+        }
 
-			<div class="header-inner section-inner">
+        .header-search-form input::placeholder {
+            color: #888888;
+        }
 
-				<div class="header-titles-wrapper">
+        .header-search-form button {
+            background-color: #ffffff !important;
+            border: 1px solid #cccccc !important;
+            border-radius: 4px !important;
+            padding: 0 14px !important;
+            height: 38px !important;
+            font-size: 14px !important;
+            color: #444444 !important;
+            cursor: pointer !important;
+            transition: background 0.2s;
+        }
 
-					<?php
+        .header-search-form button:hover {
+            background-color: #f0f0f0 !important;
+        }
 
-					// Check whether the header search is activated in the customizer.
-					$enable_header_search = get_theme_mod( 'enable_header_search', true );
+        /* 3. Menu & Icon Bên Phải */
+        .header-right-group {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
 
-					if ( true === $enable_header_search ) {
+        .header-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
 
-						?>
+        .header-nav-links a {
+            text-decoration: none;
+            color: #555555;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
 
-						<button class="toggle search-toggle mobile-search-toggle" data-toggle-target=".search-modal" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field" aria-expanded="false">
-							<span class="toggle-inner">
-								<span class="toggle-icon">
-									<?php twentytwenty_the_theme_svg( 'search' ); ?>
-								</span>
-								<span class="toggle-text"><?php _ex( 'Search', 'toggle text', 'twentytwenty' ); ?></span>
-							</span>
-						</button><!-- .search-toggle -->
+        .header-nav-links a:hover {
+            color: #000000;
+        }
 
-					<?php } ?>
+        .header-action-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 10px;
+        }
 
-					<div class="header-titles">
+        .action-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666666;
+            font-size: 11px;
+            cursor: pointer;
+        }
 
-						<?php
-							// Site title or logo.
-							twentytwenty_site_logo();
+        .action-icon-item:hover {
+            color: #111111;
+        }
 
-							// Site description.
-							twentytwenty_site_description();
-						?>
+        .action-icon-item .icon-svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
 
-					</div><!-- .header-titles -->
+        .account-dropdown-text {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 14px;
+        }
 
-					<button class="toggle nav-toggle mobile-nav-toggle" data-toggle-target=".menu-modal"  data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
-						<span class="toggle-inner">
-							<span class="toggle-icon">
-								<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
-							</span>
-							<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); ?></span>
-						</span>
-					</button><!-- .nav-toggle -->
+        /* Bọc nội dung trang */
+        .site-main-content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+    </style>
+</head>
 
-				</div><!-- .header-titles-wrapper -->
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
 
-				<div class="header-navigation-wrapper">
+<header class="exact-header-navbar">
+    
+    <!-- Cụm trái: Logo tên trang + Tab Home lấy động từ DB -->
+    <div class="header-left-group">
+        <div class="brand-logo-box">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                <?php bloginfo( 'name' ); ?>
+            </a>
+        </div>
+        <div class="home-tab-box">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+        </div>
+        
+        <!-- Form Tìm Kiếm -->
+        <form role="search" method="get" class="header-search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+            <input type="search" placeholder="Search" value="<?php echo get_search_query(); ?>" name="s" required />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
-					<?php
-					if ( has_nav_menu( 'primary' ) || ! has_nav_menu( 'expanded' ) ) {
-						?>
+    <!-- Cụm phải: Lấy danh mục tự động từ Database + Các Icon -->
+    <div class="header-right-group">
+        
+        <ul class="header-nav-links">
+            <?php
+            // Lấy 3 Chuyên mục (Categories) mới nhất từ Database
+            $db_categories = get_categories( array(
+                'number'     => 3,
+                'orderby'    => 'count',
+                'order'      => 'DESC',
+                'hide_empty' => false,
+            ) );
 
-							<nav class="primary-menu-wrapper" aria-label="<?php echo esc_attr_x( 'Horizontal', 'menu', 'twentytwenty' ); ?>">
+            if ( ! empty( $db_categories ) ) :
+                foreach ( $db_categories as $category ) : ?>
+                    <li>
+                        <a href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>">
+                            <?php echo esc_html( $category->name ); ?>
+                        </a>
+                    </li>
+                <?php endforeach;
+            else : ?>
+                <li><a href="#">Chưa có chuyên mục</a></li>
+            <?php endif; ?>
+        </ul>
 
-								<ul class="primary-menu reset-list-style">
+        <div class="header-action-icons">
+            <!-- Icon Menu -->
+            <a href="#" class="action-icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <circle cx="5" cy="12" r="1.5" fill="currentColor"></circle>
+                    <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
+                    <circle cx="19" cy="12" r="1.5" fill="currentColor"></circle>
+                </svg>
+                <span>Menu</span>
+            </a>
 
-								<?php
-								if ( has_nav_menu( 'primary' ) ) {
+            <!-- Icon Search -->
+            <a href="#" class="action-icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+                </svg>
+                <span>Search</span>
+            </a>
 
-									wp_nav_menu(
-										array(
-											'container'  => '',
-											'items_wrap' => '%3$s',
-											'theme_location' => 'primary',
-										)
-									);
+            <!-- Icon Account -->
+            <a href="#" class="action-icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="account-dropdown-text">Account ▾</span>
+            </a>
+        </div>
 
-								} elseif ( ! has_nav_menu( 'expanded' ) ) {
+    </div>
 
-									wp_list_pages(
-										array(
-											'match_menu_classes' => true,
-											'show_sub_menu_icons' => true,
-											'title_li' => false,
-											'walker'   => new TwentyTwenty_Walker_Page(),
-										)
-									);
+</header>
 
-								}
-								?>
-
-								</ul>
-
-							</nav><!-- .primary-menu-wrapper -->
-
-						<?php
-					}
-
-					if ( true === $enable_header_search || has_nav_menu( 'expanded' ) ) {
-						?>
-
-						<div class="header-toggles hide-no-js">
-
-						<?php
-						if ( has_nav_menu( 'expanded' ) ) {
-							?>
-
-							<div class="toggle-wrapper nav-toggle-wrapper has-expanded-menu">
-
-								<button class="toggle nav-toggle desktop-nav-toggle" data-toggle-target=".menu-modal" data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
-									<span class="toggle-inner">
-										<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); ?></span>
-										<span class="toggle-icon">
-											<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
-										</span>
-									</span>
-								</button><!-- .nav-toggle -->
-
-							</div><!-- .nav-toggle-wrapper -->
-
-							<?php
-						}
-
-						if ( true === $enable_header_search ) {
-							?>
-
-							<div class="toggle-wrapper search-toggle-wrapper">
-
-								<button class="toggle search-toggle desktop-search-toggle" data-toggle-target=".search-modal" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field" aria-expanded="false">
-									<span class="toggle-inner">
-										<?php twentytwenty_the_theme_svg( 'search' ); ?>
-										<span class="toggle-text"><?php _ex( 'Search', 'toggle text', 'twentytwenty' ); ?></span>
-									</span>
-								</button><!-- .search-toggle -->
-
-							</div>
-
-							<?php
-						}
-						?>
-
-						</div><!-- .header-toggles -->
-						<?php
-					}
-					?>
-
-				</div><!-- .header-navigation-wrapper -->
-
-			</div><!-- .header-inner -->
-
-			<?php
-			// Output the search modal (if it is activated in the customizer).
-			if ( true === $enable_header_search ) {
-				get_template_part( 'template-parts/modal-search' );
-			}
-			?>
-
-		</header><!-- #site-header -->
-
-		<?php
-		// Output the menu modal.
-		get_template_part( 'template-parts/modal-menu' );
+<div class="site-main-content">
