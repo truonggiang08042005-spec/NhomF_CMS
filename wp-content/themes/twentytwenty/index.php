@@ -1,53 +1,55 @@
 <?php get_header(); ?>
 
 <style>
-  /* Khung chứa danh sách bài viết */
+  /* Container chứa danh sách bài viết */
   .content-list-container {
-      max-width: 800px;
+      max-width: 700px;
       margin: 30px auto;
       padding: 0 15px;
-      font-family: Arial, sans-serif;
+      background: #ffffff;
   }
 
-  /* Mỗi thẻ bài viết (Card) */
+  /* Khung thẻ từng bài viết */
   .post-card-item {
       display: flex !important;
-      align-items: center !important;
+      align-items: flex-start !important;
       background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      border-radius: 4px !important;
-      padding: 20px 25px !important;
-      margin-bottom: 20px !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03) !important;
+      padding: 20px 0 !important;
+      border-bottom: 1px solid #e0e0e0 !important; /* Đường gạch kẻ ngang phân cách các bài viết */
   }
 
-  /* 1. Cột Ngày & Tháng bên trái */
+  .post-card-item:last-child {
+      border-bottom: none !important;
+  }
+
+  /* 1. Cột Ngày & Tháng */
   .post-card-date {
-      width: 90px !important;
-      min-width: 90px !important;
+      width: 75px !important;
+      min-width: 75px !important;
       text-align: center !important;
-      padding-right: 20px !important;
+      padding-right: 15px !important;
       margin-right: 20px !important;
-      border-right: 1px solid #e2e8f0 !important;
+      border-right: 1px solid #dcdcdc !important; /* Đường kẻ dọc ngăn cách giữa ngày và nội dung */
+      align-self: stretch !important; /* Giúp đường kẻ kéo dài trọn chiều cao */
   }
 
   .post-card-date .day-num {
-      font-size: 38px !important;
-      font-weight: bold !important;
-      line-height: 1 !important;
-      color: #1e293b !important;
-      font-family: Georgia, serif !important;
+      font-size: 42px !important;
+      font-weight: 700 !important;
+      line-height: 0.9 !important;
+      color: #2b2b2b !important;
+      font-family: "Playfair Display", "Times New Roman", Times, serif !important;
   }
 
   .post-card-date .month-text {
       font-size: 11px !important;
-      color: #64748b !important;
+      color: #888888 !important;
       text-transform: uppercase !important;
       margin-top: 6px !important;
       letter-spacing: 0.5px !important;
   }
 
-  /* 2. Cột Tiêu đề & Nội dung tóm tắt bên phải */
+  /* 2. Cột Tiêu đề & Tóm tắt */
   .post-card-info {
       flex: 1 !important;
   }
@@ -55,25 +57,30 @@
   .post-card-title {
       font-size: 16px !important;
       font-weight: 700 !important;
-      margin: 0 0 10px 0 !important;
-      line-height: 1.4 !important;
+      margin: 0 0 8px 0 !important;
+      line-height: 1.3 !important;
       text-transform: uppercase !important;
   }
 
   .post-card-title a {
-      color: #0284c7 !important; /* Màu xanh dương chủ đạo */
+      color: #2a6fbe !important; /* Màu xanh chuẩn mẫu */
       text-decoration: none !important;
   }
 
   .post-card-title a:hover {
-      text-decoration: underline !important;
+      color: #1d4ed8 !important;
   }
 
   .post-card-excerpt {
       font-size: 13px !important;
-      color: #64748b !important;
+      color: #888888 !important;
       margin: 0 !important;
-      line-height: 1.5 !important;
+      line-height: 1.4 !important;
+  }
+
+  .post-card-excerpt a.more-link {
+      color: #2a6fbe !important;
+      text-decoration: none !important;
   }
 </style>
 
@@ -85,26 +92,27 @@
         ?>
             
             <article class="post-card-item">
-                <!-- Cột 1: Ngày / Tháng -->
+                <!-- 1. Cột Ngày / Tháng -->
                 <div class="post-card-date">
                     <div class="day-num"><?php echo $day; ?></div>
                     <div class="month-text">THÁNG <?php echo $month; ?></div>
                 </div>
 
-                <!-- Cột 2: Tiêu đề & Tóm tắt bài viết -->
+                <!-- 2. Cột Tiêu đề & Mô tả ngắn (Đã ẩn phần ảnh đại diện) -->
                 <div class="post-card-info">
                     <h2 class="post-card-title">
                         <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                     </h2>
                     <p class="post-card-excerpt">
-                        <?php echo wp_trim_words( get_the_excerpt(), 25, ' [...]' ); ?>
+                        <?php echo wp_trim_words( get_the_excerpt(), 25, '' ); ?>
+                        <a href="<?php the_permalink(); ?>" class="more-link">[...]</a>
                     </p>
                 </div>
             </article>
 
         <?php endwhile; ?>
     <?php else : ?>
-        <p>Chưa có bài viết nào trong Database.</p>
+        <p>Chưa có bài viết nào.</p>
     <?php endif; ?>
 </div>
 
