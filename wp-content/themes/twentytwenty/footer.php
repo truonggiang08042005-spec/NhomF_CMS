@@ -43,9 +43,23 @@
             margin: 0;
         }
 
+        /* ĐỊNH DẠNG CĂN THẲNG HÀNG DỌC (HANGING INDENT) */
         .footer-col ul li {
             margin-bottom: 8px;
             font-size: 14px;
+            position: relative; 
+            padding-left: 1px; /* Đổi thành 13px để chữ bên dưới thẳng tắp với chữ trên tiêu đề */
+            line-height: 1.5;
+        }
+
+        /* Tạo dấu » tự động ở đầu thẻ li và khóa vị trí lại */
+        .footer-col ul li::before {
+            content: "\00BB";
+            position: absolute;
+            left: -20px; /* Kéo nhẹ dấu mũi tên sang trái 1px để thân nó đè đúng lên trục của vạch trắng */
+            top: 0;
+            font-size: 16px;
+            color: #ffffff;
         }
 
         .footer-col ul li a {
@@ -96,18 +110,19 @@
                         <?php
                         $recent_posts = wp_get_recent_posts( array( 'numberposts' => 5, 'post_status' => 'publish' ) );
                         foreach( $recent_posts as $post_item ) : ?>
-                            <li>» <a href="<?php echo get_permalink($post_item['ID']); ?>"><?php echo $post_item['post_title']; ?></a></li>
+                            <li><a href="<?php echo get_permalink($post_item['ID']); ?>"><?php echo $post_item['post_title']; ?></a></li>
                         <?php endforeach; wp_reset_query(); ?>
                     </ul>
                 </div>
-<!-- Cột 2: Thay Quick links giả bằng Chuyên mục (Categories) trong DB -->
+
+                <!-- Cột 2: Thay Quick links giả bằng Chuyên mục (Categories) trong DB -->
                 <div class="footer-col">
                     <div class="footer-col-title">Chuyên mục</div>
                     <ul>
                         <?php
                         $categories = get_categories( array('number' => 5) );
                         foreach( $categories as $category ) : ?>
-                            <li>» <a href="<?php echo get_category_link($category->term_id); ?>"><?php echo $category->name; ?></a></li>
+                            <li><a href="<?php echo get_category_link($category->term_id); ?>"><?php echo $category->name; ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -120,10 +135,10 @@
                         $comments = get_comments( array('number' => 5, 'status' => 'approve') );
                         if ( $comments ) :
                             foreach( $comments as $comment ) : ?>
-                                <li>» <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo wp_trim_words($comment->comment_content, 5); ?></a></li>
+                                <li><a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo wp_trim_words($comment->comment_content, 5); ?></a></li>
                             <?php endforeach;
                         else : ?>
-                            <li>» Chưa có bình luận</li>
+                            <li>Chưa có bình luận</li>
                         <?php endif; ?>
                     </ul>
                 </div>
