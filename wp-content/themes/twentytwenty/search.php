@@ -4,7 +4,7 @@
   /* Khung bọc trang tìm kiếm */
   .search-page-container {
       max-width: 900px;
-      margin: 30px auto;
+      margin: 50px auto;
       padding: 0 15px;
       font-family: Arial, sans-serif;
   }
@@ -44,7 +44,7 @@
       align-items: center;
       background: #ffffff;
       border-radius: 4px;
-      padding: 6px 12px;
+      padding: 15px 15px;
       width: 100%;
       max-width: 500px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -62,7 +62,7 @@
       background-color: #22c55e !important;
       color: #ffffff !important;
       border: none !important;
-      padding: 8px 20px !important;
+      padding: 5px 5px !important;
       border-radius: 4px !important;
       font-weight: bold !important;
       cursor: pointer !important;
@@ -129,5 +129,25 @@
 
     <?php endif; ?>
 </div>
+
+<!-- ĐOẠN SCRIPT HIỂN THỊ THÔNG BÁO KHI TÌM KIẾM QUÁ NHIỀU KÝ TỰ -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Tìm tất cả các form tìm kiếm trên trang (bao gồm form trong header nếu có và form custom này)
+    var searchForms = document.querySelectorAll('form[role="search"], .custom-search-form');
+    
+    searchForms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            var searchInput = form.querySelector('input[name="s"]');
+            var maxLength = 50; // Thay đổi con số này nếu bạn muốn giới hạn dài/ngắn hơn
+            
+            if (searchInput && searchInput.value.length > maxLength) {
+                e.preventDefault(); // Chặn hành động chuyển trang tìm kiếm
+                alert('Từ khóa tìm kiếm của bạn quá dài (' + searchInput.value.length + ' ký tự). Vui lòng nhập tối đa ' + maxLength + ' ký tự!');
+            }
+        });
+    });
+});
+</script>
 
 <?php get_footer(); ?>
