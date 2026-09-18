@@ -20,13 +20,13 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'database_name_here' );
+define( 'DB_NAME', 'wordpress_truonggiang' );
 
 /** Database username */
-define( 'DB_USER', 'username_here' );
+define( 'DB_USER', 'root' );
 
 /** Database password */
-define( 'DB_PASSWORD', 'password_here' );
+define( 'DB_PASSWORD', '' );
 
 /** Database hostname */
 define( 'DB_HOST', 'localhost' );
@@ -88,8 +88,17 @@ $table_prefix = 'wp_';
 define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
-
-
+if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+	$http_protocol = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) ? 'https://' : 'http://';
+	$script_dir = rtrim( dirname( $_SERVER['SCRIPT_NAME'] ), '/\\' );
+	$base_dir = preg_replace( '#/(wp-admin|wp-includes|wp-content).*$#', '', $script_dir );
+	if ( ! defined( 'WP_HOME' ) ) {
+		define( 'WP_HOME', $http_protocol . $_SERVER['HTTP_HOST'] . $base_dir );
+	}
+	if ( ! defined( 'WP_SITEURL' ) ) {
+		define( 'WP_SITEURL', $http_protocol . $_SERVER['HTTP_HOST'] . $base_dir );
+	}
+}
 
 /* That's all, stop editing! Happy publishing. */
 
