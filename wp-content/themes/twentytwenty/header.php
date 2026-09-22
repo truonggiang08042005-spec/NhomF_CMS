@@ -228,6 +228,9 @@
     <div class="header-right-group">
         
         <ul class="header-nav-links">
+            <li>
+                <a href="<?php echo esc_url( home_url( '/?page_id=2' ) ); ?>" style="color: #0284c7; font-weight: bold;">Trang (Pages)</a>
+            </li>
             <?php
             // Lấy 3 Chuyên mục (Categories) mới nhất từ Database
             $db_categories = get_categories( array(

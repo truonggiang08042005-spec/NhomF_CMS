@@ -1,6 +1,11 @@
 <?php
 /**
- * The template for displaying all pages (module-Pages)
+ * The template for displaying all pages (module-Pages / Module số 13)
+ *
+ * Yêu cầu Module 13:
+ * - Theo hình chụp: 3 bài viết trên 1 dòng
+ * - Vị trí hiển thị: cho nó rớt dòng dạng responsive (mỗi dòng: 1 bài viết)
+ * - Dữ liệu: Lấy trực tiếp từ file (không tạo thêm bài trong Database, giữ nguyên bài có sẵn)
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
@@ -8,37 +13,64 @@
 
 get_header();
 
-// Lấy danh sách các Trang (Pages) trong hệ thống
-$all_pages = get_posts( array(
-    'post_type'      => 'page',
-    'post_status'    => 'publish',
-    'posts_per_page' => 12,
-    'orderby'        => 'date',
-    'order'          => 'ASC',
-) );
-
-// Dữ liệu mẫu chuẩn theo ảnh đề bài (dùng làm fallback hoặc ảnh chuẩn)
-$sample_pages = array(
+// 1. Dữ liệu bài viết lấy trực tiếp từ file (theo đúng hình chụp đề bài)
+$file_posts = array(
     array(
-        'title'   => 'Ngành Công Nghệ Thông Tin',
-        'desc'    => 'Trang bị cho sinh viên kiến thức và kỹ năng để trở thành nhà phát triển phần mềm chuyên nghiệp.',
-        'image'   => get_template_directory_uri() . '/assets/images/page-cntt.svg',
+        'title' => 'Ngành Công Nghệ Thông Tin',
+        'desc'  => 'Trang bị cho sinh viên kiến thức và kỹ năng để trở thành nhà phát triển phần mềm chuyên nghiệp.',
+        'image' => get_template_directory_uri() . '/assets/images/page-cntt.svg',
+        'link'  => '#',
     ),
     array(
-        'title'   => 'Ngành Truyền Thông & Mạng Máy Tính',
-        'desc'    => 'Sinh viên có khả năng nghiên cứu, thiết kế, phát triển và triển khai các ứng dụng về các công nghệ Mạng máy tính.',
-        'image'   => get_template_directory_uri() . '/assets/images/page-network.svg',
+        'title' => 'Ngành Truyền Thông & Mạng Máy Tính',
+        'desc'  => 'Sinh viên có khả năng nghiên cứu, thiết kế, phát triển và triển khai các ứng dụng về các công nghệ Mạng máy tính.',
+        'image' => get_template_directory_uri() . '/assets/images/page-network.svg',
+        'link'  => '#',
     ),
     array(
-        'title'   => 'Ngành Thiết Kế Đồ Họa',
-        'desc'    => 'Cung cấp các kiến thức về thiết kế đồ họa và công nghệ thông tin đa phương tiện.',
-        'image'   => get_template_directory_uri() . '/assets/images/page-graphic-design.svg',
+        'title' => 'Ngành Thiết Kế Đồ Họa',
+        'desc'  => 'Cung cấp các kiến thức về thiết kế đồ họa và công nghệ thông tin đa phương tiện.',
+        'image' => get_template_directory_uri() . '/assets/images/page-graphic-design.svg',
+        'link'  => '#',
     ),
 );
+
+// 2. Tùy chọn: Nếu muốn lấy từ những bài viết có sẵn của bạn trong Database (không tạo thêm bài mới)
+// Đặt $use_existing_db_posts = true nếu muốn hiển thị bài viết sẵn có (Laptop, Máy giặt, PC, Đồng hồ...)
+$use_existing_db_posts = false;
+
+if ( $use_existing_db_posts ) {
+    $db_posts = get_posts( array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => 3,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ) );
+
+    if ( ! empty( $db_posts ) ) {
+        $display_items = array();
+        foreach ( $db_posts as $idx => $p ) {
+            $img = has_post_thumbnail( $p->ID ) ? get_the_post_thumbnail_url( $p->ID, 'medium_large' ) : $file_posts[$idx % count($file_posts)]['image'];
+            $excerpt = ! empty( $p->post_excerpt ) ? $p->post_excerpt : wp_trim_words( $p->post_content, 22, '...' );
+            $display_items[] = array(
+                'title' => get_the_title( $p->ID ),
+                'desc'  => $excerpt,
+                'image' => $img,
+                'link'  => get_permalink( $p->ID ),
+            );
+        }
+    } else {
+        $display_items = $file_posts;
+    }
+} else {
+    // Mặc định: Lấy 3 bài viết chuẩn từ file theo đúng ảnh đề bài
+    $display_items = $file_posts;
+}
 ?>
 
 <style>
-  /* Khung bọc toàn bộ trang Pages */
+  /* Khung bọc toàn bộ module 13 */
   .pages-page-container {
       max-width: 1100px;
       margin: 40px auto 60px auto;
@@ -61,14 +93,14 @@ $sample_pages = array(
       font-family: Arial, "Helvetica Neue", sans-serif;
   }
 
-  /* Lưới 3 cột trên màn hình lớn */
+  /* Theo hình chụp là: 3 bài viết trên 1 dòng (Desktop) */
   .pages-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
   }
 
-  /* Mỗi thẻ Page (Card) */
+  /* Mỗi thẻ bài viết (Card) */
   .page-card-item {
       display: flex;
       flex-direction: column;
@@ -77,7 +109,7 @@ $sample_pages = array(
       transition: transform 0.2s ease;
   }
 
-  /* Tiêu đề trang */
+  /* Tiêu đề bài viết */
   .page-card-title {
       font-size: 16.5px;
       font-weight: 600;
@@ -144,17 +176,21 @@ $sample_pages = array(
       margin-bottom: 0;
   }
 
-  /* RESPONSIVE: Màn hình điện thoại/tablet tự động chuyển về "Hình đứng dạng cột" */
+  /* ========================================================
+     RESPONSIVE (Theo yêu cầu đề bài):
+     "Theo như vị trí hiển thị: thì SV hãy cho nó rớt dòng (dạng reponsive)
+     Như vậy mỗi dòng: 1 bài viết"
+     ======================================================== */
   @media (max-width: 820px) {
       .pages-grid {
-          grid-template-columns: 1fr; /* Hình đứng dạng cột */
+          grid-template-columns: 1fr !important; /* Rớt dòng: mỗi dòng 1 bài viết */
           gap: 30px;
-          max-width: 500px;
+          max-width: 520px;
           margin: 0 auto;
       }
 
       .page-card-thumb {
-          height: 210px;
+          height: 220px;
       }
   }
 </style>
@@ -166,87 +202,27 @@ $sample_pages = array(
             <h1 class="pages-section-title">Trang mới nhất</h1>
         </div>
 
-        <!-- Lưới các trang (3 cột ngang trên Desktop, hình đứng dạng cột trên Mobile) -->
+        <!-- Lưới bài viết (3 bài viết trên 1 dòng, rớt dòng mỗi dòng 1 bài khi responsive) -->
         <div class="pages-grid">
-            <?php 
-            // Nếu có các trang trong Database
-            $rendered_count = 0;
-            if ( ! empty( $all_pages ) ) :
-                foreach ( $all_pages as $idx => $page_item ) : 
-                    // Bỏ qua trang mẫu rỗng nếu đã có các trang chuyên ngành
-                    if ( $page_item->post_name === 'trang-mau' && count( $all_pages ) > 1 ) {
-                        continue;
-                    }
+            <?php foreach ( $display_items as $item ) : ?>
+                <article class="page-card-item">
+                    <h2 class="page-card-title">
+                        <a href="<?php echo esc_url( $item['link'] ); ?>"><?php echo esc_html( $item['title'] ); ?></a>
+                    </h2>
+                    
+                    <div class="page-card-divider"></div>
 
-                    $title = get_the_title( $page_item->ID );
-                    $link  = get_permalink( $page_item->ID );
-                    $desc  = ! empty( $page_item->post_excerpt ) ? $page_item->post_excerpt : wp_trim_words( $page_item->post_content, 25, '...' );
+                    <div class="page-card-thumb">
+                        <a href="<?php echo esc_url( $item['link'] ); ?>" aria-label="<?php echo esc_attr( $item['title'] ); ?>">
+                            <img src="<?php echo esc_url( $item['image'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" />
+                        </a>
+                    </div>
 
-                    // Chọn ảnh đại diện tương ứng
-                    if ( has_post_thumbnail( $page_item->ID ) ) {
-                        $img_src = get_the_post_thumbnail_url( $page_item->ID, 'medium_large' );
-                    } else {
-                        // Gán ảnh minh họa chuẩn theo ngành hoặc ảnh mặc định
-                        if ( stripos( $title, 'Thông Tin' ) !== false || stripos( $title, 'CNTT' ) !== false ) {
-                            $img_src = $sample_pages[0]['image'];
-                        } elseif ( stripos( $title, 'Mạng' ) !== false || stripos( $title, 'Truyền Thông' ) !== false ) {
-                            $img_src = $sample_pages[1]['image'];
-                        } elseif ( stripos( $title, 'Đồ Họa' ) !== false || stripos( $title, 'Thiết Kế' ) !== false ) {
-                            $img_src = $sample_pages[2]['image'];
-                        } else {
-                            $sample_idx = $rendered_count % count( $sample_pages );
-                            $img_src = $sample_pages[$sample_idx]['image'];
-                        }
-                    }
-                    $rendered_count++;
-            ?>
-                    <article class="page-card-item">
-                        <h2 class="page-card-title">
-                            <a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $title ); ?></a>
-                        </h2>
-                        
-                        <div class="page-card-divider"></div>
-
-                        <div class="page-card-thumb">
-                            <a href="<?php echo esc_url( $link ); ?>" aria-label="<?php echo esc_attr( $title ); ?>">
-                                <img src="<?php echo esc_url( $img_src ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" />
-                            </a>
-                        </div>
-
-                        <p class="page-card-desc">
-                            <?php echo esc_html( $desc ); ?>
-                        </p>
-                    </article>
-            <?php 
-                endforeach; 
-            endif; 
-            
-            // Trường hợp chưa có đủ 3 trang, hiển thị bổ sung dữ liệu mẫu theo đúng ảnh
-            if ( $rendered_count < 3 ) :
-                for ( $i = $rendered_count; $i < 3; $i++ ) : 
-                    $sample = $sample_pages[$i];
-            ?>
-                    <article class="page-card-item">
-                        <h2 class="page-card-title">
-                            <a href="#"><?php echo esc_html( $sample['title'] ); ?></a>
-                        </h2>
-                        
-                        <div class="page-card-divider"></div>
-
-                        <div class="page-card-thumb">
-                            <a href="#" aria-label="<?php echo esc_attr( $sample['title'] ); ?>">
-                                <img src="<?php echo esc_url( $sample['image'] ); ?>" alt="<?php echo esc_attr( $sample['title'] ); ?>" loading="lazy" />
-                            </a>
-                        </div>
-
-                        <p class="page-card-desc">
-                            <?php echo esc_html( $sample['desc'] ); ?>
-                        </p>
-                    </article>
-            <?php 
-                endfor;
-            endif;
-            ?>
+                    <p class="page-card-desc">
+                        <?php echo esc_html( $item['desc'] ); ?>
+                    </p>
+                </article>
+            <?php endforeach; ?>
         </div>
     </div>
 </main>
