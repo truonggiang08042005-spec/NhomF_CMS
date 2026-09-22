@@ -213,20 +213,6 @@
     <div class="header-right-group">
         
         <ul class="header-nav-links">
-            <li>
-                <?php
-                $latest_post_item = get_posts( array( 'numberposts' => 1 ) );
-                if ( ! empty( $latest_post_item ) ) {
-                    $post_time = strtotime( $latest_post_item[0]->post_date );
-                    $archive_nav_url = get_month_link( date( 'Y', $post_time ), date( 'm', $post_time ) );
-                } else {
-                    $archive_nav_url = home_url( '/2026/09/' );
-                }
-                ?>
-                <a href="<?php echo esc_url( $archive_nav_url ); ?>" style="font-weight: 600; color: #b91c1c;">
-                    Xem nhiều
-                </a>
-            </li>
             <?php
             // Lấy 3 Chuyên mục (Categories) mới nhất từ Database
             $db_categories = get_categories( array(
