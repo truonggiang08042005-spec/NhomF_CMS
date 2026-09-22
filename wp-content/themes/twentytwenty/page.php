@@ -267,7 +267,7 @@ $first_3_posts = array_slice( $user_posts, 0, 3 );
         <section class="module-section">
             <div class="section-header-box">
                 <h1 class="section-title">Trang mới nhất</h1>
-                <span class="section-badge">Dạng 3 bài viết / 1 dòng (Ảnh 1)</span>
+                <span class="section-badge"></span>
             </div>
 
             <div class="posts-grid-3cols">
@@ -314,7 +314,7 @@ $first_3_posts = array_slice( $user_posts, 0, 3 );
         <section class="module-section">
             <div class="section-header-box">
                 <h2 class="section-title">Trang mới nhất</h2>
-                <span class="section-badge" style="background:#fef3c7; color:#92400e;">Hình đứng dạng cột (Ảnh 3)</span>
+                <span class="section-badge" style="background:#fef3c7; color:#92400e;"></span>
             </div>
 
             <div class="vertical-column-layout">
