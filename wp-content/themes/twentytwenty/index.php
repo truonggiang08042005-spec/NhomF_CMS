@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 
 <style>
-  /* Layout 3 cột đồng đều chuẩn hình thiết kế: Left (Categories 280px) | Center (Detail) | Right (Recent post 280px) */
+  /* Layout 3 cột chuẩn hình thiết kế: Left (Categories) | Center (Detail) | Right (Recent Posts) */
   .page-three-column-layout {
-      max-width: 1200px;
-      margin: 25px auto;
+      max-width: 1280px;
+      margin: 30px auto;
       padding: 0 15px;
       display: flex;
       gap: 25px;
@@ -12,10 +12,33 @@
       box-sizing: border-box;
   }
 
-  /* Cột bên trái: Categories (9) - Rộng đồng đều 280px */
+  /* Cột bên trái: Categories (9) */
   .left-sidebar-column {
-      width: 280px;
-      min-width: 280px;
+      width: 270px;
+      min-width: 270px;
+  }
+
+  /* Cột ở giữa: Detail (6) (Danh sách sản phẩm / nội dung chính) */
+  .center-content-column {
+      flex: 1;
+      min-width: 0;
+  }
+
+  /* Cột bên phải: Recent post (10) */
+  .right-sidebar-column {
+      width: 270px;
+      min-width: 270px;
+  }
+
+  @media (max-width: 1024px) {
+      .page-three-column-layout {
+          flex-direction: column;
+      }
+      .left-sidebar-column,
+      .right-sidebar-column {
+          width: 100%;
+          min-width: 100%;
+      }
   }
 
   /* Cột ở giữa: Detail (6) (Danh sách sản phẩm / nội dung chính) */
@@ -283,9 +306,10 @@
   }
 
   /* ==========================================================================
-     Widget Categories (Phía bên trái) - Chuẩn mẫu "Sau chỉnh sửa"
+     Widget Categories (Phía bên trái) & Widget Recent Posts (Phía bên phải)
      ========================================================================== */
-  .categories-widget-box {
+  .categories-widget-box,
+  .recent-posts-widget-box {
       background-color: #ededed;
       background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
       padding: 22px 18px;
@@ -323,21 +347,21 @@
       border-radius: 1px;
   }
 
-  /* Khung màu trắng bên trong chứa danh sách Categories */
-  .categories-white-box {
+  /* Khung màu trắng bên trong chứa danh sách */
+  .widget-white-box {
       background: #ffffff;
       padding: 8px 16px;
       border-radius: 2px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   }
 
-  .categories-white-box ul {
+  .widget-white-box ul {
       margin: 0;
       padding: 0;
       list-style: none;
   }
 
-  .categories-white-box ul li {
+  .widget-white-box ul li {
       display: flex;
       align-items: center;
       padding: 12px 0;
@@ -347,10 +371,11 @@
       font-size: 14.5px;
   }
 
-  .categories-white-box ul li:last-child {
+  .widget-white-box ul li:last-child {
       border-bottom: none;
   }
 
+  /* Dấu chấm vàng hình tròn trước mỗi chuyên mục */
   .categories-white-box ul li::before {
       content: "";
       display: inline-block;
@@ -375,132 +400,38 @@
       text-decoration: underline;
   }
 
-  /* ==========================================================================
-     Widget Recent Post (Phía bên phải) - Thiết kế 100% CHUẨN THEO MẪU MỚI
-     ========================================================================== */
-  .recent-posts-teal-card {
-      background-color: #45b5b4; /* Tone màu xanh ngọc / turquoise chuẩn như hình mẫu */
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Ký tự mũi tên cho Recent Posts */
+  .recent-posts-white-box ul li::before {
+      content: "»";
+      color: #2a6fbe;
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 15px;
   }
 
-  .recent-posts-teal-list {
-      padding: 20px 18px 10px 18px;
-  }
-
-  .recent-post-teal-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 15px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  }
-
-  .recent-post-teal-item:last-child {
-      border-bottom: none;
-  }
-
-  /* Định dạng ngày/tháng phân số bên trái: Day / Month Year */
-  .recent-teal-date-badge {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      color: #ffffff;
-      min-width: 50px;
-      font-family: Arial, "Helvetica Neue", sans-serif;
-      user-select: none;
-  }
-
-  .recent-teal-date-fraction {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1;
-  }
-
-  .recent-teal-date-day {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
-      padding-bottom: 2px;
-  }
-
-  .recent-teal-date-line {
-      width: 17px;
-      height: 1.5px;
-      background-color: #ffffff;
-      margin: 1px 0;
-  }
-
-  .recent-teal-date-month {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
-      padding-top: 2px;
-  }
-
-  .recent-teal-date-year {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
-      align-self: center;
-      margin-left: 1px;
-  }
-
-  /* Tiêu đề bài viết màu trắng */
-  .recent-post-teal-title {
-      flex: 1;
+  .recent-posts-white-box ul li a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 500;
       font-size: 13.5px;
-      line-height: 1.45;
-      margin: 0;
+      line-height: 1.4;
+      transition: color 0.2s ease-in-out;
   }
 
-  .recent-post-teal-title a {
-      color: #ffffff !important;
-      text-decoration: none !important;
-      font-weight: 400;
-      transition: opacity 0.2s ease;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-  }
-
-  .recent-post-teal-title a:hover {
-      opacity: 0.85;
-      text-decoration: underline !important;
-  }
-
-  /* Nút XEM TẤT CẢ TIN TỨC màu xanh đậm ở dưới đáy */
-  .recent-posts-btn-banner {
-      display: block;
-      background-color: #3ba3a2;
-      color: #ffffff !important;
-      text-align: center;
-      padding: 16px 10px;
-      font-weight: 700;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      text-decoration: none !important;
-      transition: background-color 0.2s ease;
-  }
-
-  .recent-posts-btn-banner:hover {
-      background-color: #2e8b89;
+  .recent-posts-white-box ul li a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
   }
 </style>
 
 <div class="page-three-column-layout">
     
-    <!-- CỘT BÊN TRÁI: Categories (9) theo đúng hình thiết kế (Rộng 280px) -->
+    <!-- CỘT BÊN TRÁI: Categories (9) theo đúng hình thiết kế -->
     <div class="left-sidebar-column">
         <aside class="categories-widget-box">
             <h3 class="widget-title-styled">Categories</h3>
             <div class="widget-striped-bar"></div>
-            <div class="categories-white-box">
+            <div class="widget-white-box categories-white-box">
                 <ul>
                     <?php
                     // Lấy tất cả Chuyên mục (Categories) tự động từ Database
@@ -590,54 +521,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- CỘT BÊN PHẢI: Recent post (10) (Rộng 280px đồng đều) -->
-    <div class="right-sidebar-column">
-        <aside class="recent-posts-teal-card">
-            <div class="recent-posts-teal-list">
-                <?php
-                // Lấy 5 bài viết mới nhất từ Database
-                $recent_posts = wp_get_recent_posts( array(
-                    'numberposts' => 5,
-                    'post_status' => 'publish'
-                ) );
-
-                if ( ! empty( $recent_posts ) ) :
-                    foreach ( $recent_posts as $post_item ) : 
-                        $recent_link = add_query_arg( 'p', $post_item['ID'], home_url( '/' ) );
-                        $r_day   = date('d', strtotime($post_item['post_date']));
-                        $r_month = date('m', strtotime($post_item['post_date']));
-                        $r_year  = date('y', strtotime($post_item['post_date']));
-                    ?>
-                        <div class="recent-post-teal-item">
-                            <!-- Badge hiển thị ngày tháng dạng phân số 13/08 ─23 -->
-                            <div class="recent-teal-date-badge">
-                                <div class="recent-teal-date-fraction">
-                                    <span class="recent-teal-date-day"><?php echo $r_day; ?></span>
-                                    <span class="recent-teal-date-line"></span>
-                                    <span class="recent-teal-date-month"><?php echo $r_month; ?></span>
-                                </div>
-                                <span class="recent-teal-date-year">─<?php echo $r_year; ?></span>
-                            </div>
-
-                            <!-- Tiêu đề bài viết mới -->
-                            <div class="recent-post-teal-title">
-                                <a href="<?php echo esc_url( $recent_link ); ?>">
-                                    <?php echo esc_html( $post_item['post_title'] ); ?>
-                                </a>
-                            </div>
-                        </div>
-                    <?php endforeach; wp_reset_query();
-                else : ?>
-                    <p style="color:#ffffff; font-size:13px;">Chưa có bài viết mới</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- Nút XEM TẤT CẢ TIN TỨC màu đậm ở đáy -->
-            <a href="<?php echo esc_url( home_url('/') ); ?>" class="recent-posts-btn-banner">
-                XEM TẤT CẢ TIN TỨC
-            </a>
-        </aside>
-    </div>
+    
 
 </div>
 
