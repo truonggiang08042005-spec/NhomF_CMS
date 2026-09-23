@@ -1,12 +1,44 @@
 <?php get_header(); ?>
 
 <style>
-  /* Container chứa danh sách sản phẩm/bài viết */
-  .content-list-container {
-      max-width: 800px;
+  /* Layout 3 cột chuẩn hình thiết kế: Left (Categories) | Center (Detail) | Right (Recent Posts) */
+  .page-three-column-layout {
+      max-width: 1280px;
       margin: 30px auto;
       padding: 0 15px;
-      background: #ffffff;
+      display: flex;
+      gap: 25px;
+      align-items: flex-start;
+      box-sizing: border-box;
+  }
+
+  /* Cột bên trái: Categories (9) */
+  .left-sidebar-column {
+      width: 270px;
+      min-width: 270px;
+  }
+
+  /* Cột ở giữa: Detail (6) (Danh sách sản phẩm / nội dung chính) */
+  .center-content-column {
+      flex: 1;
+      min-width: 0;
+  }
+
+  /* Cột bên phải: Recent post (10) */
+  .right-sidebar-column {
+      width: 270px;
+      min-width: 270px;
+  }
+
+  @media (max-width: 1024px) {
+      .page-three-column-layout {
+          flex-direction: column;
+      }
+      .left-sidebar-column,
+      .right-sidebar-column {
+          width: 100%;
+          min-width: 100%;
+      }
   }
 
   /* Khung thẻ từng bài viết/sản phẩm */
@@ -35,11 +67,11 @@
 
   /* 1. Cột Ngày & Tháng */
   .post-card-date {
-      width: 80px;
-      min-width: 80px;
+      width: 75px;
+      min-width: 75px;
       text-align: center;
-      padding-right: 18px;
-      margin-right: 22px;
+      padding-right: 15px;
+      margin-right: 18px;
       border-right: 1px solid #e2e8f0;
       align-self: stretch;
       display: flex;
@@ -48,7 +80,7 @@
   }
 
   .post-card-date .day-num {
-      font-size: 44px;
+      font-size: 40px;
       font-weight: 700;
       line-height: 0.9;
       color: #1e293b;
@@ -70,7 +102,7 @@
   }
 
   .post-card-title {
-      font-size: 17px;
+      font-size: 16.5px;
       font-weight: 700;
       margin: 0 0 10px 0;
       line-height: 1.35;
@@ -89,7 +121,7 @@
   }
 
   .post-card-excerpt {
-      font-size: 14px;
+      font-size: 13.5px;
       color: #475569;
       margin: 0 0 14px 0;
       line-height: 1.55;
@@ -109,7 +141,7 @@
       padding: 6px 14px;
       background-color: #2a6fbe;
       color: #ffffff !important;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       border-radius: 4px;
       text-decoration: none !important;
@@ -129,7 +161,7 @@
       padding: 6px 14px;
       background-color: #f1f5f9;
       color: #334155 !important;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       border-radius: 4px;
       text-decoration: none !important;
@@ -249,65 +281,247 @@
       justify-content: space-between;
       align-items: center;
   }
+
+  /* ==========================================================================
+     Widget Categories (Phía bên trái) & Widget Recent Posts (Phía bên phải)
+     ========================================================================== */
+  .categories-widget-box,
+  .recent-posts-widget-box {
+      background-color: #ededed;
+      background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
+      padding: 22px 18px;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  .widget-title-styled {
+      font-size: 24px !important;
+      font-weight: 800 !important;
+      color: #1a1a1a !important;
+      margin: 0 0 6px 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      text-transform: none !important;
+      letter-spacing: -0.4px !important;
+      line-height: 1.2 !important;
+  }
+
+  /* Thanh sọc chéo chéo bên dưới tiêu đề (Striped separator bar) */
+  .widget-striped-bar {
+      width: 100%;
+      height: 14px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      background: repeating-linear-gradient(
+          -45deg,
+          #d5d5d5,
+          #d5d5d5 3px,
+          #e9e9e9 3px,
+          #e9e9e9 6px
+      );
+      border-radius: 1px;
+  }
+
+  /* Khung màu trắng bên trong chứa danh sách */
+  .widget-white-box {
+      background: #ffffff;
+      padding: 8px 16px;
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .widget-white-box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+  }
+
+  .widget-white-box ul li {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      margin: 0;
+      border-bottom: 1px solid #f0f0f0;
+      list-style: none;
+      font-size: 14.5px;
+  }
+
+  .widget-white-box ul li:last-child {
+      border-bottom: none;
+  }
+
+  /* Dấu chấm vàng hình tròn trước mỗi chuyên mục */
+  .categories-white-box ul li::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      background-color: #f5b025; /* Màu vàng tròn chuẩn mẫu */
+      border-radius: 50%;
+      margin-right: 12px;
+  }
+
+  .categories-white-box ul li a {
+      color: #5587b7;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14.5px;
+      transition: color 0.2s ease-in-out;
+  }
+
+  .categories-white-box ul li a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+  }
+
+  /* Ký tự mũi tên cho Recent Posts */
+  .recent-posts-white-box ul li::before {
+      content: "»";
+      color: #2a6fbe;
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 15px;
+  }
+
+  .recent-posts-white-box ul li a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13.5px;
+      line-height: 1.4;
+      transition: color 0.2s ease-in-out;
+  }
+
+  .recent-posts-white-box ul li a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+  }
 </style>
 
-<div class="content-list-container">
-    <?php if ( have_posts() ) : ?>
-        <?php while ( have_posts() ) : the_post(); 
-            $day = get_the_date('d');
-            $month = get_the_date('m');
-            $post_id = get_the_ID();
-            $fallback_link = add_query_arg( 'p', $post_id, home_url( '/' ) );
-        ?>
-            
-            <article class="post-card-item" onclick="openProductModal(<?php echo $post_id; ?>);">
-                <!-- 1. Cột Ngày / Tháng -->
-                <div class="post-card-date">
-                    <div class="day-num"><?php echo $day; ?></div>
-                    <div class="month-text">THÁNG <?php echo $month; ?></div>
-                </div>
+<div class="page-three-column-layout">
+    
+    <!-- CỘT BÊN TRÁI: Categories (9) theo đúng hình thiết kế -->
+    <div class="left-sidebar-column">
+        <aside class="categories-widget-box">
+            <h3 class="widget-title-styled">Categories</h3>
+            <div class="widget-striped-bar"></div>
+            <div class="widget-white-box categories-white-box">
+                <ul>
+                    <?php
+                    // Lấy tất cả Chuyên mục (Categories) tự động từ Database
+                    $all_categories = get_categories( array(
+                        'hide_empty' => false,
+                        'orderby'    => 'name',
+                        'order'      => 'ASC'
+                    ) );
 
-                <!-- 2. Cột Tiêu đề & Mô tả ngắn -->
-                <div class="post-card-info">
-                    <h2 class="post-card-title">
-                        <a href="<?php echo esc_url($fallback_link); ?>" onclick="event.stopPropagation();"><?php the_title(); ?></a>
-                    </h2>
-                    <p class="post-card-excerpt">
-                        <?php echo wp_trim_words( get_the_excerpt(), 25, '' ); ?>
-                    </p>
-                    
-                </div>
+                    if ( ! empty( $all_categories ) ) :
+                        foreach ( $all_categories as $cat ) : ?>
+                            <li>
+                                <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                    <?php echo esc_html( $cat->name ); ?>
+                                </a>
+                            </li>
+                        <?php endforeach;
+                    else : ?>
+                        <li><a href="#">Uncategorized</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </aside>
+    </div>
 
-                <!-- Dữ liệu phục vụ Popup Modal -->
-                <div id="product-data-<?php echo $post_id; ?>" style="display: none;">
-                    <template class="modal-title-tpl"><?php the_title(); ?></template>
-                    <template class="modal-content-tpl">
-                        <div class="product-modal-meta" style="margin-bottom: 18px; color: #64748b; font-size: 13.5px;">
-                            <span><strong>Ngày đăng:</strong> <?php echo get_the_date('d/m/Y'); ?></span>
-                            <?php if ( has_category() ) : ?>
-                                <span style="margin-left: 15px;"><strong>Chuyên mục:</strong> <?php the_category(', '); ?></span>
-                            <?php endif; ?>
+    <!-- CỘT Ở GIỮA: Detail (6) (Danh sách sản phẩm / bài viết) -->
+    <div class="center-content-column">
+        <?php if ( have_posts() ) : ?>
+            <?php while ( have_posts() ) : the_post(); 
+                $day = get_the_date('d');
+                $month = get_the_date('m');
+                $post_id = get_the_ID();
+                $fallback_link = add_query_arg( 'p', $post_id, home_url( '/' ) );
+            ?>
+                
+                <article class="post-card-item" onclick="openProductModal(<?php echo $post_id; ?>);">
+                    <!-- 1. Cột Ngày / Tháng -->
+                    <div class="post-card-date">
+                        <div class="day-num"><?php echo $day; ?></div>
+                        <div class="month-text">THÁNG <?php echo $month; ?></div>
+                    </div>
+
+                    <!-- 2. Cột Tiêu đề & Mô tả ngắn -->
+                    <div class="post-card-info">
+                        <h2 class="post-card-title">
+                            <a href="<?php echo esc_url($fallback_link); ?>" onclick="event.stopPropagation();"><?php the_title(); ?></a>
+                        </h2>
+                        <p class="post-card-excerpt">
+                            <?php echo wp_trim_words( get_the_excerpt(), 25, '' ); ?>
+                        </p>
+                        <div class="post-card-actions">
+                            <button type="button" class="btn-action-view" onclick="event.stopPropagation(); openProductModal(<?php echo $post_id; ?>);">
+                                🔍 Xem nhanh thông tin
+                            </button>
+                            <a href="<?php echo esc_url($fallback_link); ?>" class="btn-action-page" onclick="event.stopPropagation();">
+                                📄 Trang chi tiết
+                            </a>
                         </div>
-                        <?php if ( has_post_thumbnail() ) : ?>
-                            <div style="text-align: center; margin-bottom: 20px;">
-                                <?php the_post_thumbnail('medium_large', array('style' => 'max-width: 100%; height: auto; border-radius: 8px;')); ?>
+                    </div>
+
+                    <!-- Dữ liệu phục vụ Popup Modal -->
+                    <div id="product-data-<?php echo $post_id; ?>" style="display: none;">
+                        <template class="modal-title-tpl"><?php the_title(); ?></template>
+                        <template class="modal-content-tpl">
+                            <div class="product-modal-meta" style="margin-bottom: 18px; color: #64748b; font-size: 13.5px;">
+                                <span><strong>Ngày đăng:</strong> <?php echo get_the_date('d/m/Y'); ?></span>
+                                <?php if ( has_category() ) : ?>
+                                    <span style="margin-left: 15px;"><strong>Chuyên mục:</strong> <?php the_category(', '); ?></span>
+                                <?php endif; ?>
                             </div>
-                        <?php endif; ?>
-                        <div>
-                            <?php the_content(); ?>
-                        </div>
-                    </template>
-                    <template class="modal-link-tpl"><?php echo esc_url($fallback_link); ?></template>
-                </div>
-            </article>
+                            <?php if ( has_post_thumbnail() ) : ?>
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <?php the_post_thumbnail('medium_large', array('style' => 'max-width: 100%; height: auto; border-radius: 8px;')); ?>
+                                </div>
+                            <?php endif; ?>
+                            <div>
+                                <?php the_content(); ?>
+                            </div>
+                        </template>
+                        <template class="modal-link-tpl"><?php echo esc_url($fallback_link); ?></template>
+                    </div>
+                </article>
 
-        <?php endwhile; ?>
-    <?php else : ?>
-        <p>Chưa có bài viết nào.</p>
-    <?php endif; ?>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <p>Chưa có bài viết nào.</p>
+        <?php endif; ?>
+    </div>
+
+    
+
 </div>
 
-
+<!-- Modal Dialog Xem nhanh thông tin sản phẩm -->
+<div id="productModalBackdrop" class="product-modal-backdrop" onclick="closeProductModal(event);">
+    <div class="product-modal-box" onclick="event.stopPropagation();">
+        <div class="product-modal-header">
+            <h3 id="modalProductTitle" class="product-modal-title">Thông tin sản phẩm</h3>
+            <button type="button" class="product-modal-close" onclick="closeProductModal()">&times;</button>
+        </div>
+        <div id="modalProductBody" class="product-modal-body">
+            <!-- Nội dung sản phẩm được nạp động -->
+        </div>
+        <div class="product-modal-footer">
+            <a id="modalProductFullLink" href="#" class="btn-action-view" style="padding: 8px 18px;">
+                Xem trang chi tiết đầy đủ &rarr;
+            </a>
+            <button type="button" class="btn-action-page" onclick="closeProductModal()" style="padding: 8px 18px;">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
 
 <script>
 function openProductModal(postId) {
