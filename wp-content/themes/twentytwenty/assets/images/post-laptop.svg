@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgLap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <filter id="shadowLap" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="400" height="240" fill="url(#bgLap)"/>
+  
+  <rect y="215" width="400" height="25" fill="#1e293b"/>
+  
+  <g filter="url(#shadowLap)" transform="translate(100, 35)">
+    <!-- Screen Outer Shell -->
+    <rect x="25" y="0" width="150" height="110" rx="6" fill="#0f172a" stroke="#cbd5e1" stroke-width="2"/>
+    <!-- Screen Display -->
+    <rect x="31" y="6" width="138" height="98" rx="3" fill="#1e293b"/>
+    <!-- Screen Wallpaper Graphics -->
+    <circle cx="100" cy="55" r="32" fill="#0284c7" opacity="0.8"/>
+    <circle cx="115" cy="45" r="24" fill="#38bdf8" opacity="0.6"/>
+    <!-- Webcam -->
+    <circle cx="100" cy="3" r="1.5" fill="#64748b"/>
+
+    <!-- Keyboard Base -->
+    <path d="M0 135 L200 135 L190 148 L10 148 Z" fill="#e2e8f0"/>
+    <rect x="20" y="115" width="160" height="20" fill="#cbd5e1"/>
+    <!-- Keyboard indent -->
+    <rect x="30" y="118" width="140" height="12" rx="2" fill="#64748b" opacity="0.4"/>
+    <!-- Trackpad -->
+    <rect x="85" y="136" width="30" height="9" rx="1" fill="#cbd5e1"/>
+    <!-- Notch -->
+    <rect x="92" y="134" width="16" height="2" rx="1" fill="#94a3b8"/>
+  </g>
+</svg>

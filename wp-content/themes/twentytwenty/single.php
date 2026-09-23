@@ -1,7 +1,6 @@
 <?php
 /**
- * Template Name: Single Product Details
- * Description: Template for displaying full product information when clicking on a product.
+ * The template for displaying all single posts (Detail page)
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
@@ -11,161 +10,245 @@ get_header();
 ?>
 
 <style>
-  /* Container hiển thị chi tiết sản phẩm */
-  .product-detail-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 30px;
+  /* Khung chứa bài viết chi tiết */
+  .detail-post-container {
+      max-width: 900px;
+      margin: 40px auto 60px auto;
+      padding: 35px 40px;
       background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  }
-
-  /* Nút quay lại danh sách sản phẩm */
-  .back-to-list-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 25px;
-      padding: 10px 18px;
-      background-color: #f1f5f9;
-      color: #2a6fbe;
-      text-decoration: none !important;
-      font-weight: 600;
-      font-size: 14px;
+      border: 1px solid #e5e7eb;
       border-radius: 6px;
-      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
-  .back-to-list-btn:hover {
-      background-color: #2a6fbe;
-      color: #ffffff !important;
-      transform: translateX(-3px);
+  /* Khung Header: Tiêu đề + Huy hiệu Đồng hồ (Date Badge) */
+  .detail-header-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 25px;
+      position: relative;
   }
 
-  /* Phần đầu bài viết / sản phẩm */
-  .product-detail-header {
-      border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 20px;
-      margin-bottom: 25px;
-  }
-
-  .product-detail-title {
+  /* Tiêu đề bài viết */
+  .detail-post-title {
       font-size: 28px;
       font-weight: 700;
-      color: #1e293b;
-      margin: 0 0 12px 0;
-      line-height: 1.3;
+      color: #111827;
+      line-height: 1.35;
+      margin: 0;
+      flex: 1;
+      text-align: left;
+      font-family: Arial, "Helvetica Neue", sans-serif;
   }
 
-  .product-detail-meta {
-      font-size: 13px;
-      color: #64748b;
+  /* Huy hiệu Đồng hồ Ngày/Tháng/Năm (Hình tròn màu vàng) */
+  .detail-clock-badge {
+      width: 62px;
+      height: 62px;
+      min-width: 62px;
+      background: #f2be1a; /* Màu vàng cam ấm chuẩn như ảnh mẫu */
+      border-radius: 50%;
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
       align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+      flex-shrink: 0;
+      user-select: none;
+      color: #1f2937;
+      font-family: "Georgia", "Times New Roman", serif;
+      margin-top: -3px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .product-detail-meta .meta-item {
-      display: inline-flex;
+  .detail-clock-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+  }
+
+  /* Cụm ngày/tháng phân số + năm */
+  .clock-badge-inner {
+      display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+      gap: 2px;
   }
 
-  /* Hình ảnh sản phẩm (nếu có) */
-  .product-detail-image {
-      margin-bottom: 30px;
-      text-align: center;
+  .clock-fraction-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
   }
 
-  .product-detail-image img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  .clock-day {
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1;
+      padding-bottom: 2px;
+      letter-spacing: -0.2px;
   }
 
-  /* Nội dung thông tin chi tiết sản phẩm */
-  .product-detail-content {
+  .clock-divider-line {
+      width: 17px;
+      height: 1.2px;
+      background-color: #2b2b2b;
+      margin: 1px 0;
+  }
+
+  .clock-month {
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1;
+      padding-top: 2px;
+      letter-spacing: -0.2px;
+  }
+
+  .clock-year {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      margin-left: 1px;
+      align-self: center;
+  }
+
+  /* Đường gạch ngang phân cách có mũi nhọn (Notch divider) */
+  .detail-divider {
+      position: relative;
+      width: 100%;
+      height: 1px;
+      background-color: #e5e7eb;
+      margin: 25px 0 30px 0;
+  }
+
+  .detail-divider::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 50px;
+      width: 9px;
+      height: 9px;
+      background-color: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      border-left: 1px solid #e5e7eb;
+      transform: rotate(45deg);
+  }
+
+  /* Nội dung chi tiết bài viết */
+  .detail-content {
+      color: #374151;
+      font-size: 15.5px;
+      line-height: 1.75;
+  }
+
+  /* Đoạn sapo/excerpt in nghiêng màu xám đậm */
+  .detail-excerpt,
+  .detail-excerpt p,
+  .detail-content.no-excerpt > p:first-of-type {
+      font-style: italic;
+      color: #4b5563;
       font-size: 16px;
-      line-height: 1.8;
-      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 22px;
   }
 
-  .product-detail-content p {
-      margin-bottom: 1.5em;
+  .detail-content p {
+      margin-bottom: 20px;
+      text-align: justify;
   }
 
-  .product-detail-content img {
+  .detail-content img {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
+      border-radius: 4px;
       margin: 20px 0;
   }
 
-  .product-detail-content ul, 
-  .product-detail-content ol {
-      padding-left: 24px;
-      margin: 20px 0;
-  }
+  /* Responsive Mobile */
+  @media (max-width: 768px) {
+      .detail-post-container {
+          margin: 20px 10px;
+          padding: 20px 18px;
+      }
 
-  .product-detail-content li {
-      margin-bottom: 10px;
-  }
+      .detail-post-title {
+          font-size: 22px;
+      }
 
-  .product-detail-content figure {
-      margin: 20px 0;
-  }
+      .detail-clock-badge {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+      }
 
-  .product-detail-footer {
-      margin-top: 40px;
-      padding-top: 25px;
-      border-top: 1px solid #f1f5f9;
+      .clock-day, .clock-month {
+          font-size: 11px;
+      }
+
+      .clock-divider-line {
+          width: 14px;
+      }
+
+      .clock-year {
+          font-size: 11px;
+      }
+
+      .detail-divider::before {
+          left: 30px;
+      }
   }
 </style>
 
-<div class="product-detail-container">
-    <a href="<?php echo esc_url( home_url('/') ); ?>" class="back-to-list-btn">
-        &larr; Quay lại danh sách sản phẩm
-    </a>
+<main id="site-content">
+    <?php if ( have_posts() ) : ?>
+        <?php while ( have_posts() ) : the_post(); 
+            $day   = get_the_date('d');
+            $month = get_the_date('m');
+            $year  = get_the_date('y');
+            $has_custom_excerpt = has_excerpt();
+        ?>
+            <article class="detail-post-container" id="post-<?php the_ID(); ?>">
+                <!-- Header: Tiêu đề và Đồng hồ Ngày/Tháng -->
+                <div class="detail-header-wrapper">
+                    <h1 class="detail-post-title"><?php the_title(); ?></h1>
 
-    <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+                    <div class="detail-clock-badge" title="Ngày đăng: <?php echo esc_attr( get_the_date('d/m/Y') ); ?>">
+                        <div class="clock-badge-inner">
+                            <div class="clock-fraction-col">
+                                <span class="clock-day"><?php echo $day; ?></span>
+                                <span class="clock-divider-line"></span>
+                                <span class="clock-month"><?php echo $month; ?></span>
+                            </div>
+                            <span class="clock-year">'<?php echo $year; ?></span>
+                        </div>
+                    </div>
+                </div>
 
-        <article id="post-<?php the_ID(); ?>" <?php post_class('product-detail-article'); ?>>
-            <header class="product-detail-header">
-                <h1 class="product-detail-title"><?php the_title(); ?></h1>
-                <div class="product-detail-meta">
-                    <span class="meta-item">
-                        <strong>Ngày đăng:</strong> <?php echo get_the_date('d/m/Y'); ?>
-                    </span>
-                    <?php if ( has_category() ) : ?>
-                        <span class="meta-item">
-                            <strong>Chuyên mục:</strong> <?php the_category(', '); ?>
-                        </span>
+                <!-- Đường kẻ phân cách có mũi nhọn -->
+                <div class="detail-divider"></div>
+
+                <!-- Nội dung bài viết -->
+                <div class="detail-content <?php echo $has_custom_excerpt ? 'has-excerpt' : 'no-excerpt'; ?>">
+                    <?php if ( $has_custom_excerpt ) : ?>
+                        <div class="detail-excerpt">
+                            <?php the_excerpt(); ?>
+                        </div>
                     <?php endif; ?>
+
+                    <?php the_content(); ?>
                 </div>
-            </header>
 
-            <?php if ( has_post_thumbnail() ) : ?>
-                <div class="product-detail-image">
-                    <?php the_post_thumbnail('large'); ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="product-detail-content">
-                <?php the_content(); ?>
-            </div>
-
-            <footer class="product-detail-footer">
-                <a href="<?php echo esc_url( home_url('/') ); ?>" class="back-to-list-btn">
-                    &larr; Quay lại danh sách sản phẩm
-                </a>
-            </footer>
-        </article>
-
-    <?php endwhile; endif; ?>
-</div>
+                <?php 
+                // Bình luận bài viết nếu mở
+                if ( comments_open() || get_comments_number() ) {
+                    comments_template();
+                }
+                ?>
+            </article>
+        <?php endwhile; ?>
+    <?php endif; ?>
+</main>
 
 <?php get_footer(); ?>
