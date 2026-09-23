@@ -11,15 +11,33 @@
 
   /* Khung thẻ từng bài viết */
   .post-card-item {
+      position: relative !important;
       display: flex !important;
       align-items: flex-start !important;
       background: #ffffff !important;
-      padding: 20px 0 !important;
+      padding: 20px 15px !important;
       border-bottom: 1px solid #e0e0e0 !important; /* Đường gạch kẻ ngang phân cách các bài viết */
+      cursor: pointer !important;
+      transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+      border-radius: 6px !important;
+  }
+
+  .post-card-item:hover {
+      background-color: #f8fafc !important;
   }
 
   .post-card-item:last-child {
       border-bottom: none !important;
+  }
+
+  /* Overlay link phủ toàn bộ khung sản phẩm */
+  .post-card-full-link {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 10 !important;
   }
 
   /* 1. Cột Ngày & Tháng */
@@ -67,20 +85,26 @@
       text-decoration: none !important;
   }
 
-  .post-card-title a:hover {
+  .post-card-item:hover .post-card-title a {
       color: #1d4ed8 !important;
+      text-decoration: underline !important;
   }
 
   .post-card-excerpt {
       font-size: 13px !important;
-      color: #888888 !important;
+      color: #666666 !important;
       margin: 0 !important;
-      line-height: 1.4 !important;
+      line-height: 1.5 !important;
   }
 
-  .post-card-excerpt a.more-link {
+  .post-card-excerpt .more-link {
       color: #2a6fbe !important;
       text-decoration: none !important;
+      font-weight: 600 !important;
+  }
+
+  .post-card-item:hover .more-link {
+      color: #1d4ed8 !important;
   }
 </style>
 
@@ -89,23 +113,26 @@
         <?php while ( have_posts() ) : the_post(); 
             $day = get_the_date('d');
             $month = get_the_date('m');
+            $product_link = add_query_arg( 'p', get_the_ID(), home_url( '/' ) );
         ?>
             
-            <article class="post-card-item">
+            <article class="post-card-item" onclick="window.location.href='<?php echo esc_url( $product_link ); ?>';">
+                <a href="<?php echo esc_url( $product_link ); ?>" class="post-card-full-link" aria-label="<?php echo esc_attr( get_the_title() ); ?>"></a>
+
                 <!-- 1. Cột Ngày / Tháng -->
                 <div class="post-card-date">
                     <div class="day-num"><?php echo $day; ?></div>
                     <div class="month-text">THÁNG <?php echo $month; ?></div>
                 </div>
 
-                <!-- 2. Cột Tiêu đề & Mô tả ngắn (Đã ẩn phần ảnh đại diện) -->
+                <!-- 2. Cột Tiêu đề & Mô tả ngắn -->
                 <div class="post-card-info">
                     <h2 class="post-card-title">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        <a href="<?php echo esc_url( $product_link ); ?>"><?php the_title(); ?></a>
                     </h2>
                     <p class="post-card-excerpt">
                         <?php echo wp_trim_words( get_the_excerpt(), 25, '' ); ?>
-                        <a href="<?php the_permalink(); ?>" class="more-link">[...]</a>
+                        <span class="more-link">[...]</span>
                     </p>
                 </div>
             </article>
