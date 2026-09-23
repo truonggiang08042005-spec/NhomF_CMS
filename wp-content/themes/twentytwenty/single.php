@@ -202,7 +202,7 @@ get_header();
 </style>
 
 <main id="site-content">
-    <?php if ( have_posts() ) : ?>
+      <?php if ( have_posts() ) : ?>
         <?php while ( have_posts() ) : the_post(); 
             $day   = get_the_date('d');
             $month = get_the_date('m');
@@ -240,11 +240,10 @@ get_header();
                     <?php the_content(); ?>
                 </div>
 
+                
+
                 <?php 
-                // Bình luận bài viết nếu mở
-                if ( comments_open() || get_comments_number() ) {
-                    comments_template();
-                }
+                
                 ?>
             </article>
         <?php endwhile; ?>
