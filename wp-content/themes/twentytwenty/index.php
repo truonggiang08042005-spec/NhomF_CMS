@@ -41,7 +41,30 @@
       }
   }
 
-  /* Khung thẻ từng bài viết/sản phẩm */
+  /* Cột ở giữa: Detail (6) (Danh sách sản phẩm / nội dung chính) */
+  .center-content-column {
+      flex: 1;
+      min-width: 0;
+  }
+
+  /* Cột bên phải: Recent post (10) - Rộng đồng đều 280px */
+  .right-sidebar-column {
+      width: 280px;
+      min-width: 280px;
+  }
+
+  @media (max-width: 1024px) {
+      .page-three-column-layout {
+          flex-direction: column;
+      }
+      .left-sidebar-column,
+      .right-sidebar-column {
+          width: 100%;
+          min-width: 100%;
+      }
+  }
+
+  /* Khung thẻ từng bài viết/sản phẩm ở cột giữa */
   .post-card-item {
       position: relative;
       display: flex;
@@ -65,7 +88,7 @@
       border-bottom: none;
   }
 
-  /* 1. Cột Ngày & Tháng */
+  /* 1. Cột Ngày & Tháng trong thẻ sản phẩm */
   .post-card-date {
       width: 75px;
       min-width: 75px;
@@ -96,7 +119,7 @@
       font-weight: 600;
   }
 
-  /* 2. Cột Tiêu đề & Tóm tắt */
+  /* 2. Cột Tiêu đề & Tóm tắt sản phẩm */
   .post-card-info {
       flex: 1;
   }
