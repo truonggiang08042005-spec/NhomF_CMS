@@ -42,7 +42,7 @@
 
         .brand-logo-box {
             background-color: #f1f1f1;
-            padding: 0 25px;
+            padding: 0 20px;
             height: 100%;
             display: flex;
             align-items: center;
@@ -51,27 +51,33 @@
             color: #555555;
             font-weight: 500;
             border-right: 1px solid #e5e5e5;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .brand-logo-box a {
             text-decoration: none;
             color: #555555;
+            white-space: nowrap;
         }
 
         .home-tab-box {
             background-color: #e2e2e2;
-            padding: 0 25px;
+            padding: 0 20px;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
             color: #444444;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .home-tab-box a {
             text-decoration: none;
             color: #444444;
+            white-space: nowrap;
         }
 
         /* 2. Ô Tìm Kiếm */
@@ -79,7 +85,8 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-left: 20px;
+            margin-left: 15px;
+            flex-shrink: 0;
         }
 
         .header-search-form input[type="search"] {
@@ -88,7 +95,7 @@
             padding: 7px 12px !important;
             font-size: 14px !important;
             outline: none !important;
-            width: 200px;
+            width: 170px;
             background: #ffffff !important;
             color: #333333 !important;
             height: 38px !important;
@@ -108,6 +115,8 @@
             color: #444444 !important;
             cursor: pointer !important;
             transition: background 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .header-search-form button:hover {
@@ -118,14 +127,17 @@
         .header-right-group {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
+            flex-shrink: 0;
         }
 
         .header-nav-links {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             list-style: none;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .header-nav-links a {
@@ -133,6 +145,7 @@
             color: #555555;
             font-size: 15px;
             transition: color 0.2s;
+            white-space: nowrap;
         }
 
         .header-nav-links a:hover {
@@ -144,6 +157,8 @@
             align-items: center;
             gap: 15px;
             margin-left: 10px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .action-icon-item {
@@ -213,6 +228,9 @@
     <div class="header-right-group">
         
         <ul class="header-nav-links">
+            <li>
+                <a href="<?php echo esc_url( home_url( '/?page_id=2' ) ); ?>" style="color: #0284c7; font-weight: bold;">Trang (Pages)</a>
+            </li>
             <?php
             // Lấy 3 Chuyên mục (Categories) mới nhất từ Database
             $db_categories = get_categories( array(
