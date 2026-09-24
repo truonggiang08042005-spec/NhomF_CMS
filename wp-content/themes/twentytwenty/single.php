@@ -1,10 +1,6 @@
 <?php
 /**
  * The template for displaying all single posts (Detail page)
- * Bố cục 3 cột theo đúng sơ đồ thiết kế trong Ảnh 2:
- * [Header (1)]
- * [Archive (11) - Trái (nhóm 6 sv)] | [Content (2) - Giữa] | [Comments (12) - Phải (nhóm 6 sv)]
- * [Footer (3)]
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
@@ -14,10 +10,10 @@ get_header();
 ?>
 
 <style>
-    /* Bố cục 3 cột đồng đều chuẩn hình thiết kế Ảnh 2: Left (Archive 11) | Center (Content 2) | Right (Comments 12) */
+    /* Layout 3 cột chuẩn hình thiết kế "Trang chi tiết": Left (Categories) | Center (Detail) | Right (Recent Posts) */
     .page-three-column-layout {
-        max-width: 1200px;
-        margin: 25px auto;
+        max-width: 1280px;
+        margin: 30px auto;
         padding: 0 15px;
         display: flex;
         gap: 25px;
@@ -25,26 +21,28 @@ get_header();
         box-sizing: border-box;
     }
 
+    /* Cột bên trái: Categories (9) */
     .left-sidebar-column {
-        width: 280px;
-        min-width: 280px;
+        width: 270px;
+        min-width: 270px;
     }
 
+    /* Cột ở giữa: Detail (6) (Chi tiết sản phẩm) */
     .center-content-column {
         flex: 1;
         min-width: 0;
     }
 
+    /* Cột bên phải: Recent post (10) */
     .right-sidebar-column {
-        width: 280px;
-        min-width: 280px;
+        width: 270px;
+        min-width: 270px;
     }
 
     @media (max-width: 1024px) {
         .page-three-column-layout {
             flex-direction: column;
         }
-
         .left-sidebar-column,
         .right-sidebar-column {
             width: 100%;
@@ -52,208 +50,17 @@ get_header();
         }
     }
 
-    /* Widget Khối Bên Trái (Archive 11) & Bên Phải (Comments 12) */
-    .categories-widget-box,
-    .comments-widget-box {
-        background-color: #ededed;
-        background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
-        padding: 22px 18px;
-        border-radius: 4px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    }
-
-    .widget-title-styled {
-        font-size: 24px !important;
-        font-weight: 800 !important;
-        color: #1a1a1a !important;
-        margin: 0 0 6px 0 !important;
-        padding: 0 !important;
-        border: none !important;
-        text-transform: none !important;
-        letter-spacing: -0.4px !important;
-        line-height: 1.2 !important;
-    }
-
-    .widget-striped-bar {
-        width: 100%;
-        height: 14px;
-        margin-top: 8px;
-        margin-bottom: 16px;
-        background: repeating-linear-gradient(-45deg,
-                #d5d5d5,
-                #d5d5d5 3px,
-                #e9e9e9 3px,
-                #e9e9e9 6px);
-        border-radius: 1px;
-    }
-
-    .categories-white-box,
-    .comments-white-box {
-        background: #ffffff;
-        padding: 10px 16px;
-        border-radius: 2px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    }
-
-    /* Danh sách bài viết đánh số trong Archive Sidebar theo Ảnh 1 */
-    .sidebar-rank-item {
-        display: flex;
-        align-items: flex-start;
-        padding: 11px 0;
-        border-bottom: 1px solid #f0f0f0;
-        gap: 10px;
-    }
-
-    .sidebar-rank-item:last-child {
-        border-bottom: none;
-    }
-
-    .sidebar-rank-num {
-        font-family: "Georgia", "Times New Roman", serif;
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a1a1a;
-        line-height: 1;
-        min-width: 20px;
-        text-align: center;
-        padding-top: 2px;
-    }
-
-    .sidebar-rank-title {
-        flex: 1;
-        font-size: 13.5px;
-        line-height: 1.35;
-    }
-
-    .sidebar-rank-title a {
-        color: #334155;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.15s;
-    }
-
-    .sidebar-rank-title a:hover {
-        color: #1d4ed8;
-        text-decoration: underline;
-    }
-
-    .sidebar-rank-meta {
-        font-size: 11.5px;
-        color: #94a3b8;
-        margin-top: 3px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .rank-comment-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        color: #94a3b8;
-        font-size: 11.5px;
-    }
-
-    .comment-bubble-icon {
-        width: 12px;
-        height: 12px;
-        fill: #94a3b8;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .sidebar-archive-section-title {
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #64748b;
-        margin: 15px 0 8px 0;
-        letter-spacing: 0.5px;
-        border-top: 1px dashed #e2e8f0;
-        padding-top: 10px;
-    }
-
-    .sidebar-monthly-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .sidebar-monthly-list li {
-        padding: 6px 0;
-        font-size: 13.5px;
-        border-bottom: 1px solid #f8fafc;
-        display: flex;
-        align-items: center;
-    }
-
-    .sidebar-monthly-list li::before {
-        content: "";
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        background-color: #f5b025;
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-
-    .sidebar-monthly-list li a {
-        color: #5587b7;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .sidebar-monthly-list li a:hover {
-        color: #1d4ed8;
-        text-decoration: underline;
-    }
-
-    /* Comments Sidebar */
-    .comments-white-box ul,
-    .comments-white-box li {
-        margin: 0 !important;
-        list-style: none !important;
-    }
-
-    .recent-comment-item {
-        border-bottom: 1px solid #f0f0f0 !important;
-        padding: 10px 0;
-    }
-
-    .recent-comment-item:last-child {
-        border-bottom: none !important;
-    }
-
-    .comment-content a {
-        color: #5587b7;
-        text-decoration: none;
-        font-size: 14px;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .comment-content a:hover {
-        color: #1d4ed8;
-        text-decoration: underline;
-    }
-
-    /* ==========================================================================
-     Khung chứa bài viết chi tiết (Content 2)
-     ========================================================================== */
+    /* Khung chứa bài viết chi tiết */
     .detail-post-container {
         background: #ffffff;
         border: 1px solid #e5e7eb;
-        border-radius: 6px;
+        border-radius: 8px;
         padding: 30px 35px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
+    /* Khung Header: Tiêu đề + Huy hiệu Đồng hồ (Date Badge) */
     .detail-header-wrapper {
         display: flex;
         justify-content: space-between;
@@ -262,6 +69,7 @@ get_header();
         position: relative;
     }
 
+    /* Tiêu đề bài viết */
     .detail-post-title {
         font-size: 26px;
         font-weight: 700;
@@ -273,10 +81,11 @@ get_header();
         font-family: Arial, "Helvetica Neue", sans-serif;
     }
 
+    /* Huy hiệu Đồng hồ Ngày/Tháng/Năm (Hình tròn màu vàng) */
     .detail-clock-badge {
-        width: 58px;
-        height: 58px;
-        min-width: 58px;
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
         background: #f2be1a;
         border-radius: 50%;
         display: flex;
@@ -288,6 +97,12 @@ get_header();
         color: #1f2937;
         font-family: "Georgia", "Times New Roman", serif;
         margin-top: -3px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .detail-clock-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
     }
 
     .clock-badge-inner {
@@ -334,19 +149,20 @@ get_header();
         align-self: center;
     }
 
+    /* Đường gạch ngang phân cách có mũi nhọn (Notch divider) */
     .detail-divider {
         position: relative;
         width: 100%;
         height: 1px;
         background-color: #e5e7eb;
-        margin: 22px 0 26px 0;
+        margin: 22px 0 25px 0;
     }
 
     .detail-divider::before {
         content: "";
         position: absolute;
         top: -5px;
-        left: 45px;
+        left: 40px;
         width: 9px;
         height: 9px;
         background-color: #ffffff;
@@ -355,6 +171,7 @@ get_header();
         transform: rotate(45deg);
     }
 
+    /* Nội dung chi tiết bài viết */
     .detail-content {
         color: #374151;
         font-size: 15.5px;
@@ -362,100 +179,274 @@ get_header();
     }
 
     .detail-excerpt,
-    .detail-excerpt p {
+    .detail-excerpt p,
+    .detail-content.no-excerpt > p:first-of-type {
         font-style: italic;
         color: #4b5563;
         font-size: 15.5px;
-        line-height: 1.65;
+        line-height: 1.7;
         margin-bottom: 20px;
     }
 
     .detail-content p {
         margin-bottom: 18px;
-        text-align: justify;
     }
 
     .detail-content img {
         max-width: 100%;
         height: auto;
-        border-radius: 4px;
+        border-radius: 6px;
         margin: 18px 0;
+    }
+
+    /* Widget Categories (Trái) & Widget Recent post (Phải) */
+    .categories-widget-box,
+    .recent-posts-widget-box {
+        background-color: #ededed;
+        background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
+        padding: 22px 18px;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .widget-title-styled {
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        color: #1a1a1a !important;
+        margin: 0 0 6px 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        text-transform: none !important;
+        letter-spacing: -0.4px !important;
+        line-height: 1.2 !important;
+    }
+
+    .widget-striped-bar {
+        width: 100%;
+        height: 14px;
+        margin-top: 8px;
+        margin-bottom: 16px;
+        background: repeating-linear-gradient(
+            -45deg,
+            #d5d5d5,
+            #d5d5d5 3px,
+            #e9e9e9 3px,
+            #e9e9e9 6px
+        );
+        border-radius: 1px;
+    }
+
+    .widget-white-box {
+        background: #ffffff;
+        padding: 8px 16px;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .widget-white-box ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .widget-white-box ul li {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        margin: 0;
+        border-bottom: 1px solid #f0f0f0;
+        list-style: none;
+        font-size: 14.5px;
+    }
+
+    .widget-white-box ul li:last-child {
+        border-bottom: none;
+    }
+
+    .categories-white-box ul li::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        min-width: 8px;
+        background-color: #f5b025;
+        border-radius: 50%;
+        margin-right: 12px;
+    }
+
+    .categories-white-box ul li a {
+        color: #5587b7;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14.5px;
+        transition: color 0.2s ease-in-out;
+    }
+
+    .categories-white-box ul li a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       Widget Recent Post (#10 Phía bên phải) - Thiết kế chuẩn mẫu
+       ========================================================================== */
+    .recent-posts-teal-card {
+        background-color: #45b5b4;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .recent-posts-teal-list {
+        padding: 20px 18px 10px 18px;
+    }
+
+    .recent-post-teal-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .recent-post-teal-item:last-child {
+        border-bottom: none;
+    }
+
+    .recent-teal-date-badge {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        color: #ffffff;
+        min-width: 50px;
+        font-family: Arial, "Helvetica Neue", sans-serif;
+        user-select: none;
+    }
+
+    .recent-teal-date-fraction {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1;
+    }
+
+    .recent-teal-date-day {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        padding-bottom: 2px;
+    }
+
+    .recent-teal-date-line {
+        width: 17px;
+        height: 1.5px;
+        background-color: #ffffff;
+        margin: 1px 0;
+    }
+
+    .recent-teal-date-month {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        padding-top: 2px;
+    }
+
+    .recent-teal-date-year {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        align-self: center;
+        margin-left: 1px;
+    }
+
+    .recent-post-teal-title {
+        flex: 1;
+        font-size: 13.5px;
+        line-height: 1.45;
+        margin: 0;
+    }
+
+    .recent-post-teal-title a {
+        color: #ffffff !important;
+        text-decoration: none !important;
+        font-weight: 400;
+        transition: opacity 0.2s ease;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .recent-post-teal-title a:hover {
+        opacity: 0.85;
+        text-decoration: underline !important;
+    }
+
+    .recent-posts-btn-banner {
+        display: block;
+        background-color: #3ba3a2;
+        color: #ffffff !important;
+        text-align: center;
+        padding: 16px 10px;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        text-decoration: none !important;
+        transition: background-color 0.2s ease;
+    }
+
+    .recent-posts-btn-banner:hover {
+        background-color: #2e8b89;
     }
 </style>
 
-<div class="page-three-column-layout">
+<div class="detail-page-wrapper" style="max-width: 1280px; margin: 30px auto; padding: 0 15px; box-sizing: border-box;">
 
-    <!-- CỘT BÊN TRÁI: Archive (11) (nhóm 6 sv) -->
-    <div class="left-sidebar-column">
-        <aside class="categories-widget-box block-11">
-            <h3 class="widget-title-styled">Archive</h3>
-            <div class="widget-striped-bar"></div>
-            
-            <div class="categories-white-box">
-                <!-- Danh sách bài viết đánh số thứ tự chuẩn theo Ảnh 1 -->
-                <div class="sidebar-ranked-posts">
-                    <?php
-                    $sidebar_posts = wp_get_recent_posts( array(
-                        'numberposts' => 5,
-                        'post_status' => 'publish',
-                    ) );
+    <!-- 1. BỐ CỤC 3 CỘT (MIDDLE): Categories (9) | Detail (6) | Recent post (10) -->
+    <div class="page-three-column-layout" style="max-width: 100%; margin: 0 0 25px 0;">
+        
+        <!-- CỘT BÊN TRÁI: Categories (9) -->
+        <div class="left-sidebar-column">
+            <aside class="categories-widget-box">
+                <h3 class="widget-title-styled">Categories</h3>
+                <div class="widget-striped-bar"></div>
+                <div class="widget-white-box categories-white-box">
+                    <ul>
+                        <?php
+                        $all_categories = get_categories( array(
+                            'hide_empty' => false,
+                            'orderby'    => 'name',
+                            'order'      => 'ASC'
+                        ) );
 
-                    if ( ! empty( $sidebar_posts ) ) :
-                        foreach ( $sidebar_posts as $idx => $s_post ) :
-                            $rank = $idx + 1;
-                            $link = get_permalink( $s_post['ID'] );
-                            $comments = get_comments_number( $s_post['ID'] );
-                            $post_date = get_the_date( 'd/m', $s_post['ID'] );
-                        ?>
-                            <div class="sidebar-rank-item">
-                                <div class="sidebar-rank-num"><?php echo $rank; ?></div>
-                                <div class="sidebar-rank-title">
-                                    <a href="<?php echo esc_url( $link ); ?>">
-                                        <?php echo esc_html( wp_trim_words( $s_post['post_title'], 9, '...' ) ); ?>
+                        if ( ! empty( $all_categories ) ) :
+                            foreach ( $all_categories as $cat ) : ?>
+                                <li>
+                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                        <?php echo esc_html( $cat->name ); ?>
                                     </a>
-                                    <div class="sidebar-rank-meta">
-                                        <span><?php echo $post_date; ?></span>
-                                        <?php if ( $comments > 0 ) : ?>
-                                            <span class="rank-comment-badge">
-                                                <svg class="comment-bubble-icon" viewBox="0 0 20 20">
-                                                    <path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/>
-                                                </svg>
-                                                <?php echo $comments; ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach;
-                    endif;
-                    ?>
+                                </li>
+                            <?php endforeach;
+                        else : ?>
+                            <li><a href="#">Uncategorized</a></li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
+            </aside>
+        </div>
 
-                <!-- Danh sách Lưu trữ theo tháng (Monthly Archives) -->
-                <div class="sidebar-archive-section-title">Lưu trữ theo tháng</div>
-                <ul class="sidebar-monthly-list">
-                    <?php
-                    $archives_list = wp_get_archives( array(
-                        'type'            => 'monthly',
-                        'format'          => 'html',
-                        'show_post_count' => true,
-                        'echo'            => false
-                    ) );
-
-                    if ( ! empty( $archives_list ) ) {
-                        echo $archives_list;
-                    } else {
-                        echo '<li><a href="#">October 2023</a></li>';
-                    }
-                    ?>
-                </ul>
+        <!-- CỘT Ở GIỮA: Detail (6) (Chi tiết sản phẩm/bài viết) -->
+        <div class="center-content-column">
+            <div style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
+                    &larr; Quay lại danh sách sản phẩm
+                </a>
             </div>
-        </aside>
-    </div>
 
-    <!-- CỘT Ở GIỮA: Content (2) - Chi tiết bài viết -->
-    <div class="center-content-column">
-        <main id="site-content">
             <?php if ( have_posts() ) : ?>
                 <?php while ( have_posts() ) : the_post(); 
                     $day   = get_the_date('d');
@@ -494,58 +485,118 @@ get_header();
                             <?php the_content(); ?>
                         </div>
 
-                        <?php 
-                        // Bình luận bài viết nếu mở
-                        if ( comments_open() || get_comments_number() ) {
-                            comments_template();
-                        }
-                        ?>
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                            <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
+                                &larr; Quay lại danh sách sản phẩm
+                            </a>
+                        </div>
                     </article>
                 <?php endwhile; ?>
             <?php endif; ?>
-        </main>
-    </div>
+        </div>
 
-    <!-- CỘT BÊN PHẢI: Comments (12) (nhóm 6 sv) -->
-    <div class="right-sidebar-column">
-        <aside class="comments-widget-box block-12">
-            <h3 class="widget-title-styled">Comments</h3>
-            <div class="widget-striped-bar"></div>
-
-            <div class="comments-white-box">
-                <ul>
+        <!-- CỘT BÊN PHẢI: Recent post (#10) -->
+        <div class="right-sidebar-column">
+            <aside class="recent-posts-teal-card">
+                <div class="recent-posts-teal-list">
                     <?php
-                    $recent_comments = get_comments( array(
-                        'number'      => 5,
-                        'status'      => 'approve',
-                        'post_status' => 'publish',
-                        'type'        => 'comment',
+                    $recent_posts = wp_get_recent_posts( array(
+                        'numberposts' => 5,
+                        'post_status' => 'publish'
                     ) );
 
-                    if ( ! empty( $recent_comments ) ) :
-                        foreach ( $recent_comments as $comment ) :
-                            $comment_post = get_post( $comment->comment_post_ID );
-                            ?>
-                            <li class="recent-comment-item">
-                                <?php if ( $comment_post ) : ?>
-                                    <div class="comment-content">
-                                        <a class="comment-post-link" href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
-                                            <?php echo esc_html( wp_trim_words( $comment->comment_content, 12, '...' ) ); ?>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
-                            </li>
-                        <?php
-                        endforeach;
-                    else :
+                    if ( ! empty( $recent_posts ) ) :
+                        foreach ( $recent_posts as $post_item ) : 
+                            $recent_link = add_query_arg( 'p', $post_item['ID'], home_url( '/' ) );
+                            $r_day   = date('d', strtotime($post_item['post_date']));
+                            $r_month = date('m', strtotime($post_item['post_date']));
+                            $r_year  = date('y', strtotime($post_item['post_date']));
                         ?>
-                        <li>Chưa có bình luận nào.</li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </aside>
-    </div>
+                            <div class="recent-post-teal-item">
+                                <div class="recent-teal-date-badge">
+                                    <div class="recent-teal-date-fraction">
+                                        <span class="recent-teal-date-day"><?php echo $r_day; ?></span>
+                                        <span class="recent-teal-date-line"></span>
+                                        <span class="recent-teal-date-month"><?php echo $r_month; ?></span>
+                                    </div>
+                                    <span class="recent-teal-date-year">─<?php echo $r_year; ?></span>
+                                </div>
 
-</div><!-- .page-three-column-layout -->
+                                <div class="recent-post-teal-title">
+                                    <a href="<?php echo esc_url( $recent_link ); ?>">
+                                        <?php echo esc_html( $post_item['post_title'] ); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; wp_reset_query();
+                    else : ?>
+                        <p style="color:#ffffff; font-size:13px;">Chưa có bài viết mới</p>
+                    <?php endif; ?>
+                </div>
+
+                <a href="<?php echo esc_url( home_url('/') ); ?>" class="recent-posts-btn-banner">
+                    XEM TẤT CẢ TIN TỨC
+                </a>
+            </aside>
+        </div>
+
+    </div><!-- .page-three-column-layout -->
+
+    <!-- 2. KHỐI ĐIỀU HƯỚNG BÀI VIẾT: Prev - Next Post (7) -->
+    <?php
+    $next_post = get_next_post();
+    $prev_post = get_previous_post();
+
+    if ( $next_post || $prev_post ) :
+    ?>
+        <nav id="prev-next" class="custom-post-navigation block-7">
+            <?php if ( $prev_post ) : ?>
+                <a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="nav-item">
+                    <div class="nav-date">
+                        <div class="date-fraction">
+                            <span class="date-day"><?php echo get_the_time( 'd', $prev_post->ID ); ?></span>
+                            <span class="date-divider"></span>
+                            <span class="date-month"><?php echo get_the_time( 'm', $prev_post->ID ); ?></span>
+                        </div>
+                        <span class="date-year"><?php echo get_the_time( 'y', $prev_post->ID ); ?></span>
+                    </div>
+                    <div class="nav-title">
+                        <?php echo get_the_title( $prev_post->ID ); ?>
+                    </div>
+                </a>
+            <?php endif; ?>
+
+            <?php if ( $next_post ) : ?>
+                <a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="nav-item">
+                    <div class="nav-date">
+                        <div class="date-fraction">
+                            <span class="date-day"><?php echo get_the_time( 'd', $next_post->ID ); ?></span>
+                            <span class="date-divider"></span>
+                            <span class="date-month"><?php echo get_the_time( 'm', $next_post->ID ); ?></span>
+                        </div>
+                        <span class="date-year"><?php echo get_the_time( 'y', $next_post->ID ); ?></span>
+                    </div>
+                    <div class="nav-title">
+                        <?php echo get_the_title( $next_post->ID ); ?>
+                    </div>
+                </a>
+            <?php endif; ?>
+        </nav>
+    <?php endif; ?>
+
+    <!-- 3. KHỐI BÌNH LUẬN: Comments (8) -->
+    <section id="comments-detail" class="comments-block block-8" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 25px 30px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
+        <h3 class="widget-title-styled" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px;">Comments (8)</h3>
+        <div class="widget-striped-bar" style="width: 100%; height: 10px; margin-bottom: 20px; background: repeating-linear-gradient(-45deg, #d5d5d5, #d5d5d5 3px, #e9e9e9 3px, #e9e9e9 6px);"></div>
+        <?php 
+        if ( comments_open() || get_comments_number() ) {
+            comments_template();
+        } else {
+            comment_form();
+        }
+        ?>
+    </section>
+
+</div><!-- .detail-page-wrapper -->
 
 <?php get_footer(); ?>

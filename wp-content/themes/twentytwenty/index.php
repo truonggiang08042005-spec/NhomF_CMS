@@ -1,9 +1,9 @@
 <?php
 /**
  * The main template file (index.php)
- * Bố cục 3 cột theo đúng sơ đồ thiết kế trong Ảnh 2:
+ * Bố cục 3 cột theo đúng sơ đồ thiết kế:
  * [Header (1)]
- * [Archive (11) - Trái (nhóm 6 sv)] | [Content (2) - Giữa] | [Comments (12) - Phải (nhóm 6 sv)]
+ * [Archive (11) - Trái] | [Content (2) - Giữa] | [Comments (12) - Phải]
  * [Footer (3)]
  *
  * @package WordPress
@@ -14,7 +14,6 @@ get_header();
 ?>
 
 <style>
-    /* Bố cục 3 cột đồng đều chuẩn hình thiết kế Ảnh 2: Left (Archive 11) | Center (Content 2) | Right (Comments 12) */
     .page-three-column-layout {
         max-width: 1200px;
         margin: 25px auto;
@@ -25,7 +24,7 @@ get_header();
         box-sizing: border-box;
     }
 
-    /* Cột bên trái: Archive (11) (nhóm 6 sv) - 280px */
+    /* Cột bên trái: Archive (11) - 280px */
     .left-sidebar-column {
         width: 280px;
         min-width: 280px;
@@ -37,7 +36,7 @@ get_header();
         min-width: 0;
     }
 
-    /* Cột bên phải: Comments (12) (nhóm 6 sv) - 280px */
+    /* Cột bên phải: Comments (12) - 280px */
     .right-sidebar-column {
         width: 280px;
         min-width: 280px;
@@ -55,9 +54,249 @@ get_header();
         }
     }
 
-    /* ==========================================================================
-     Widget Khối Bên Trái (Archive 11) & Bên Phải (Comments 12)
-     ========================================================================== */
+    /* Khung thẻ từng bài viết/sản phẩm ở cột giữa */
+    .post-card-item {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        background: #ffffff;
+        padding: 22px 18px;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .post-card-item:hover {
+        background-color: #f8fafc;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        transform: translateY(-1px);
+    }
+
+    .post-card-item:last-child {
+        border-bottom: none;
+    }
+
+    /* 1. Cột Ngày & Tháng trong thẻ sản phẩm */
+    .post-card-date {
+        width: 75px;
+        min-width: 75px;
+        text-align: center;
+        padding-right: 15px;
+        margin-right: 18px;
+        border-right: 1px solid #e2e8f0;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .post-card-date .day-num {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 0.9;
+        color: #1e293b;
+        font-family: "Playfair Display", "Times New Roman", Times, serif;
+    }
+
+    .post-card-date .month-text {
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-top: 6px;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    /* 2. Cột Tiêu đề & Tóm tắt sản phẩm */
+    .post-card-info {
+        flex: 1;
+    }
+
+    .post-card-title {
+        font-size: 16.5px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        line-height: 1.35;
+        text-transform: uppercase;
+    }
+
+    .post-card-title a {
+        color: #2a6fbe;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .post-card-item:hover .post-card-title a {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+
+    .post-card-excerpt {
+        font-size: 13.5px;
+        color: #475569;
+        margin: 0 0 14px 0;
+        line-height: 1.55;
+    }
+
+    /* Nút thao tác mở nhanh / xem chi tiết */
+    .btn-action-view {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background-color: #2a6fbe;
+        color: #ffffff !important;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 4px;
+        text-decoration: none !important;
+        transition: background-color 0.2s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-action-view:hover {
+        background-color: #1d4ed8;
+    }
+
+    .btn-action-page {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background-color: #f1f5f9;
+        color: #334155 !important;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 4px;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-action-page:hover {
+        background-color: #e2e8f0;
+        color: #0f172a !important;
+    }
+
+    /* Giao diện Popup Modal xem thông tin sản phẩm */
+    .product-modal-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(4px);
+        z-index: 99999;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    .product-modal-backdrop.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .product-modal-box {
+        background: #ffffff;
+        width: 100%;
+        max-width: 800px;
+        max-height: 85vh;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlideUp {
+        from {
+            transform: translateY(20px) scale(0.97);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .product-modal-header {
+        padding: 20px 25px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8fafc;
+    }
+
+    .product-modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+        line-height: 1.35;
+    }
+
+    .product-modal-close {
+        background: none;
+        border: none;
+        font-size: 26px;
+        color: #64748b;
+        cursor: pointer;
+        padding: 4px 8px;
+        line-height: 1;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    .product-modal-close:hover {
+        background-color: #e2e8f0;
+        color: #0f172a;
+    }
+
+    .product-modal-body {
+        padding: 25px 30px;
+        overflow-y: auto;
+        font-size: 15.5px;
+        line-height: 1.75;
+        color: #334155;
+    }
+
+    .product-modal-body img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 15px 0;
+    }
+
+    .product-modal-body ul,
+    .product-modal-body ol {
+        padding-left: 24px;
+        margin: 15px 0;
+    }
+
+    .product-modal-body li {
+        margin-bottom: 8px;
+    }
+
+    .product-modal-footer {
+        padding: 16px 25px;
+        border-top: 1px solid #e2e8f0;
+        background-color: #f8fafc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Widget Styles */
     .categories-widget-box,
     .comments-widget-box {
         background-color: #ededed;
@@ -97,298 +336,115 @@ get_header();
     .categories-white-box,
     .comments-white-box {
         background: #ffffff;
-        padding: 10px 16px;
+        padding: 12px 16px;
         border-radius: 2px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
-    /* Danh sách bài viết đánh số trong Archive Sidebar theo Ảnh 1 */
-    .sidebar-rank-item {
-        display: flex;
-        align-items: flex-start;
-        padding: 11px 0;
-        border-bottom: 1px solid #f0f0f0;
-        gap: 10px;
+    .categories-white-box ul,
+    .comments-white-box ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
 
-    .sidebar-rank-item:last-child {
+    .categories-white-box ul li {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        margin: 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14.5px;
+    }
+
+    .categories-white-box ul li:last-child {
         border-bottom: none;
     }
 
-    .sidebar-rank-num {
-        font-family: "Georgia", "Times New Roman", serif;
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a1a1a;
-        line-height: 1;
-        min-width: 20px;
-        text-align: center;
-        padding-top: 2px;
-    }
-
-    .sidebar-rank-title {
-        flex: 1;
-        font-size: 13.5px;
-        line-height: 1.35;
-    }
-
-    .sidebar-rank-title a {
-        color: #334155;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.15s;
-    }
-
-    .sidebar-rank-title a:hover {
-        color: #1d4ed8;
-        text-decoration: underline;
-    }
-
-    .sidebar-rank-meta {
-        font-size: 11.5px;
-        color: #94a3b8;
-        margin-top: 3px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .rank-comment-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        color: #94a3b8;
-        font-size: 11.5px;
-    }
-
-    .comment-bubble-icon {
-        width: 12px;
-        height: 12px;
-        fill: #94a3b8;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .sidebar-archive-section-title {
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #64748b;
-        margin: 15px 0 8px 0;
-        letter-spacing: 0.5px;
-        border-top: 1px dashed #e2e8f0;
-        padding-top: 10px;
-    }
-
-    .sidebar-monthly-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .sidebar-monthly-list li {
-        padding: 6px 0;
-        font-size: 13.5px;
-        border-bottom: 1px solid #f8fafc;
-        display: flex;
-        align-items: center;
-    }
-
-    .sidebar-monthly-list li::before {
+    .categories-white-box ul li::before {
         content: "";
         display: inline-block;
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
+        min-width: 8px;
         background-color: #f5b025;
         border-radius: 50%;
-        margin-right: 8px;
+        margin-right: 12px;
     }
 
-    .sidebar-monthly-list li a {
+    .categories-white-box ul li a {
         color: #5587b7;
         text-decoration: none;
         font-weight: 500;
+        font-size: 14.5px;
+        transition: color 0.2s ease-in-out;
     }
 
-    .sidebar-monthly-list li a:hover {
+    .categories-white-box ul li a:hover {
         color: #1d4ed8;
         text-decoration: underline;
     }
 
-    /* Comments Sidebar */
-    .comments-white-box ul,
     .comments-white-box li {
-        margin: 0 !important;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e5e5;
         list-style: none !important;
     }
 
-    .recent-comment-item {
-        border-bottom: 1px solid #f0f0f0 !important;
-        padding: 10px 0;
+    .comments-white-box li:last-child {
+        border-bottom: none;
     }
 
-    .recent-comment-item:last-child {
-        border-bottom: none !important;
-    }
-
-    .comment-content a {
-        color: #5587b7;
-        text-decoration: none;
-        font-size: 14px;
-        line-height: 1.4;
+    .comment-content {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
+    .comment-content a {
+        color: #5587b7;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.4;
+        transition: color 0.2s ease-in-out;
+    }
+
     .comment-content a:hover {
         color: #1d4ed8;
         text-decoration: underline;
-    }
-
-    /* ==========================================================================
-     Khối Nội dung ở giữa (Content 2)
-     ========================================================================== */
-    .post-card-item {
-        display: flex;
-        align-items: center;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        padding: 20px 24px;
-        margin-bottom: 16px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .post-card-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-
-    /* 1. Cột Ngày & Tháng */
-    .post-card-date {
-        width: 85px;
-        min-width: 85px;
-        text-align: center;
-        padding-right: 18px;
-        margin-right: 18px;
-        border-right: 1px solid #e2e8f0;
-    }
-
-    .post-card-date .day-num {
-        font-size: 38px;
-        font-weight: bold;
-        line-height: 1;
-        color: #1e293b;
-        font-family: Georgia, serif;
-    }
-
-    .post-card-date .month-text {
-        font-size: 11px;
-        color: #64748b;
-        text-transform: uppercase;
-        margin-top: 6px;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-    }
-
-    /* 2. Cột Tiêu đề & Tóm tắt */
-    .post-card-info {
-        flex: 1;
-    }
-
-    .post-card-title {
-        font-size: 16.5px;
-        font-weight: 700;
-        margin: 0 0 8px 0;
-        line-height: 1.35;
-        text-transform: uppercase;
-    }
-
-    .post-card-title a {
-        color: #0284c7;
-        text-decoration: none;
-        transition: color 0.15s;
-    }
-
-    .post-card-title a:hover {
-        color: #0369a1;
-        text-decoration: underline;
-    }
-
-    .post-card-excerpt {
-        font-size: 13.5px;
-        color: #64748b;
-        margin: 0;
-        line-height: 1.55;
     }
 </style>
 
 <div class="page-three-column-layout">
 
-    <!-- CỘT BÊN TRÁI: Archive (11) (nhóm 6 sv) -->
+    <!-- CỘT BÊN TRÁI (Archive - 11) -->
     <div class="left-sidebar-column">
         <aside class="categories-widget-box block-11">
             <h3 class="widget-title-styled">Archive</h3>
             <div class="widget-striped-bar"></div>
-            
             <div class="categories-white-box">
-                <!-- Danh sách bài viết đánh số thứ tự chuẩn theo Ảnh 1 -->
-                <div class="sidebar-ranked-posts">
+                <ul>
                     <?php
-                    $sidebar_posts = wp_get_recent_posts( array(
-                        'numberposts' => 5,
-                        'post_status' => 'publish',
-                    ) );
-
-                    if ( ! empty( $sidebar_posts ) ) :
-                        foreach ( $sidebar_posts as $idx => $s_post ) :
-                            $rank = $idx + 1;
-                            $link = get_permalink( $s_post['ID'] );
-                            $comments = get_comments_number( $s_post['ID'] );
-                            $post_date = get_the_date( 'd/m', $s_post['ID'] );
-                        ?>
-                            <div class="sidebar-rank-item">
-                                <div class="sidebar-rank-num"><?php echo $rank; ?></div>
-                                <div class="sidebar-rank-title">
-                                    <a href="<?php echo esc_url( $link ); ?>">
-                                        <?php echo esc_html( wp_trim_words( $s_post['post_title'], 9, '...' ) ); ?>
-                                    </a>
-                                    <div class="sidebar-rank-meta">
-                                        <span><?php echo $post_date; ?></span>
-                                        <?php if ( $comments > 0 ) : ?>
-                                            <span class="rank-comment-badge">
-                                                <svg class="comment-bubble-icon" viewBox="0 0 20 20">
-                                                    <path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/>
-                                                </svg>
-                                                <?php echo $comments; ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach;
-                    endif;
-                    ?>
-                </div>
-
-                <!-- Danh sách Lưu trữ theo tháng (Monthly Archives) -->
-                <div class="sidebar-archive-section-title">Lưu trữ theo tháng</div>
-                <ul class="sidebar-monthly-list">
-                    <?php
-                    $archives_list = wp_get_archives( array(
-                        'type'            => 'monthly',
-                        'format'          => 'html',
+                    $archives_list = wp_get_archives(array(
+                        'type' => 'monthly',
+                        'format' => 'html',
                         'show_post_count' => true,
-                        'echo'            => false
-                    ) );
+                        'echo' => false
+                    ));
 
-                    if ( ! empty( $archives_list ) ) {
+                    if (!empty($archives_list)) {
                         echo $archives_list;
                     } else {
-                        echo '<li><a href="#">October 2023</a></li>';
+                        $all_categories = get_categories(array('hide_empty' => false));
+                        if (!empty($all_categories)) {
+                            foreach ($all_categories as $cat) {
+                                echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
+                            }
+                        } else {
+                            echo '<li><a href="#">Uncategorized</a></li>';
+                        }
                     }
                     ?>
                 </ul>
@@ -396,37 +452,66 @@ get_header();
         </aside>
     </div>
 
-    <!-- CỘT Ở GIỮA: Content (2) -->
-    <div class="center-content-column">
-        <?php if ( have_posts() ) : ?>
-            <?php while ( have_posts() ) : the_post(); 
+    <!-- CỘT Ở GIỮA (Content - 2) -->
+    <div class="main-content-column center-content-column">
+        <?php if (have_posts()): ?>
+            <?php while (have_posts()):
+                the_post();
                 $day = get_the_date('d');
                 $month = get_the_date('m');
-            ?>
-                <article class="post-card-item">
+                $post_id = get_the_ID();
+                $fallback_link = add_query_arg('p', $post_id, home_url('/'));
+                ?>
+
+                <article class="post-card-item" onclick="openProductModal(<?php echo $post_id; ?>);">
                     <!-- 1. Cột Ngày / Tháng -->
                     <div class="post-card-date">
                         <div class="day-num"><?php echo $day; ?></div>
                         <div class="month-text">THÁNG <?php echo $month; ?></div>
                     </div>
 
-                    <!-- 2. Cột Tiêu đề & Tóm tắt bài viết -->
+                    <!-- 2. Cột Tiêu đề & Mô tả ngắn -->
                     <div class="post-card-info">
                         <h2 class="post-card-title">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            <a href="<?php echo esc_url($fallback_link); ?>"
+                                onclick="event.stopPropagation();"><?php the_title(); ?></a>
                         </h2>
                         <p class="post-card-excerpt">
-                            <?php echo wp_trim_words( get_the_excerpt(), 25, ' [...]' ); ?>
+                            <?php echo wp_trim_words(get_the_excerpt(), 25, ' [...]'); ?>
                         </p>
                     </div>
+
+                    <!-- Dữ liệu phục vụ Popup Modal -->
+                    <div id="product-data-<?php echo $post_id; ?>" style="display: none;">
+                        <template class="modal-title-tpl"><?php the_title(); ?></template>
+                        <template class="modal-content-tpl">
+                            <div class="product-modal-meta" style="margin-bottom: 18px; color: #64748b; font-size: 13.5px;">
+                                <span><strong>Ngày đăng:</strong> <?php echo get_the_date('d/m/Y'); ?></span>
+                                <?php if (has_category()): ?>
+                                    <span style="margin-left: 15px;"><strong>Chuyên mục:</strong>
+                                        <?php the_category(', '); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <?php if (has_post_thumbnail()): ?>
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <?php the_post_thumbnail('medium_large', array('style' => 'max-width: 100%; height: auto; border-radius: 8px;')); ?>
+                                </div>
+                            <?php endif; ?>
+                            <div>
+                                <?php the_content(); ?>
+                            </div>
+                        </template>
+                        <template class="modal-link-tpl"><?php echo esc_url($fallback_link); ?></template>
+                    </div>
                 </article>
+
             <?php endwhile; ?>
-        <?php else : ?>
+        <?php else: ?>
             <p>Chưa có bài viết nào trong Database.</p>
         <?php endif; ?>
     </div>
 
-    <!-- CỘT BÊN PHẢI: Comments (12) (nhóm 6 sv) -->
+    <!-- CỘT BÊN PHẢI (Comments - 12) -->
     <div class="right-sidebar-column">
         <aside class="comments-widget-box block-12">
             <h3 class="widget-title-styled">Comments</h3>
@@ -435,29 +520,29 @@ get_header();
             <div class="comments-white-box">
                 <ul>
                     <?php
-                    $recent_comments = get_comments( array(
-                        'number'      => 5,
-                        'status'      => 'approve',
+                    $recent_comments = get_comments(array(
+                        'number' => 5,
+                        'status' => 'approve',
                         'post_status' => 'publish',
-                        'type'        => 'comment',
-                    ) );
+                        'type' => 'comment',
+                    ));
 
-                    if ( ! empty( $recent_comments ) ) :
-                        foreach ( $recent_comments as $comment ) :
-                            $comment_post = get_post( $comment->comment_post_ID );
+                    if (!empty($recent_comments)):
+                        foreach ($recent_comments as $comment):
+                            $comment_post = get_post($comment->comment_post_ID);
                             ?>
                             <li class="recent-comment-item">
-                                <?php if ( $comment_post ) : ?>
+                                <?php if ($comment_post): ?>
                                     <div class="comment-content">
-                                        <a class="comment-post-link" href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
-                                            <?php echo esc_html( wp_trim_words( $comment->comment_content, 12, '...' ) ); ?>
+                                        <a class="comment-post-link" href="<?php echo esc_url(get_comment_link($comment)); ?>">
+                                            <?php echo esc_html(wp_trim_words($comment->comment_content, 12, '...')); ?>
                                         </a>
                                     </div>
                                 <?php endif; ?>
                             </li>
-                        <?php
+                            <?php
                         endforeach;
-                    else :
+                    else:
                         ?>
                         <li>Chưa có bình luận nào.</li>
                     <?php endif; ?>
@@ -467,5 +552,62 @@ get_header();
     </div>
 
 </div><!-- .page-three-column-layout -->
+
+<!-- Modal Dialog Xem nhanh thông tin sản phẩm -->
+<div id="productModalBackdrop" class="product-modal-backdrop" onclick="closeProductModal(event);">
+    <div class="product-modal-box" onclick="event.stopPropagation();">
+        <div class="product-modal-header">
+            <h3 id="modalProductTitle" class="product-modal-title">Thông tin sản phẩm</h3>
+            <button type="button" class="product-modal-close" onclick="closeProductModal()">&times;</button>
+        </div>
+        <div id="modalProductBody" class="product-modal-body">
+            <!-- Nội dung sản phẩm được nạp động -->
+        </div>
+        <div class="product-modal-footer">
+            <a id="modalProductFullLink" href="#" class="btn-action-view" style="padding: 8px 18px;">
+                Xem trang chi tiết đầy đủ &rarr;
+            </a>
+            <button type="button" class="btn-action-page" onclick="closeProductModal()" style="padding: 8px 18px;">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openProductModal(postId) {
+        var dataContainer = document.getElementById('product-data-' + postId);
+        if (!dataContainer) return;
+
+        var titleTpl = dataContainer.querySelector('.modal-title-tpl');
+        var contentTpl = dataContainer.querySelector('.modal-content-tpl');
+        var linkTpl = dataContainer.querySelector('.modal-link-tpl');
+
+        document.getElementById('modalProductTitle').textContent = titleTpl ? titleTpl.innerHTML : 'Thông tin sản phẩm';
+        document.getElementById('modalProductBody').innerHTML = contentTpl ? contentTpl.innerHTML : '';
+
+        var fullLinkBtn = document.getElementById('modalProductFullLink');
+        if (fullLinkBtn && linkTpl) {
+            fullLinkBtn.href = linkTpl.innerHTML.trim();
+        }
+
+        var backdrop = document.getElementById('productModalBackdrop');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductModal(event) {
+        if (event && event.target !== event.currentTarget) return;
+        var backdrop = document.getElementById('productModalBackdrop');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeProductModal();
+        }
+    });
+</script>
 
 <?php get_footer(); ?>

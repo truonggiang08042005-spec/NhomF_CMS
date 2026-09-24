@@ -11,7 +11,7 @@
         }
 
         .footer-container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -38,14 +38,19 @@
         }
 
         .footer-col ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            list-style: none !important;
+            padding: 0 !important;
+            padding-left: 0 !important;
+            margin: 0 !important;
+            margin-left: 0 !important;
         }
 
         .footer-col ul li {
             margin-bottom: 8px;
             font-size: 14px;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            list-style-type: none !important;
         }
 
         .footer-col ul li a {
@@ -124,6 +129,22 @@
                             <?php endforeach;
                         else : ?>
                             <li>» Chưa có bình luận</li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Trang mới nhất (Pages) -->
+                <div class="footer-col">
+                    <div class="footer-col-title">Trang mới nhất</div>
+                    <ul>
+                        <?php
+                        $footer_pages = get_posts( array( 'post_type' => 'page', 'posts_per_page' => 4, 'orderby' => 'date', 'order' => 'ASC' ) );
+                        if ( ! empty( $footer_pages ) ) :
+                            foreach( $footer_pages as $fp ) : ?>
+                                <li>» <a href="<?php echo esc_url( get_permalink($fp->ID) ); ?>"><?php echo esc_html( $fp->post_title ); ?></a></li>
+                            <?php endforeach;
+                        else : ?>
+                            <li>» <a href="<?php echo esc_url( home_url('/?page_id=2') ); ?>">Trang mẫu</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
