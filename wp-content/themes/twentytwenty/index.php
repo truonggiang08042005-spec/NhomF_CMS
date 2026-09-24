@@ -420,39 +420,41 @@
 
 <div class="page-three-column-layout">
 
-    <!-- CỘT BÊN TRÁI: Categories (9) theo đúng hình thiết kế (Rộng 280px) -->
+    <!-- CỘT BÊN TRÁI (Archive - 11): Nằm bên trái (<div class="left-sidebar-column">) -->
     <div class="left-sidebar-column">
-        <aside class="categories-widget-box">
-            <h3 class="widget-title-styled">Categories</h3>
+        <aside class="categories-widget-box block-11">
+            <h3 class="widget-title-styled">Archive</h3>
             <div class="widget-striped-bar"></div>
             <div class="categories-white-box">
                 <ul>
                     <?php
-                    // Lấy tất cả Chuyên mục (Categories) tự động từ Database
-                    $all_categories = get_categories(array(
-                        'hide_empty' => false,
-                        'orderby' => 'name',
-                        'order' => 'ASC'
+                    // Lấy danh sách lưu trữ (Archive) tự động từ Database
+                    $archives_list = wp_get_archives(array(
+                        'type' => 'monthly',
+                        'format' => 'html',
+                        'echo' => false
                     ));
 
-                    if (!empty($all_categories)):
-                        foreach ($all_categories as $cat): ?>
-                            <li>
-                                <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>">
-                                    <?php echo esc_html($cat->name); ?>
-                                </a>
-                            </li>
-                        <?php endforeach;
-                    else: ?>
-                        <li><a href="#">Uncategorized</a></li>
-                    <?php endif; ?>
+                    if (!empty($archives_list)) {
+                        echo $archives_list;
+                    } else {
+                        $all_categories = get_categories(array('hide_empty' => false));
+                        if (!empty($all_categories)) {
+                            foreach ($all_categories as $cat) {
+                                echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
+                            }
+                        } else {
+                            echo '<li><a href="#">Uncategorized</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
             </div>
         </aside>
     </div>
 
-    <!-- CỘT Ở GIỮA: Detail (6) (Danh sách sản phẩm / bài viết) -->
-    <div class="center-content-column">
+    <!-- CỘT Ở GIỮA (Content - 2): Nằm ở trung tâm (<div class="main-content-column">) -->
+    <div class="main-content-column center-content-column">
         <?php if (have_posts()): ?>
             <?php while (have_posts()):
                 the_post();
@@ -511,9 +513,9 @@
         <?php endif; ?>
     </div>
 
-    <!-- CỘT bên phải: Comments (12)  -->
+    <!-- CỘT BÊN PHẢI (Comments - 12): Nằm bên phải (<div class="right-sidebar-column">) -->
     <div class="right-sidebar-column">
-        <aside class="comments-widget-box">
+        <aside class="comments-widget-box block-12">
             <h3 class="widget-title-styled">Comments</h3>
             <div class="widget-striped-bar"></div>
 

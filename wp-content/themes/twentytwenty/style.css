@@ -7102,3 +7102,16 @@ a.to-the-top>* {
 
 }
 
+/* Align list item arrows (») vertically with title left border bar (|) */
+.footer-col ul, .sidebar-box ul, .widget ul, .categories-white-box ul, .comments-white-box ul {
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+	list-style: none !important;
+}
+
+.footer-col ul li, .sidebar-box ul li, .widget ul li, .categories-white-box ul li, .comments-white-box ul li {
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+}
+
+

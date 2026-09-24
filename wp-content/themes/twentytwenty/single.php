@@ -408,149 +408,170 @@ get_header();
   }
 </style>
 
-<div class="page-three-column-layout">
-    
-    <!-- CỘT BÊN TRÁI: Categories (9) -->
-    <div class="left-sidebar-column">
-        <aside class="categories-widget-box">
-            <h3 class="widget-title-styled">Categories</h3>
-            <div class="widget-striped-bar"></div>
-            <div class="widget-white-box categories-white-box">
-                <ul>
-                    <?php
-                    $all_categories = get_categories( array(
-                        'hide_empty' => false,
-                        'orderby'    => 'name',
-                        'order'      => 'ASC'
-                    ) );
+<div class="detail-page-wrapper" style="max-width: 1280px; margin: 30px auto; padding: 0 15px; box-sizing: border-box;">
 
-                    if ( ! empty( $all_categories ) ) :
-                        foreach ( $all_categories as $cat ) : ?>
-                            <li>
-                                <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
-                                    <?php echo esc_html( $cat->name ); ?>
-                                </a>
-                            </li>
-                        <?php endforeach;
-                    else : ?>
-                        <li><a href="#">Uncategorized</a></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </aside>
-    </div>
+    <!-- 1. BỐ CỤC 3 CỘT (MIDDLE): Categories (9) | Detail (6) | Recent post (10) -->
+    <div class="page-three-column-layout" style="max-width: 100%; margin: 0 0 25px 0;">
+        
+        <!-- CỘT BÊN TRÁI: Categories (9) -->
+        <div class="left-sidebar-column">
+            <aside class="categories-widget-box">
+                <h3 class="widget-title-styled">Categories</h3>
+                <div class="widget-striped-bar"></div>
+                <div class="widget-white-box categories-white-box">
+                    <ul>
+                        <?php
+                        $all_categories = get_categories( array(
+                            'hide_empty' => false,
+                            'orderby'    => 'name',
+                            'order'      => 'ASC'
+                        ) );
 
-    <!-- CỘT Ở GIỮA: Detail (6) (Chi tiết sản phẩm/bài viết) -->
-    <div class="center-content-column">
-        <div style="margin-bottom: 20px;">
-            <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
-                &larr; Quay lại danh sách sản phẩm
-            </a>
+                        if ( ! empty( $all_categories ) ) :
+                            foreach ( $all_categories as $cat ) : ?>
+                                <li>
+                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                        <?php echo esc_html( $cat->name ); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach;
+                        else : ?>
+                            <li><a href="#">Uncategorized</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </aside>
         </div>
 
-        <?php if ( have_posts() ) : ?>
-            <?php while ( have_posts() ) : the_post(); 
-                $day   = get_the_date('d');
-                $month = get_the_date('m');
-                $year  = get_the_date('y');
-                $has_custom_excerpt = has_excerpt();
-            ?>
-                <article class="detail-post-container" id="post-<?php the_ID(); ?>">
-                    <!-- Header: Tiêu đề và Đồng hồ Ngày/Tháng -->
-                    <div class="detail-header-wrapper">
-                        <h1 class="detail-post-title"><?php the_title(); ?></h1>
-
-                        <div class="detail-clock-badge" title="Ngày đăng: <?php echo esc_attr( get_the_date('d/m/Y') ); ?>">
-                            <div class="clock-badge-inner">
-                                <div class="clock-fraction-col">
-                                    <span class="clock-day"><?php echo $day; ?></span>
-                                    <span class="clock-divider-line"></span>
-                                    <span class="clock-month"><?php echo $month; ?></span>
-                                </div>
-                                <span class="clock-year">'<?php echo $year; ?></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Đường kẻ phân cách có mũi nhọn -->
-                    <div class="detail-divider"></div>
-
-                    <!-- Nội dung bài viết -->
-                    <div class="detail-content <?php echo $has_custom_excerpt ? 'has-excerpt' : 'no-excerpt'; ?>">
-                        <?php if ( $has_custom_excerpt ) : ?>
-                            <div class="detail-excerpt">
-                                <?php the_excerpt(); ?>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php the_content(); ?>
-                    </div>
-
-                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                        <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
-                            &larr; Quay lại danh sách sản phẩm
-                        </a>
-                    </div>
-
-                    <?php 
-                    if ( comments_open() || get_comments_number() ) {
-                        comments_template();
-                    }
-                    ?>
-                </article>
-            <?php endwhile; ?>
-        <?php endif; ?>
-    </div>
-
-     <!-- CỘT BÊN PHẢI: Recent post (#10) - Thiết kế 100% CHUẨN MẪU MỚI -->
-    <div class="right-sidebar-column">
-        <aside class="recent-posts-teal-card">
-            <div class="recent-posts-teal-list">
-                <?php
-                // Lấy 5 bài viết mới nhất từ Database
-                $recent_posts = wp_get_recent_posts( array(
-                    'numberposts' => 5,
-                    'post_status' => 'publish'
-                ) );
-
-                if ( ! empty( $recent_posts ) ) :
-                    foreach ( $recent_posts as $post_item ) : 
-                        $recent_link = add_query_arg( 'p', $post_item['ID'], home_url( '/' ) );
-                        $r_day   = date('d', strtotime($post_item['post_date']));
-                        $r_month = date('m', strtotime($post_item['post_date']));
-                        $r_year  = date('y', strtotime($post_item['post_date']));
-                    ?>
-                        <div class="recent-post-teal-item">
-                            <!-- Badge hiển thị ngày tháng dạng phân số 13/08 ─23 -->
-                            <div class="recent-teal-date-badge">
-                                <div class="recent-teal-date-fraction">
-                                    <span class="recent-teal-date-day"><?php echo $r_day; ?></span>
-                                    <span class="recent-teal-date-line"></span>
-                                    <span class="recent-teal-date-month"><?php echo $r_month; ?></span>
-                                </div>
-                                <span class="recent-teal-date-year">─<?php echo $r_year; ?></span>
-                            </div>
-
-                            <!-- Tiêu đề bài viết mới -->
-                            <div class="recent-post-teal-title">
-                                <a href="<?php echo esc_url( $recent_link ); ?>">
-                                    <?php echo esc_html( $post_item['post_title'] ); ?>
-                                </a>
-                            </div>
-                        </div>
-                    <?php endforeach; wp_reset_query();
-                else : ?>
-                    <p style="color:#ffffff; font-size:13px;">Chưa có bài viết mới</p>
-                <?php endif; ?>
+        <!-- CỘT Ở GIỮA: Detail (6) (Chi tiết sản phẩm/bài viết) -->
+        <div class="center-content-column">
+            <div style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
+                    &larr; Quay lại danh sách sản phẩm
+                </a>
             </div>
 
-            <!-- Nút XEM TẤT CẢ TIN TỨC màu đậm ở đáy -->
-            <a href="<?php echo esc_url( home_url('/') ); ?>" class="recent-posts-btn-banner">
-                XEM TẤT CẢ TIN TỨC
-            </a>
-        </aside>
-    </div>
+            <?php if ( have_posts() ) : ?>
+                <?php while ( have_posts() ) : the_post(); 
+                    $day   = get_the_date('d');
+                    $month = get_the_date('m');
+                    $year  = get_the_date('y');
+                    $has_custom_excerpt = has_excerpt();
+                ?>
+                    <article class="detail-post-container" id="post-<?php the_ID(); ?>">
+                        <!-- Header: Tiêu đề và Đồng hồ Ngày/Tháng -->
+                        <div class="detail-header-wrapper">
+                            <h1 class="detail-post-title"><?php the_title(); ?></h1>
 
-</div>
+                            <div class="detail-clock-badge" title="Ngày đăng: <?php echo esc_attr( get_the_date('d/m/Y') ); ?>">
+                                <div class="clock-badge-inner">
+                                    <div class="clock-fraction-col">
+                                        <span class="clock-day"><?php echo $day; ?></span>
+                                        <span class="clock-divider-line"></span>
+                                        <span class="clock-month"><?php echo $month; ?></span>
+                                    </div>
+                                    <span class="clock-year">'<?php echo $year; ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Đường kẻ phân cách có mũi nhọn -->
+                        <div class="detail-divider"></div>
+
+                        <!-- Nội dung bài viết -->
+                        <div class="detail-content <?php echo $has_custom_excerpt ? 'has-excerpt' : 'no-excerpt'; ?>">
+                            <?php if ( $has_custom_excerpt ) : ?>
+                                <div class="detail-excerpt">
+                                    <?php the_excerpt(); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php the_content(); ?>
+                        </div>
+
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                            <a href="<?php echo esc_url( home_url('/') ); ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background-color: #f1f5f9; color: #2a6fbe; text-decoration: none; font-weight: 600; font-size: 13.5px; border-radius: 6px;">
+                                &larr; Quay lại danh sách sản phẩm
+                            </a>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+            <?php endif; ?>
+        </div>
+
+        <!-- CỘT BÊN PHẢI: Recent post (#10) -->
+        <div class="right-sidebar-column">
+            <aside class="recent-posts-teal-card">
+                <div class="recent-posts-teal-list">
+                    <?php
+                    $recent_posts = wp_get_recent_posts( array(
+                        'numberposts' => 5,
+                        'post_status' => 'publish'
+                    ) );
+
+                    if ( ! empty( $recent_posts ) ) :
+                        foreach ( $recent_posts as $post_item ) : 
+                            $recent_link = add_query_arg( 'p', $post_item['ID'], home_url( '/' ) );
+                            $r_day   = date('d', strtotime($post_item['post_date']));
+                            $r_month = date('m', strtotime($post_item['post_date']));
+                            $r_year  = date('y', strtotime($post_item['post_date']));
+                        ?>
+                            <div class="recent-post-teal-item">
+                                <div class="recent-teal-date-badge">
+                                    <div class="recent-teal-date-fraction">
+                                        <span class="recent-teal-date-day"><?php echo $r_day; ?></span>
+                                        <span class="recent-teal-date-line"></span>
+                                        <span class="recent-teal-date-month"><?php echo $r_month; ?></span>
+                                    </div>
+                                    <span class="recent-teal-date-year">─<?php echo $r_year; ?></span>
+                                </div>
+
+                                <div class="recent-post-teal-title">
+                                    <a href="<?php echo esc_url( $recent_link ); ?>">
+                                        <?php echo esc_html( $post_item['post_title'] ); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; wp_reset_query();
+                    else : ?>
+                        <p style="color:#ffffff; font-size:13px;">Chưa có bài viết mới</p>
+                    <?php endif; ?>
+                </div>
+
+                <a href="<?php echo esc_url( home_url('/') ); ?>" class="recent-posts-btn-banner">
+                    XEM TẤT CẢ TIN TỨC
+                </a>
+            </aside>
+        </div>
+
+    </div><!-- .page-three-column-layout -->
+
+    <!-- 2. KHỐI ĐIỀU HƯỚNG BÀI VIẾT: Prev - Next Post (7) - NẰM NGANG BÊN DƯỚI 3 CỘT -->
+    <nav id="prev-next" class="prev-next-block block-7" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
+        <div style="display: flex; justify-content: space-between; gap: 20px; align-items: center;">
+            <div class="nav-previous" style="flex: 1;">
+                <?php previous_post_link( '%link', '&larr; Bài trước: %title' ); ?>
+            </div>
+            <div class="nav-next" style="flex: 1; text-align: right;">
+                <?php next_post_link( '%link', 'Bài tiếp: %title &rarr;' ); ?>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. KHỐI BÌNH LUẬN: Comments (8) - NẰM NGANG BÊN DƯỚI PREV - NEXT POST -->
+    <section id="comments-detail" class="comments-block block-8" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 25px 30px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
+        <h3 class="widget-title-styled" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px;">Comments (8)</h3>
+        <div class="widget-striped-bar" style="width: 100%; height: 10px; margin-bottom: 20px; background: repeating-linear-gradient(-45deg, #d5d5d5, #d5d5d5 3px, #e9e9e9 3px, #e9e9e9 6px);"></div>
+        <?php 
+        if ( comments_open() || get_comments_number() ) {
+            comments_template();
+        } else {
+            comment_form();
+        }
+        ?>
+    </section>
+
+</div><!-- .detail-page-wrapper -->
 
 <?php get_footer(); ?>
+

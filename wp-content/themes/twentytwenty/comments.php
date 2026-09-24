@@ -17,6 +17,8 @@ if (post_password_required()) {
 	return;
 }
 
+$comments = $comments ?: get_comments( array( 'post_id' => get_the_ID(), 'status' => 'approve' ) );
+
 if ($comments) {
 	require_once get_template_directory() . '/custom-comments.php';
 	?>
