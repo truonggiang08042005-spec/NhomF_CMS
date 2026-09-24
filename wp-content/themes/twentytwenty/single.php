@@ -547,16 +547,47 @@ get_header();
     </div><!-- .page-three-column-layout -->
 
     <!-- 2. KHỐI ĐIỀU HƯỚNG BÀI VIẾT: Prev - Next Post (7) - NẰM NGANG BÊN DƯỚI 3 CỘT -->
-    <nav id="prev-next" class="prev-next-block block-7" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
-        <div style="display: flex; justify-content: space-between; gap: 20px; align-items: center;">
-            <div class="nav-previous" style="flex: 1;">
-                <?php previous_post_link( '%link', '&larr; Bài trước: %title' ); ?>
-            </div>
-            <div class="nav-next" style="flex: 1; text-align: right;">
-                <?php next_post_link( '%link', 'Bài tiếp: %title &rarr;' ); ?>
-            </div>
-        </div>
-    </nav>
+    <!-- 2. KHỐI ĐIỀU HƯỚNG BÀI VIẾT: Prev - Next Post (7) - THIẾT KẾ XẾP DỌC THEO MẪU -->
+    <?php
+    $next_post = get_next_post();
+    $prev_post = get_previous_post();
+
+    if ( $next_post || $prev_post ) :
+    ?>
+        <nav id="prev-next" class="custom-post-navigation block-7">
+            <?php if ( $prev_post ) : ?>
+                <a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="nav-item">
+                    <div class="nav-date">
+                        <div class="date-fraction">
+                            <span class="date-day"><?php echo get_the_time( 'd', $prev_post->ID ); ?></span>
+                            <span class="date-divider"></span>
+                            <span class="date-month"><?php echo get_the_time( 'm', $prev_post->ID ); ?></span>
+                        </div>
+                        <span class="date-year"><?php echo get_the_time( 'y', $prev_post->ID ); ?></span>
+                    </div>
+                    <div class="nav-title">
+                        <?php echo get_the_title( $prev_post->ID ); ?>
+                    </div>
+                </a>
+            <?php endif; ?>
+
+            <?php if ( $next_post ) : ?>
+                <a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="nav-item">
+                    <div class="nav-date">
+                        <div class="date-fraction">
+                            <span class="date-day"><?php echo get_the_time( 'd', $next_post->ID ); ?></span>
+                            <span class="date-divider"></span>
+                            <span class="date-month"><?php echo get_the_time( 'm', $next_post->ID ); ?></span>
+                        </div>
+                        <span class="date-year"><?php echo get_the_time( 'y', $next_post->ID ); ?></span>
+                    </div>
+                    <div class="nav-title">
+                        <?php echo get_the_title( $next_post->ID ); ?>
+                    </div>
+                </a>
+            <?php endif; ?>
+        </nav>
+    <?php endif; ?>
 
     <!-- 3. KHỐI BÌNH LUẬN: Comments (8) - NẰM NGANG BÊN DƯỚI PREV - NEXT POST -->
     <section id="comments-detail" class="comments-block block-8" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 25px 30px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
