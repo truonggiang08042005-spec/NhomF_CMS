@@ -6587,6 +6587,73 @@ a.to-the-top>* {
 		width: calc(100% - 8rem);
 	}
 }
+/* ==================================================== */
+/* CSS MODULE 7: POST NAVIGATION (PREV/NEXT)            */
+/* ==================================================== */
+
+.custom-post-navigation {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.custom-post-navigation .nav-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* Bố cục chứa ngày tháng */
+.custom-post-navigation .nav-date {
+    display: flex;
+    align-items: center; /* Căn giữa dọc để Năm nằm ngang vạch chia */
+    margin-right: 30px;
+    font-family: serif; 
+    color: #333;
+    min-width: 60px;
+}
+
+/* Khối Ngày và Tháng xếp dọc */
+.custom-post-navigation .date-fraction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5px; /* Khoảng cách với Năm */
+}
+
+/* Định dạng chữ số thẳng đứng, không in nghiêng */
+.custom-post-navigation .date-day,
+.custom-post-navigation .date-month {
+    font-size: 20px;
+    line-height: 1;
+    font-style: normal; 
+}
+
+/* Vạch kẻ ngang phân cách Ngày và Tháng */
+.custom-post-navigation .date-divider {
+    width: 25px;
+    border: none;
+    border-top: 1px solid #333;
+    margin: 4px 0;
+}
+
+/* Định dạng Năm nằm ngang hàng */
+.custom-post-navigation .date-year {
+    font-size: 20px;
+    font-style: normal;
+    line-height: 1;
+}
+
+/* Tiêu đề bài viết */
+.custom-post-navigation .nav-title a {
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+.custom-post-navigation .nav-title a:hover {
+    color: #000;
+}
 
 /* COMMENTS TRONG CHI TIET */
 .comment-reply-link {
@@ -6756,7 +6823,6 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY - MẶC ĐỊNH ẨN
-========================================================= */
 
 .custom-comments-wrapper .custom-comment-replies {
 	width: 100%;
@@ -6783,7 +6849,6 @@ a.to-the-top>* {
 
 /* =========================================================
    NÚT XEM X TRẢ LỜI
-========================================================= */
 
 .custom-comments-wrapper .custom-comment-replies-toggle {
 	display: block !important;
@@ -6847,7 +6912,6 @@ a.to-the-top>* {
 
 /* =========================================================
    COMMENT GỐC
-========================================================= */
 
 .custom-comment-depth-1 {
 	margin-left: 0;
@@ -6856,7 +6920,6 @@ a.to-the-top>* {
 
 /* =========================================================
    KHU VỰC REPLY
-========================================================= */
 
 /*
  * Tạo đường dọc báo hiệu đây là một nhánh reply.
@@ -6873,7 +6936,6 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY CẤP 1
-========================================================= */
 
 .custom-comment-depth-2 {
 	position: relative;
@@ -6903,7 +6965,6 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY CẤP 2
-========================================================= */
 
 .custom-comment-depth-3 {
 	position: relative;
@@ -6933,7 +6994,6 @@ a.to-the-top>* {
 
 /* =========================================================
    AVATAR REPLY
-========================================================= */
 
 .custom-comment-depth-2 .custom-comment-avatar,
 .custom-comment-depth-3 .custom-comment-avatar {
@@ -6953,7 +7013,6 @@ a.to-the-top>* {
 
 /* =========================================================
    TÊN REPLY
-========================================================= */
 
 .custom-comment-depth-2 .custom-comment-author {
 	font-size: 13px;
@@ -6967,7 +7026,6 @@ a.to-the-top>* {
 
 /* =========================================================
    NỘI DUNG REPLY
-========================================================= */
 
 .custom-comment-depth-2 .custom-comment-content {
 	font-size: 12px;
@@ -6981,7 +7039,6 @@ a.to-the-top>* {
 
 /* =========================================================
    KHUNG REPLY CẤP 1
-========================================================= */
 
 .custom-comment-depth-2 .custom-comment-main {
 	border-color: #e1e1e1;
@@ -6990,7 +7047,6 @@ a.to-the-top>* {
 
 /* =========================================================
    KHUNG REPLY CẤP 2
-========================================================= */
 
 .custom-comment-depth-3 .custom-comment-main {
 	border-color: #e8e8e8;
@@ -6999,7 +7055,6 @@ a.to-the-top>* {
 
 /* =========================================================
    NÚT XEM REPLY
-========================================================= */
 
 .custom-comment-replies-toggle {
 	margin-left: 0 !important;
@@ -7008,7 +7063,6 @@ a.to-the-top>* {
 
 /* =========================================================
    MOBILE
-========================================================= */
 
 @media (max-width: 600px) {
 
