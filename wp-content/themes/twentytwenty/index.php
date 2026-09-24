@@ -1,7 +1,19 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The main template file (index.php)
+ * Bố cục 3 cột theo đúng sơ đồ thiết kế:
+ * [Header (1)]
+ * [Archive (11) - Trái] | [Content (2) - Giữa] | [Comments (12) - Phải]
+ * [Footer (3)]
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty
+ */
+
+get_header(); 
+?>
 
 <style>
-    /* Layout 3 cột đồng đều chuẩn hình thiết kế: Left (Categories 280px) | Center (Detail) | Right (Recent post 280px) */
     .page-three-column-layout {
         max-width: 1200px;
         margin: 25px auto;
@@ -12,19 +24,19 @@
         box-sizing: border-box;
     }
 
-    /* Cột bên trái: Categories (9) - Rộng đồng đều 280px */
+    /* Cột bên trái: Archive (11) - 280px */
     .left-sidebar-column {
         width: 280px;
         min-width: 280px;
     }
 
-    /* Cột ở giữa: Detail (6) (Danh sách sản phẩm / nội dung chính) */
+    /* Cột ở giữa: Content (2) */
     .center-content-column {
         flex: 1;
         min-width: 0;
     }
 
-    /* Cột bên phải: Recent post (10) - Rộng đồng đều 280px */
+    /* Cột bên phải: Comments (12) - 280px */
     .right-sidebar-column {
         width: 280px;
         min-width: 280px;
@@ -129,12 +141,6 @@
     }
 
     /* Nút thao tác mở nhanh / xem chi tiết */
-    .post-card-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-
     .btn-action-view {
         display: inline-flex;
         align-items: center;
@@ -216,7 +222,6 @@
             transform: translateY(20px) scale(0.97);
             opacity: 0;
         }
-
         to {
             transform: translateY(0) scale(1);
             opacity: 1;
@@ -291,9 +296,7 @@
         align-items: center;
     }
 
-    /* ==========================================================================
-     Widget Categories (Phía bên trái) - Chuẩn mẫu "Sau chỉnh sửa"
-     ========================================================================== */
+    /* Widget Styles */
     .categories-widget-box,
     .comments-widget-box {
         background-color: #ededed;
@@ -317,7 +320,6 @@
         line-height: 1.2 !important;
     }
 
-    /* Thanh sọc chéo chéo bên dưới tiêu đề (Striped separator bar) */
     .widget-striped-bar {
         width: 100%;
         height: 14px;
@@ -331,16 +333,16 @@
         border-radius: 1px;
     }
 
-    /* Khung màu trắng bên trong chứa danh sách Categories */
     .categories-white-box,
     .comments-white-box {
         background: #ffffff;
-        padding: 8px 16px;
+        padding: 12px 16px;
         border-radius: 2px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
-    .categories-white-box ul {
+    .categories-white-box ul,
+    .comments-white-box ul {
         margin: 0;
         padding: 0;
         list-style: none;
@@ -352,7 +354,6 @@
         padding: 12px 0;
         margin: 0;
         border-bottom: 1px solid #f0f0f0;
-        list-style: none;
         font-size: 14.5px;
     }
 
@@ -367,7 +368,6 @@
         height: 8px;
         min-width: 8px;
         background-color: #f5b025;
-        /* Màu vàng tròn chuẩn mẫu */
         border-radius: 50%;
         margin-right: 12px;
     }
@@ -385,14 +385,14 @@
         text-decoration: underline;
     }
 
-    /* comments */
-    .comments-white-box ul,
     .comments-white-box li {
-        margin: 0 !important;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e5e5;
+        list-style: none !important;
     }
 
-    .comments-white-box li {
-        padding-top: 5px;
+    .comments-white-box li:last-child {
+        border-bottom: none;
     }
 
     .comment-content {
@@ -400,27 +400,26 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        color: #5587b7;
     }
 
     .comment-content a {
-
         color: #5587b7;
         text-decoration: none;
         font-weight: 500;
-        font-size: 20px;
+        font-size: 14px;
+        line-height: 1.4;
         transition: color 0.2s ease-in-out;
     }
 
-    .recent-comment-item {
-        border-bottom: 1px solid #e5e5e5 !important;
-        list-style: none !important;
+    .comment-content a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
     }
 </style>
 
 <div class="page-three-column-layout">
 
-    <!-- CỘT BÊN TRÁI (Archive - 11): Nằm bên trái (<div class="left-sidebar-column">) -->
+    <!-- CỘT BÊN TRÁI (Archive - 11) -->
     <div class="left-sidebar-column">
         <aside class="categories-widget-box block-11">
             <h3 class="widget-title-styled">Archive</h3>
@@ -428,10 +427,10 @@
             <div class="categories-white-box">
                 <ul>
                     <?php
-                    // Lấy danh sách lưu trữ (Archive) tự động từ Database
                     $archives_list = wp_get_archives(array(
                         'type' => 'monthly',
                         'format' => 'html',
+                        'show_post_count' => true,
                         'echo' => false
                     ));
 
@@ -453,7 +452,7 @@
         </aside>
     </div>
 
-    <!-- CỘT Ở GIỮA (Content - 2): Nằm ở trung tâm (<div class="main-content-column">) -->
+    <!-- CỘT Ở GIỮA (Content - 2) -->
     <div class="main-content-column center-content-column">
         <?php if (have_posts()): ?>
             <?php while (have_posts()):
@@ -478,9 +477,8 @@
                                 onclick="event.stopPropagation();"><?php the_title(); ?></a>
                         </h2>
                         <p class="post-card-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 25, ''); ?>
+                            <?php echo wp_trim_words(get_the_excerpt(), 25, ' [...]'); ?>
                         </p>
-
                     </div>
 
                     <!-- Dữ liệu phục vụ Popup Modal -->
@@ -509,11 +507,11 @@
 
             <?php endwhile; ?>
         <?php else: ?>
-            <p>Chưa có bài viết nào.</p>
+            <p>Chưa có bài viết nào trong Database.</p>
         <?php endif; ?>
     </div>
 
-    <!-- CỘT BÊN PHẢI (Comments - 12): Nằm bên phải (<div class="right-sidebar-column">) -->
+    <!-- CỘT BÊN PHẢI (Comments - 12) -->
     <div class="right-sidebar-column">
         <aside class="comments-widget-box block-12">
             <h3 class="widget-title-styled">Comments</h3>
@@ -534,8 +532,6 @@
                             $comment_post = get_post($comment->comment_post_ID);
                             ?>
                             <li class="recent-comment-item">
-
-
                                 <?php if ($comment_post): ?>
                                     <div class="comment-content">
                                         <a class="comment-post-link" href="<?php echo esc_url(get_comment_link($comment)); ?>">
@@ -544,7 +540,6 @@
                                     </div>
                                 <?php endif; ?>
                             </li>
-
                             <?php
                         endforeach;
                     else:
@@ -555,7 +550,8 @@
             </div>
         </aside>
     </div>
-</div>
+
+</div><!-- .page-three-column-layout -->
 
 <!-- Modal Dialog Xem nhanh thông tin sản phẩm -->
 <div id="productModalBackdrop" class="product-modal-backdrop" onclick="closeProductModal(event);">
