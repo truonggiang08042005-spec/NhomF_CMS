@@ -38,14 +38,19 @@
         }
 
         .footer-col ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            list-style: none !important;
+            padding: 0 !important;
+            padding-left: 0 !important;
+            margin: 0 !important;
+            margin-left: 0 !important;
         }
 
         .footer-col ul li {
             margin-bottom: 8px;
             font-size: 14px;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            list-style-type: none !important;
         }
 
         .footer-col ul li a {
