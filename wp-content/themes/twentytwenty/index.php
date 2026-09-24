@@ -1,4 +1,4 @@
-<?php
+<?>
 /**
  * The main template file (index.php)
  * Bố cục 3 cột theo đúng sơ đồ thiết kế:
@@ -426,7 +426,7 @@ get_header();
             <div class="widget-striped-bar"></div>
             <div class="categories-white-box">
                 <ul>
-                    <?php
+                    <?>
                     $archives_list = wp_get_archives(array(
                         'type' => 'monthly',
                         'format' => 'html',
@@ -454,8 +454,8 @@ get_header();
 
     <!-- CỘT Ở GIỮA (Content - 2) -->
     <div class="main-content-column center-content-column">
-        <?php if (have_posts()): ?>
-            <?php while (have_posts()):
+        <?> if (have_posts()): ?>
+            <?> while (have_posts()):
                 the_post();
                 $day = get_the_date('d');
                 $month = get_the_date('m');
@@ -463,52 +463,52 @@ get_header();
                 $fallback_link = add_query_arg('p', $post_id, home_url('/'));
                 ?>
 
-                <article class="post-card-item" onclick="openProductModal(<?php echo $post_id; ?>);">
+                <article class="post-card-item" onclick="openProductModal(<?> echo $post_id; ?>);">
                     <!-- 1. Cột Ngày / Tháng -->
                     <div class="post-card-date">
-                        <div class="day-num"><?php echo $day; ?></div>
-                        <div class="month-text">THÁNG <?php echo $month; ?></div>
+                        <div class="day-num"><?> echo $day; ?></div>
+                        <div class="month-text">THÁNG <?> echo $month; ?></div>
                     </div>
 
                     <!-- 2. Cột Tiêu đề & Mô tả ngắn -->
                     <div class="post-card-info">
                         <h2 class="post-card-title">
-                            <a href="<?php echo esc_url($fallback_link); ?>"
-                                onclick="event.stopPropagation();"><?php the_title(); ?></a>
+                            <a href="<?> echo esc_url($fallback_link); ?>"
+                                onclick="event.stopPropagation();"><?> the_title(); ?></a>
                         </h2>
                         <p class="post-card-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 25, ' [...]'); ?>
+                            <?> echo wp_trim_words(get_the_excerpt(), 25, ' [...]'); ?>
                         </p>
                     </div>
 
                     <!-- Dữ liệu phục vụ Popup Modal -->
-                    <div id="product-data-<?php echo $post_id; ?>" style="display: none;">
-                        <template class="modal-title-tpl"><?php the_title(); ?></template>
+                    <div id="product-data-<?> echo $post_id; ?>" style="display: none;">
+                        <template class="modal-title-tpl"><?> the_title(); ?></template>
                         <template class="modal-content-tpl">
                             <div class="product-modal-meta" style="margin-bottom: 18px; color: #64748b; font-size: 13.5px;">
-                                <span><strong>Ngày đăng:</strong> <?php echo get_the_date('d/m/Y'); ?></span>
-                                <?php if (has_category()): ?>
+                                <span><strong>Ngày đăng:</strong> <?> echo get_the_date('d/m/Y'); ?></span>
+                                <?> if (has_category()): ?>
                                     <span style="margin-left: 15px;"><strong>Chuyên mục:</strong>
-                                        <?php the_category(', '); ?></span>
-                                <?php endif; ?>
+                                        <?> the_category(', '); ?></span>
+                                <?> endif; ?>
                             </div>
-                            <?php if (has_post_thumbnail()): ?>
+                            <?> if (has_post_thumbnail()): ?>
                                 <div style="text-align: center; margin-bottom: 20px;">
-                                    <?php the_post_thumbnail('medium_large', array('style' => 'max-width: 100%; height: auto; border-radius: 8px;')); ?>
+                                    <?> the_post_thumbnail('medium_large', array('style' => 'max-width: 100%; height: auto; border-radius: 8px;')); ?>
                                 </div>
-                            <?php endif; ?>
+                            <?> endif; ?>
                             <div>
-                                <?php the_content(); ?>
+                                <?> the_content(); ?>
                             </div>
                         </template>
-                        <template class="modal-link-tpl"><?php echo esc_url($fallback_link); ?></template>
+                        <template class="modal-link-tpl"><?> echo esc_url($fallback_link); ?></template>
                     </div>
                 </article>
 
-            <?php endwhile; ?>
-        <?php else: ?>
+            <?> endwhile; ?>
+        <?> else: ?>
             <p>Chưa có bài viết nào trong Database.</p>
-        <?php endif; ?>
+        <?> endif; ?>
     </div>
 
     <!-- CỘT BÊN PHẢI (Comments - 12) -->
@@ -519,7 +519,7 @@ get_header();
 
             <div class="comments-white-box">
                 <ul>
-                    <?php
+                    <?>
                     $recent_comments = get_comments(array(
                         'number' => 5,
                         'status' => 'approve',
@@ -532,20 +532,20 @@ get_header();
                             $comment_post = get_post($comment->comment_post_ID);
                             ?>
                             <li class="recent-comment-item">
-                                <?php if ($comment_post): ?>
+                                <?> if ($comment_post): ?>
                                     <div class="comment-content">
-                                        <a class="comment-post-link" href="<?php echo esc_url(get_comment_link($comment)); ?>">
-                                            <?php echo esc_html(wp_trim_words($comment->comment_content, 12, '...')); ?>
+                                        <a class="comment-post-link" href="<?> echo esc_url(get_comment_link($comment)); ?>">
+                                            <?> echo esc_html(wp_trim_words($comment->comment_content, 12, '...')); ?>
                                         </a>
                                     </div>
-                                <?php endif; ?>
+                                <?> endif; ?>
                             </li>
-                            <?php
+                            <?>
                         endforeach;
                     else:
                         ?>
                         <li>Chưa có bình luận nào.</li>
-                    <?php endif; ?>
+                    <?> endif; ?>
                 </ul>
             </div>
         </aside>
@@ -610,4 +610,4 @@ get_header();
     });
 </script>
 
-<?php get_footer(); ?>
+<?> get_footer(); ?>
