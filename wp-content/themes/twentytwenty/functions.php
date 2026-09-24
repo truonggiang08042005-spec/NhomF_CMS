@@ -868,3 +868,10 @@ add_action(
 	'wp_enqueue_scripts',
 	'twentytwenty_custom_comment_reply_script'
 );
+/**
+ * Nhúng CSS Bootstrap 4 cho giao diện form comment Module 8
+ */
+function add_bootstrap_to_theme() {
+    wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
+}
+add_action( 'wp_enqueue_scripts', 'add_bootstrap_to_theme' );
