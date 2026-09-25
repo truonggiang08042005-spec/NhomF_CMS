@@ -89,14 +89,19 @@
         }
     </style>
 
-    <!-- 1. GỌI WIDGET_TEST_4 HIỂN THỊ PHÍA TRÊN FOOTER (ĐÃ ĐƯA LÊN ĐÂY) -->
-    <div class="site-above-footer-wrapper" style="max-width: 1200px; margin: 20px auto; padding: 0 2rem;">
-        <?php 
-        if ( function_exists('the_widget') ) {
-            the_widget('Widget_Test_4');
-        }
-        ?>
-    </div>
+    <!-- 1. GỌI WIDGET_TEST_4 HIỂN THỊ PHÍA TRÊN FOOTER (TRANG CHỦ, TRANG DANH SÁCH, TRANG CHI TIẾT) -->
+    <?php 
+    // Điều kiện hiển thị đúng yêu cầu: Trang chủ, Trang danh sách (Archive/Search/Category/Tag/Date), Trang chi tiết (Single)
+    if ( is_home() || is_front_page() || is_archive() || is_search() || is_category() || is_tag() || is_date() || is_author() || is_single() || is_singular('post') ) : 
+    ?>
+        <div class="site-above-footer-wrapper" style="max-width: 1200px; margin: 30px auto 35px auto; padding: 0 15px; box-sizing: border-box;">
+            <?php 
+            if ( function_exists('the_widget') ) {
+                the_widget('Widget_Test_4');
+            }
+            ?>
+        </div>
+    <?php endif; ?>
 
     <!-- 2. KHU VỰC FOOTER CHÍNH -->
     <footer class="custom-site-footer">
