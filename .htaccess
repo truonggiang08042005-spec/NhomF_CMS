@@ -1,10 +1,10 @@
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /NhomF_CMS.git/
+RewriteBase /NhomF_CMS/
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /NhomF_CMS.git/index.php [L]
+RewriteRule . /NhomF_CMS/index.php [L]
 </IfModule>
 # END WordPress

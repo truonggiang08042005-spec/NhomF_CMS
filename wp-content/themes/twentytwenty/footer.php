@@ -89,12 +89,22 @@
         }
     </style>
 
+    <!-- 1. GỌI WIDGET_TEST_4 HIỂN THỊ PHÍA TRÊN FOOTER (ĐÃ ĐƯA LÊN ĐÂY) -->
+    <div class="site-above-footer-wrapper" style="max-width: 1200px; margin: 20px auto; padding: 0 2rem;">
+        <?php 
+        if ( function_exists('the_widget') ) {
+            the_widget('Widget_Test_4');
+        }
+        ?>
+    </div>
+
+    <!-- 2. KHU VỰC FOOTER CHÍNH -->
     <footer class="custom-site-footer">
         <div class="footer-container">
             
             <div class="footer-grid">
                 
-                <!-- Cột 1: Thay Quick links giả bằng Bài viết mới (Recent Posts) trong DB -->
+                <!-- Cột 1: Bài viết mới (Recent Posts) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Bài viết mới</div>
                     <ul>
@@ -105,7 +115,8 @@
                         <?php endforeach; wp_reset_query(); ?>
                     </ul>
                 </div>
-<!-- Cột 2: Thay Quick links giả bằng Chuyên mục (Categories) trong DB -->
+
+                <!-- Cột 2: Chuyên mục (Categories) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Chuyên mục</div>
                     <ul>
@@ -117,7 +128,7 @@
                     </ul>
                 </div>
 
-                <!-- Cột 3: Thay Quick links giả bằng Bình luận mới (Comments) trong DB -->
+                <!-- Cột 3: Bình luận mới (Comments) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Bình luận mới</div>
                     <ul>
