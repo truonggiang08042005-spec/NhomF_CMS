@@ -6823,7 +6823,7 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY - MẶC ĐỊNH ẨN
-
+*/
 .custom-comments-wrapper .custom-comment-replies {
 	width: 100%;
 	margin: 0 0 10px 0;
@@ -6849,7 +6849,7 @@ a.to-the-top>* {
 
 /* =========================================================
    NÚT XEM X TRẢ LỜI
-
+*/
 .custom-comments-wrapper .custom-comment-replies-toggle {
 	display: block !important;
 
@@ -6912,7 +6912,7 @@ a.to-the-top>* {
 
 /* =========================================================
    COMMENT GỐC
-
+*/
 .custom-comment-depth-1 {
 	margin-left: 0;
 }
@@ -6936,7 +6936,7 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY CẤP 1
-
+*/
 .custom-comment-depth-2 {
 	position: relative;
 
@@ -6965,7 +6965,7 @@ a.to-the-top>* {
 
 /* =========================================================
    REPLY CẤP 2
-
+*/
 .custom-comment-depth-3 {
 	position: relative;
 
@@ -6994,7 +6994,7 @@ a.to-the-top>* {
 
 /* =========================================================
    AVATAR REPLY
-
+*/
 .custom-comment-depth-2 .custom-comment-avatar,
 .custom-comment-depth-3 .custom-comment-avatar {
 	flex: 0 0 40px;
@@ -7013,7 +7013,7 @@ a.to-the-top>* {
 
 /* =========================================================
    TÊN REPLY
-
+*/
 .custom-comment-depth-2 .custom-comment-author {
 	font-size: 13px;
 }
@@ -7026,7 +7026,7 @@ a.to-the-top>* {
 
 /* =========================================================
    NỘI DUNG REPLY
-
+*/
 .custom-comment-depth-2 .custom-comment-content {
 	font-size: 12px;
 }
@@ -7039,7 +7039,7 @@ a.to-the-top>* {
 
 /* =========================================================
    KHUNG REPLY CẤP 1
-
+*/
 .custom-comment-depth-2 .custom-comment-main {
 	border-color: #e1e1e1;
 }
@@ -7047,7 +7047,7 @@ a.to-the-top>* {
 
 /* =========================================================
    KHUNG REPLY CẤP 2
-
+*/
 .custom-comment-depth-3 .custom-comment-main {
 	border-color: #e8e8e8;
 }
@@ -7055,7 +7055,7 @@ a.to-the-top>* {
 
 /* =========================================================
    NÚT XEM REPLY
-
+*/
 .custom-comment-replies-toggle {
 	margin-left: 0 !important;
 }
@@ -7063,7 +7063,7 @@ a.to-the-top>* {
 
 /* =========================================================
    MOBILE
-
+*/
 @media (max-width: 600px) {
 
 	/*
