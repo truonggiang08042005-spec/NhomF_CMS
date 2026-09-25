@@ -875,395 +875,43 @@ function add_bootstrap_to_theme() {
     wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
 }
 add_action( 'wp_enqueue_scripts', 'add_bootstrap_to_theme' );
-// --- BẮT ĐẦU: BỘ ĐẾM LƯỢT XEM (POST VIEWS) ĐỂ CHỨNG MINH BÀI VIẾT "ĐỌC NHIỀU" ---
-function set_post_views($postID) {
-    $count_key = 'post_views_count';
-    $count = get_post_meta($postID, $count_key, true);
-    if ($count == '') {
-        $count = rand(50, 150); // Khởi tạo số lượt xem ban đầu ngẫu nhiên
-        delete_post_meta($postID, $count_key);
-        add_post_meta($postID, $count_key, (string)$count);
-    } else {
-        $count = (int)$count + 1;
-        update_post_meta($postID, $count_key, (string)$count);
-    }
-}
-
-function get_post_views($postID) {
-    $count_key = 'post_views_count';
-    $count = get_post_meta($postID, $count_key, true);
-    if ($count == '') {
-        return 0;
-    }
-    return (int)$count;
-}
-
-// Tự động đếm lượt xem khi người dùng xem bài viết chi tiết
-function track_post_views($post_id) {
-    if ( ! is_single() ) return;
-    if ( empty($post_id) ) {
-        global $post;
-        $post_id = isset($post->ID) ? $post->ID : 0;
-    }
-    if ($post_id > 0) {
-        set_post_views($post_id);
-    }
-}
-add_action( 'wp_head', 'track_post_views' );
-
-// 2. Thêm cột "Lượt xem" trực tiếp vào trang quản trị WP-Admin -> Bài viết (Posts)
-function add_post_views_column( $columns ) {
-    $columns['post_views'] = '👁️ Lượt xem';
-    return $columns;
-}
-add_filter( 'manage_posts_columns', 'add_post_views_column' );
-
-function show_post_views_column_data( $column, $post_id ) {
-    if ( $column === 'post_views' ) {
-        $views = get_post_views( $post_id );
-        echo '<span style="color:#0284c7; font-weight:700;">' . number_format($views) . '</span> lượt đọc';
-    }
-}
-add_action( 'manage_posts_custom_column', 'show_post_views_column_data', 10, 2 );
-
-function make_post_views_column_sortable( $columns ) {
-    $columns['post_views'] = 'post_views';
-    return $columns;
-}
-add_filter( 'manage_edit-post_sortable_columns', 'make_post_views_column_sortable' );
-
-// --- TẠO WIDGET_TEST_4 CHO BÀI TẬP CMS ---
+// --- BẮT ĐẦU: TẠO WIDGET_TEST_4 CHO BÀI TẬP CMS ---
 class Widget_Test_4 extends WP_Widget {
     function __construct() {
         parent::__construct(
             'widget_test_4', // ID định danh của widget
             'Widget Test 4 (Bài tập CMS)', // Tên hiển thị khi kéo thả trong Admin
-            array( 'description' => __( 'Widget Tin mới / Đọc nhiều hiển thị phía trên footer - Random nội dung', 'text_domain' ) )
+            array( 'description' => __( 'Widget hiển thị phía trên footer - Random nội dung', 'text_domain' ) )
         );
     }
 
     public function widget( $args, $instance ) {
         echo $args['before_widget'];
         
-        $unique_id = 'widget_test_4_' . uniqid();
+        // Giao diện HTML của widget (Bạn có thể sửa màu sắc/class bên dưới để không bị giống bạn khác)
+        echo '<div class="my-widget-test-4" style="background: #f0f4f8; padding: 20px; margin: 15px 0; border-radius: 8px; border: 1px dashed #0073aa;">';
+        echo '<h4 style="color: #0073aa; margin-top: 0;">Widget Test 4 - Nội dung ngẫu nhiên</h4>';
         
-        // 1. Tab "Tin mới": Lấy theo ngày đăng mới nhất (date DESC)
-        $recent_db_posts = get_posts( array(
-            'post_type'      => 'post',
-            'post_status'    => 'publish',
-            'posts_per_page' => 10,
-            'orderby'        => 'date',
-            'order'          => 'DESC'
-        ) );
-
-        // 2. Tab "Đọc nhiều": Lấy theo số lượt đọc cao nhất (post_views_count DESC) và số bình luận
-        // Đảm bảo các bài viết trong DB đều có trường lượt đọc để chứng minh
-        if ( ! empty( $recent_db_posts ) ) {
-            foreach ( $recent_db_posts as $p ) {
-                $v = get_post_meta($p->ID, 'post_views_count', true);
-                if ($v == '') {
-                    update_post_meta($p->ID, 'post_views_count', (string)rand(30, 250));
-                }
+        // Lấy danh sách bài viết ngẫu nhiên (đảm bảo không sinh viên nào giống nhau về thứ tự hiển thị)
+        $random_posts = new WP_Query(array(
+            'posts_per_page' => 3, // Hiển thị 3 bài viết
+            'orderby'        => 'rand' // Sắp xếp ngẫu nhiên
+        ));
+        
+        if ( $random_posts->have_posts() ) {
+            echo '<ul style="padding-left: 20px; margin-bottom: 0;">';
+            while ( $random_posts->have_posts() ) {
+                $random_posts->the_post();
+                echo '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
             }
+            echo '</ul>';
+            wp_reset_postdata();
+        } else {
+            echo '<p>Chưa có bài viết nào.</p>';
         }
-
-        $popular_db_posts = get_posts( array(
-            'post_type'      => 'post',
-            'post_status'    => 'publish',
-            'posts_per_page' => 10,
-            'meta_key'       => 'post_views_count',
-            'orderby'        => 'meta_value_num comment_count',
-            'order'          => 'DESC'
-        ) );
-
-        $news_list_1 = array(); // Tab "Tin mới"
-        $news_list_2 = array(); // Tab "Đọc nhiều"
-
-        if ( ! empty( $recent_db_posts ) ) {
-            foreach ( $recent_db_posts as $p ) {
-                $views = get_post_views( $p->ID );
-                $news_list_1[] = array(
-                    'title' => $p->post_title,
-                    'link'  => get_permalink( $p->ID ),
-                    'views' => $views,
-                );
-            }
-        }
-
-        if ( ! empty( $popular_db_posts ) ) {
-            foreach ( $popular_db_posts as $p ) {
-                $views = get_post_views( $p->ID );
-                $news_list_2[] = array(
-                    'title' => $p->post_title,
-                    'link'  => get_permalink( $p->ID ),
-                    'views' => $views,
-                );
-            }
-        }
-
-        // Dữ liệu mẫu bổ sung để danh sách luôn đầy đặn (6-8 tin) và có thanh cuộn cuộn được chuẩn theo ảnh mẫu
-        $fallback_titles = array(
-            'Việt Nam nhất quán coi trọng quan hệ với Canada',
-            'Siết an toàn thực phẩm, bảo vệ sức khỏe người dân',
-            'Lãnh đạo Đảng, Nhà nước, MTTQ tặng quà trẻ em dịp tết Trung thu',
-            'Tin tức đặc biệt trên báo in Thanh Niên ' . date('d.m.Y'),
-            'Nghi phạm Ukraine đâm dao tại tu viện ở Ba Lan, một linh mục thiệt mạng',
-            'Việt Nam - Canada xây dựng hình mẫu hợp tác đôi bờ Thái Bình Dương',
-            'Thúc đẩy tăng trưởng kinh tế số và chuyển đổi xanh bền vững',
-            'Dự kiến trình Chính phủ quy định hỗ trợ người lao động cuối năm',
-            'Khám phá công nghệ AI mới và giải pháp bảo mật dữ liệu',
-            'Thị trường công nghệ sôi động những tháng cuối năm'
-        );
-
-        // Bổ sung vào danh sách 1 (Tin mới) nếu ít bài
-        if ( count( $news_list_1 ) < 6 ) {
-            foreach ( $fallback_titles as $fb_title ) {
-                $news_list_1[] = array(
-                    'title' => $fb_title,
-                    'link'  => home_url( '/' )
-                );
-            }
-        }
-
-        // Bổ sung vào danh sách 2 (Đọc nhiều) nếu ít bài - giữ nguyên thứ tự bài đọc nhiều nhất (post_views_count DESC) ở trên cùng
-        if ( count( $news_list_2 ) < 6 ) {
-            foreach ( $fallback_titles as $fb_title ) {
-                $news_list_2[] = array(
-                    'title' => $fb_title,
-                    'link'  => home_url( '/' )
-                );
-            }
-        }
-        ?>
-
-        <style>
-            /* Khung tổng thể Widget Test 4 */
-            .widget-test-4-container {
-                max-width: 440px;
-                margin: 0 auto;
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                border-radius: 6px;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                overflow: hidden;
-            }
-
-            /* Thanh Tab: "Tin mới" | "Đọc nhiều" */
-            .widget-test-4-tabs {
-                display: flex;
-                border-bottom: 1px solid #e5e7eb;
-                background-color: #ffffff;
-            }
-
-            .widget-test-4-tab-btn {
-                flex: 1;
-                padding: 13px 10px;
-                text-align: center;
-                font-size: 15px;
-                font-weight: 700;
-                color: #64748b;
-                cursor: pointer;
-                border-bottom: 2.5px solid transparent;
-                margin-bottom: -1px;
-                transition: all 0.2s ease;
-                user-select: none;
-                background: none;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-            }
-
-            .widget-test-4-tab-btn.active {
-                color: #0f172a;
-                border-bottom-color: #0088cc; /* Gạch chân màu xanh dương đậm chuẩn ảnh */
-            }
-
-            .widget-test-4-tab-btn:hover:not(.active) {
-                color: #334155;
-                background-color: #f8fafc;
-            }
-
-            /* Khung nội dung danh sách có thanh cuộn */
-            .widget-test-4-body {
-                position: relative;
-            }
-
-            .widget-test-4-list {
-                display: none;
-                max-height: 310px;
-                overflow-y: scroll;
-                padding: 4px 0;
-                margin: 0;
-                list-style: none;
-            }
-
-            .widget-test-4-list.active {
-                display: block;
-            }
-
-            /* Tùy chỉnh thanh cuộn màu xám giống ảnh mẫu */
-            .widget-test-4-list::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            .widget-test-4-list::-webkit-scrollbar-track {
-                background: #f8fafc;
-            }
-
-            .widget-test-4-list::-webkit-scrollbar-thumb {
-                background: #94a3b8;
-                border-radius: 3px;
-            }
-
-            .widget-test-4-list::-webkit-scrollbar-thumb:hover {
-                background: #64748b;
-            }
-
-            /* Mỗi hàng bài viết */
-            .widget-test-4-item {
-                display: flex;
-                align-items: flex-start;
-                padding: 13px 18px;
-                border-bottom: 1px solid #f1f5f9;
-                transition: background-color 0.15s ease;
-            }
-
-            .widget-test-4-item:last-child {
-                border-bottom: none;
-            }
-
-            .widget-test-4-item:hover {
-                background-color: #f8fafc;
-            }
-
-            /* Icon hạt tròn nhỏ rỗng phía trước theo ảnh mẫu */
-            .widget-test-4-bullet {
-                display: inline-block;
-                width: 6px;
-                height: 6px;
-                min-width: 6px;
-                border: 1.5px solid #94a3b8;
-                border-radius: 50%;
-                margin-right: 12px;
-                margin-top: 6px;
-                flex-shrink: 0;
-            }
-
-            .widget-test-4-title {
-                flex: 1;
-                font-size: 14px;
-                line-height: 1.45;
-                color: #1e293b;
-                text-decoration: none;
-                font-weight: 400;
-                transition: color 0.15s ease;
-            }
-
-            .widget-test-4-title:hover {
-                color: #0088cc;
-            }
-
-            /* Nút "Xem thêm" ở chân widget */
-            .widget-test-4-footer {
-                padding: 10px 14px 14px 14px;
-                border-top: 1px solid #f1f5f9;
-                background-color: #ffffff;
-            }
-
-            .widget-test-4-btn-more {
-                display: block;
-                width: 100%;
-                padding: 9px 0;
-                background-color: #f8fafc;
-                border: 1px solid #e2e8f0;
-                border-radius: 5px;
-                color: #64748b;
-                font-size: 13.5px;
-                font-weight: 600;
-                text-align: center;
-                text-decoration: none;
-                transition: all 0.2s ease;
-                box-sizing: border-box;
-            }
-
-            .widget-test-4-btn-more:hover {
-                background-color: #f1f5f9;
-                color: #1e293b;
-                border-color: #cbd5e1;
-            }
-        </style>
-
-        <div class="widget-test-4-container" id="<?php echo esc_attr( $unique_id ); ?>">
-            <!-- Thanh 2 Tabs: Tin mới | Đọc nhiều -->
-            <div class="widget-test-4-tabs">
-                <button type="button" class="widget-test-4-tab-btn active" data-tab="tin-moi">Tin mới</button>
-                <button type="button" class="widget-test-4-tab-btn" data-tab="doc-nhieu">Đọc nhiều</button>
-            </div>
-
-            <!-- Khung danh sách bài viết -->
-            <div class="widget-test-4-body">
-                <!-- Tab 1: Tin mới -->
-                <ul class="widget-test-4-list active" id="<?php echo esc_attr( $unique_id ); ?>_tin_moi">
-                    <?php foreach ( $news_list_1 as $item ) : ?>
-                        <li class="widget-test-4-item">
-                            <span class="widget-test-4-bullet"></span>
-                            <a href="<?php echo esc_url( $item['link'] ); ?>" class="widget-test-4-title">
-                                <?php echo esc_html( $item['title'] ); ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-
-                <!-- Tab 2: Đọc nhiều (Random không SV nào giống nhau) -->
-                <ul class="widget-test-4-list" id="<?php echo esc_attr( $unique_id ); ?>_doc_nhieu">
-                    <?php foreach ( $news_list_2 as $item ) : ?>
-                        <li class="widget-test-4-item">
-                            <span class="widget-test-4-bullet"></span>
-                            <a href="<?php echo esc_url( $item['link'] ); ?>" class="widget-test-4-title">
-                                <?php echo esc_html( $item['title'] ); ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-
-            <!-- Nút Xem thêm -->
-            <div class="widget-test-4-footer">
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="widget-test-4-btn-more">
-                    Xem thêm
-                </a>
-            </div>
-        </div>
-
-        <script>
-        (function() {
-            var container = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
-            if (!container) return;
-
-            var tabBtns = container.querySelectorAll('.widget-test-4-tab-btn');
-            var listTinMoi = document.getElementById('<?php echo esc_js( $unique_id ); ?>_tin_moi');
-            var listDocNhieu = document.getElementById('<?php echo esc_js( $unique_id ); ?>_doc_nhieu');
-
-            tabBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    tabBtns.forEach(function(b) { b.classList.remove('active'); });
-                    btn.classList.add('active');
-
-                    var tabType = btn.getAttribute('data-tab');
-                    if (tabType === 'tin-moi') {
-                        if (listTinMoi) listTinMoi.classList.add('active');
-                        if (listDocNhieu) listDocNhieu.classList.remove('active');
-                    } else {
-                        if (listDocNhieu) listDocNhieu.classList.add('active');
-                        if (listTinMoi) listTinMoi.classList.remove('active');
-                    }
-                });
-            });
-        })();
-        </script>
-
-        <?php
+        
+        echo '</div>';
+        
         echo $args['after_widget'];
     }
 }
