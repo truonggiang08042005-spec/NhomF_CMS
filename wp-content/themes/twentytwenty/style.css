@@ -6587,72 +6587,75 @@ a.to-the-top>* {
 		width: calc(100% - 8rem);
 	}
 }
+
 /* ==================================================== */
 /* CSS MODULE 7: POST NAVIGATION (PREV/NEXT)            */
 /* ==================================================== */
 
 .custom-post-navigation {
-    max-width: 800px;
-    margin: 40px auto;
+	max-width: 800px;
+	margin: 40px auto;
 }
 
 .custom-post-navigation .nav-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 25px;
 }
 
 /* Bố cục chứa ngày tháng */
 .custom-post-navigation .nav-date {
-    display: flex;
-    align-items: center; /* Căn giữa dọc để Năm nằm ngang vạch chia */
-    margin-right: 30px;
-    font-family: serif; 
-    color: #333;
-    min-width: 60px;
+	display: flex;
+	align-items: center;
+	/* Căn giữa dọc để Năm nằm ngang vạch chia */
+	margin-right: 30px;
+	font-family: serif;
+	color: #333;
+	min-width: 60px;
 }
 
 /* Khối Ngày và Tháng xếp dọc */
 .custom-post-navigation .date-fraction {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 5px; /* Khoảng cách với Năm */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 5px;
+	/* Khoảng cách với Năm */
 }
 
 /* Định dạng chữ số thẳng đứng, không in nghiêng */
 .custom-post-navigation .date-day,
 .custom-post-navigation .date-month {
-    font-size: 20px;
-    line-height: 1;
-    font-style: normal; 
+	font-size: 20px;
+	line-height: 1;
+	font-style: normal;
 }
 
 /* Vạch kẻ ngang phân cách Ngày và Tháng */
 .custom-post-navigation .date-divider {
-    width: 25px;
-    border: none;
-    border-top: 1px solid #333;
-    margin: 4px 0;
+	width: 25px;
+	border: none;
+	border-top: 1px solid #333;
+	margin: 4px 0;
 }
 
 /* Định dạng Năm nằm ngang hàng */
 .custom-post-navigation .date-year {
-    font-size: 20px;
-    font-style: normal;
-    line-height: 1;
+	font-size: 20px;
+	font-style: normal;
+	line-height: 1;
 }
 
 /* Tiêu đề bài viết */
 .custom-post-navigation .nav-title a {
-    font-size: 18px;
-    color: #333;
-    text-decoration: none;
-    font-weight: 300;
+	font-size: 18px;
+	color: #333;
+	text-decoration: none;
+	font-weight: 300;
 }
 
 .custom-post-navigation .nav-title a:hover {
-    color: #000;
+	color: #000;
 }
 
 /* COMMENTS TRONG CHI TIET */
@@ -7070,228 +7073,631 @@ a.to-the-top>* {
 	 * Reply cấp 1:
 	 * giảm độ thụt trên mobile.
 	 */
-	.custom-comment-replies-list {
-		margin-left: 18px;
-		padding-left: 12px;
+.custom-comment-replies-list {
+	margin-left: 18px;
+	padding-left: 12px;
 
-		border-left-width: 2px;
-	}
+	border-left-width: 2px;
+}
 
 
-	/*
+/*
 	 * Reply cấp 1
 	 */
-	.custom-comment-depth-2 {
-		margin-left: 0;
-	}
+.custom-comment-depth-2 {
+	margin-left: 0;
+}
 
 
-	/*
+/*
 	 * Reply cấp 2
 	 */
-	.custom-comment-depth-3 {
-		margin-left: 15px;
-	}
+.custom-comment-depth-3 {
+	margin-left: 15px;
+}
 
 
-	/*
+/*
 	 * Đường nối cấp 1
 	 */
-	.custom-comment-depth-2::before {
-		left: -12px;
-		width: 10px;
-	}
+.custom-comment-depth-2::before {
+	left: -12px;
+	width: 10px;
+}
 
 
-	/*
+/*
 	 * Đường nối cấp 2
 	 */
-	.custom-comment-depth-3::before {
-		left: -12px;
-		width: 10px;
-	}
+.custom-comment-depth-3::before {
+	left: -12px;
+	width: 10px;
+}
 
 
-	/*
+/*
 	 * Avatar nhỏ hơn trên mobile
 	 */
-	.custom-comment-depth-2 .custom-comment-avatar,
-	.custom-comment-depth-3 .custom-comment-avatar {
-		flex: 0 0 34px;
-		width: 34px;
+.custom-comment-depth-2 .custom-comment-avatar,
+.custom-comment-depth-3 .custom-comment-avatar {
+	flex: 0 0 34px;
+	width: 34px;
 
-		margin-right: 8px;
-	}
-
-
-	.custom-comment-depth-2 .custom-comment-avatar img,
-	.custom-comment-depth-3 .custom-comment-avatar img {
-		width: 34px;
-		height: 34px;
-	}
+	margin-right: 8px;
+}
 
 
-	/*
+.custom-comment-depth-2 .custom-comment-avatar img,
+.custom-comment-depth-3 .custom-comment-avatar img {
+	width: 34px;
+	height: 34px;
+}
+
+
+/*
 	 * Font reply
 	 */
-	.custom-comment-depth-2 .custom-comment-author,
-	.custom-comment-depth-3 .custom-comment-author {
-		font-size: 12px;
-	}
+.custom-comment-depth-2 .custom-comment-author,
+.custom-comment-depth-3 .custom-comment-author {
+	font-size: 12px;
+}
 
 
-	.custom-comment-depth-2 .custom-comment-content,
-	.custom-comment-depth-3 .custom-comment-content {
-		font-size: 11px;
-	}
+.custom-comment-depth-2 .custom-comment-content,
+.custom-comment-depth-3 .custom-comment-content {
+	font-size: 11px;
+}
 
 
-	/*
+/*
 	 * Nút xem reply
 	 */
-	.custom-comment-replies-toggle {
-		font-size: 10px !important;
-		margin-left: 0 !important;
-	}
+.custom-comment-replies-toggle {
+	font-size: 10px !important;
+	margin-left: 0 !important;
+}
 
 }
 
 /* Align list item arrows (») vertically with title left border bar (|) */
-.footer-col ul, .sidebar-box ul, .widget ul, .categories-white-box ul, .comments-white-box ul {
+.footer-col ul,
+.sidebar-box ul,
+.widget ul,
+.categories-white-box ul,
+.comments-white-box ul {
 	padding-left: 0 !important;
 	margin-left: 0 !important;
 	list-style: none !important;
 }
 
-.footer-col ul li, .sidebar-box ul li, .widget ul li, .categories-white-box ul li, .comments-white-box ul li {
+.footer-col ul li,
+.sidebar-box ul li,
+.widget ul li,
+.categories-white-box ul li,
+.comments-white-box ul li {
 	padding-left: 0 !important;
 	margin-left: 0 !important;
 }
+
 /* Chỉnh lại độ rộng và bo góc form bình luận */
 #respond .card {
-    margin-bottom: 30px;
-    border-radius: 0; 
+	margin-bottom: 30px;
+	border-radius: 0;
 }
 
 /* Xử lý ép nút Share sang phải bằng Flexbox */
 #respond .form-submit,
 #respond .text-right {
-    display: flex !important;
-    width: 100% !important;
-    justify-content: flex-end !important; /* Canh lề phải cho container */
+	display: flex !important;
+	width: 100% !important;
+	justify-content: flex-end !important;
+	/* Canh lề phải cho container */
 }
 
 /* Ép trực tiếp nút bấm dạt sát vào mép phải */
 #respond button.btn-primary,
 #respond .form-submit button[type="submit"] {
-    margin-left: auto !important; 
+	margin-left: auto !important;
 }
+
 /* Tăng kích thước chữ của tab "Make a Post" */
 #respond .nav-tabs .nav-link {
-    font-size: 1.1rem; 
-    padding: 12px 20px; 
+	font-size: 1.1rem;
+	padding: 12px 20px;
 }
 
 /* Tăng kích thước ô nhập liệu */
 #respond .form-control {
-    font-size: 1.1rem; /* Chữ gõ vào to hơn */
-    min-height: 120px; /* Khung nhập liệu cao hơn */
+	font-size: 1.1rem;
+	/* Chữ gõ vào to hơn */
+	min-height: 120px;
+	/* Khung nhập liệu cao hơn */
 }
 
 /* Phóng to nút Share */
 #respond .btn-primary {
-    font-size: 1.1rem; 
-    padding: 10px 30px; /* Tăng khoảng cách trong nút để nút bự ra */
+	font-size: 1.1rem;
+	padding: 10px 30px;
+	/* Tăng khoảng cách trong nút để nút bự ra */
 }
 
 /* Tùy chọn: Nếu muốn form rộng ra hai bên (phá vỡ giới hạn của theme Twenty Twenty) */
 .comments-inner.section-inner.thin {
-    max-width: 800px !important; /* Thay đổi số này (ví dụ 900px, 1000px) để form rộng hẹp tùy ý */
+	max-width: 800px !important;
+	/* Thay đổi số này (ví dụ 900px, 1000px) để form rộng hẹp tùy ý */
 }
+
 /* Loại bỏ khoảng trắng thừa bên trong form */
 #respond .card {
-    padding: 0 !important; /* Xóa khoảng trống bị độn thêm ở trên và dưới */
-    max-width: 800px; /* Thu hẹp chiều ngang của form (bạn có thể đổi số này) */
-    margin: 0 auto 30px auto; /* Căn giữa form nếu bị thu hẹp */
-    overflow: hidden; /* Giữ cho các góc bo không bị tràn viền */
+	padding: 0 !important;
+	/* Xóa khoảng trống bị độn thêm ở trên và dưới */
+	max-width: 800px;
+	/* Thu hẹp chiều ngang của form (bạn có thể đổi số này) */
+	margin: 0 auto 30px auto;
+	/* Căn giữa form nếu bị thu hẹp */
+	overflow: hidden;
+	/* Giữ cho các góc bo không bị tràn viền */
 }
 
 /* Tinh chỉnh lại khoảng cách bên trong khu vực nhập liệu */
 #respond .card-body {
-    padding: 15px 20px !important; 
+	padding: 15px 20px !important;
 }
 
 /* Xóa margin thừa của nút bấm sinh ra khoảng trắng dưới cùng */
 #respond .form-submit {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
 }
 
 
 
 /* Layout dọc và đường kẻ phân cách */
 .custom-post-navigation {
-    display: flex;
-    flex-direction: column;
-    margin: 40px auto;
-    max-width: 800px; /* Độ rộng form */
-    
+	display: flex;
+	flex-direction: column;
+	margin: 40px auto;
+	max-width: 800px;
+	/* Độ rộng form */
+
 }
 
 .custom-post-navigation .nav-item {
-    display: flex;
-    align-items: center;
-    padding: 20px 0; /* Tạo khoảng trống trên dưới cho mỗi dòng */
-    
-    text-decoration: none !important;
+	display: flex;
+	align-items: center;
+	padding: 20px 0;
+	/* Tạo khoảng trống trên dưới cho mỗi dòng */
+
+	text-decoration: none !important;
 }
 
 /* Khối ngày tháng - Dùng font có chân (Serif) giống hình mẫu */
 .custom-post-navigation .nav-date {
-    display: flex;
-    align-items: center; 
-    margin-right: 40px;
-    margin-left: 20px;
-    font-family: "Times New Roman", Times, serif; 
-    color: #333;
+	display: flex;
+	align-items: center;
+	margin-right: 40px;
+	margin-left: 20px;
+	font-family: "Times New Roman", Times, serif;
+	color: #333;
 }
 
 .custom-post-navigation .date-fraction {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 8px; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 8px;
 }
 
 .custom-post-navigation .date-day,
 .custom-post-navigation .date-month {
-    font-size: 18px;
-    line-height: 1.1;
+	font-size: 18px;
+	line-height: 1.1;
 }
 
 /* Đường gạch ngang của phân số */
 .custom-post-navigation .date-divider {
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: #333;
-    margin: 2px 0;
+	display: block;
+	width: 100%;
+	height: 1px;
+	background-color: #333;
+	margin: 2px 0;
 }
 
 .custom-post-navigation .date-year {
-    font-size: 18px;
-    line-height: 1.1;
+	font-size: 18px;
+	line-height: 1.1;
 }
 
 /* Tiêu đề bài viết - Dùng font mỏng, thanh lịch */
 .custom-post-navigation .nav-title {
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 300; /* Làm chữ mỏng đi giống hệt hình mẫu */
-    color: #444;
-    line-height: 1.4;
+	font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	font-weight: 300;
+	/* Làm chữ mỏng đi giống hệt hình mẫu */
+	color: #444;
+	line-height: 1.4;
 }
 
 .custom-post-navigation .nav-item:hover .nav-title {
-    color: #007bff; /* Đổi màu khi hover */
+	color: #007bff;
+	/* Đổi màu khi hover */
+}
+
+/* =========================================================
+   PHAMLONGVU MODULE #34 - FOOTER
+   ========================================================= */
+
+.phamlongvu-footer-module-34 {
+	max-width: 1200px;
+
+	margin: 20px auto;
+	padding: 0;
+
+	background: #ffffff;
+
+	box-sizing: border-box;
+}
+
+
+/*
+ * Đảm bảo Widget chiếm toàn bộ chiều rộng Footer
+ */
+
+.phamlongvu-footer-module-34 .phamlongvu-module-34 {
+	width: 100%;
+
+	margin: 0;
+	padding: 0;
+}
+
+
+/*
+ * Desktop
+ */
+
+.phamlongvu-footer-module-34 .phamlongvu-module-34-list {
+	width: 100%;
+
+	box-sizing: border-box;
+}
+
+
+/*
+ * Mobile
+ */
+
+@media (max-width: 600px) {
+
+	.phamlongvu-footer-module-34 {
+		width: 100%;
+	}
+
+}
+
+/* =========================================================
+   KHUNG WIDGET
+   ========================================================= */
+
+.phamlongvu-module-34 {
+	width: 100%;
+	background: #ffffff;
+	box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DANH SÁCH 3 BÀI
+   ========================================================= */
+
+.phamlongvu-module-34-list {
+	display: grid;
+
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+
+	gap: 20px;
+
+	padding: 15px;
+
+	background: #ffffff;
+
+	box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TỪNG BÀI VIẾT
+   ========================================================= */
+
+.phamlongvu-module-34-item {
+	min-width: 0;
+
+	margin: 0;
+	padding: 0;
+
+	background: #ffffff;
+}
+
+
+/* =========================================================
+   ẢNH BÀI VIẾT
+   ========================================================= */
+
+.phamlongvu-module-34-image {
+	position: relative;
+
+	display: block;
+
+	width: 100%;
+
+	aspect-ratio: 16 / 9;
+
+	overflow: hidden;
+
+	margin: 0;
+	padding: 0;
+
+	background: #eeeeee;
+
+	border-radius: 3px;
+
+	text-decoration: none;
+
+	line-height: 0;
+}
+
+
+/* =========================================================
+   ẢNH WORDPRESS
+   ========================================================= */
+
+.phamlongvu-module-34-image img,
+.phamlongvu-module-34-thumbnail {
+	display: block !important;
+
+	width: 100% !important;
+	height: 100% !important;
+
+	max-width: none !important;
+
+	min-width: 100%;
+	min-height: 100%;
+
+	margin: 0 !important;
+	padding: 0 !important;
+
+	border: 0 !important;
+
+	object-fit: cover;
+
+	object-position: center center;
+
+	border-radius: 3px;
+
+	transform: scale(1.001);
+
+	transition: transform 0.25s ease;
+}
+
+
+/* =========================================================
+   HOVER ẢNH
+   ========================================================= */
+
+.phamlongvu-module-34-image:hover img {
+	transform: scale(1.03);
+}
+
+
+/* =========================================================
+   TRƯỜNG HỢP KHÔNG CÓ ẢNH
+   ========================================================= */
+
+.phamlongvu-module-34-no-image {
+	position: absolute;
+
+	inset: 0;
+
+	display: flex;
+
+	align-items: center;
+	justify-content: center;
+
+	width: 100%;
+	height: 100%;
+
+	background: #eeeeee;
+
+	color: #999999;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+	line-height: normal;
+}
+
+
+/* =========================================================
+   NỘI DUNG
+   ========================================================= */
+
+.phamlongvu-module-34-content {
+	padding-top: 5px;
+}
+
+
+/* =========================================================
+   TIÊU ĐỀ
+   ========================================================= */
+
+.phamlongvu-module-34-title {
+	margin: 0;
+
+	padding: 0;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 15px;
+
+	font-weight: 400;
+
+	line-height: 1.35;
+
+	min-height: 61px;
+}
+
+
+.phamlongvu-module-34-title a {
+	color: #222222;
+
+	text-decoration: none;
+}
+
+
+.phamlongvu-module-34-title a:hover {
+	color: #222222;
+
+	text-decoration: none;
+}
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.phamlongvu-module-34-meta {
+	display: flex;
+
+	align-items: center;
+
+	margin-top: 5px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 10px;
+
+	line-height: 1;
+}
+
+
+/* =========================================================
+   NGƯỜI ĐĂNG
+   ========================================================= */
+
+.phamlongvu-module-34-author {
+	color: #d71920;
+
+	font-weight: 700;
+}
+
+
+/* =========================================================
+   THỜI GIAN
+   ========================================================= */
+
+.phamlongvu-module-34-time {
+	position: relative;
+
+	margin-left: 8px;
+
+	padding-left: 8px;
+
+	color: #888888;
+}
+
+
+/* =========================================================
+   DẤU CHẤM GIỮA TÊN VÀ THỜI GIAN
+   ========================================================= */
+
+.phamlongvu-module-34-time::before {
+	content: "";
+
+	position: absolute;
+
+	left: 0;
+
+	top: 50%;
+
+	width: 2px;
+	height: 2px;
+
+	margin-top: -1px;
+
+	border-radius: 50%;
+
+	background: #999999;
+}
+
+
+/* =========================================================
+   THÔNG BÁO KHÔNG CÓ BÀI
+   ========================================================= */
+
+.phamlongvu-module-34-empty {
+	margin: 0;
+
+	padding: 15px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 14px;
+
+	color: #777777;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+	.phamlongvu-module-34-list {
+		gap: 15px;
+
+		padding: 12px;
+	}
+
+
+	.phamlongvu-module-34-image {
+		height: 100px;
+
+		aspect-ratio: auto;
+	}
+
+
+	.phamlongvu-module-34-title {
+		font-size: 14px;
+	}
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+	.phamlongvu-module-34-list {
+		grid-template-columns: 1fr;
+
+		gap: 20px;
+	}
+
+
+	.phamlongvu-module-34-image {
+		height: auto;
+
+		aspect-ratio: 16 / 9;
+	}
+
+
+	.phamlongvu-module-34-title {
+		min-height: auto;
+
+		font-size: 16px;
+	}
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Twenty Twenty functions and definitions
  *
@@ -179,6 +180,8 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
 
+
+
 /**
  * Registers block patterns and pattern categories.
  *
@@ -260,11 +263,14 @@ add_action('wp_enqueue_scripts', 'twentytwenty_register_scripts');
 function twentytwenty_skip_link_focus_fix()
 {
 	// The following is minified via `terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
-	?>
+?>
 	<script>
-		/(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", function () {var t, e = location.hash.substring(1); /^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())}, !1);
+		/(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", function() {
+			var t, e = location.hash.substring(1);
+			/^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())
+		}, !1);
 	</script>
-	<?php
+<?php
 }
 
 /**
@@ -357,7 +363,6 @@ function twentytwenty_get_custom_logo($html)
 			}
 
 			$html = preg_replace($search, $replace, $html);
-
 		}
 	}
 
@@ -861,7 +866,6 @@ function twentytwenty_custom_comment_reply_script()
 	) {
 		wp_enqueue_script('comment-reply');
 	}
-
 }
 
 add_action(
@@ -871,54 +875,13 @@ add_action(
 /**
  * Nhúng CSS Bootstrap 4 cho giao diện form comment Module 8
  */
-function add_bootstrap_to_theme() {
-    wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
+function add_bootstrap_to_theme()
+{
+	wp_enqueue_style('bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 }
-add_action( 'wp_enqueue_scripts', 'add_bootstrap_to_theme' );
-// --- BẮT ĐẦU: TẠO WIDGET_TEST_4 CHO BÀI TẬP CMS ---
-class Widget_Test_4 extends WP_Widget {
-    function __construct() {
-        parent::__construct(
-            'widget_test_4', // ID định danh của widget
-            'Widget Test 4 (Bài tập CMS)', // Tên hiển thị khi kéo thả trong Admin
-            array( 'description' => __( 'Widget hiển thị phía trên footer - Random nội dung', 'text_domain' ) )
-        );
-    }
+add_action('wp_enqueue_scripts', 'add_bootstrap_to_theme');
 
-    public function widget( $args, $instance ) {
-        echo $args['before_widget'];
-        
-        // Giao diện HTML của widget (Bạn có thể sửa màu sắc/class bên dưới để không bị giống bạn khác)
-        echo '<div class="my-widget-test-4" style="background: #f0f4f8; padding: 20px; margin: 15px 0; border-radius: 8px; border: 1px dashed #0073aa;">';
-        echo '<h4 style="color: #0073aa; margin-top: 0;">Widget Test 4 - Nội dung ngẫu nhiên</h4>';
-        
-        // Lấy danh sách bài viết ngẫu nhiên (đảm bảo không sinh viên nào giống nhau về thứ tự hiển thị)
-        $random_posts = new WP_Query(array(
-            'posts_per_page' => 3, // Hiển thị 3 bài viết
-            'orderby'        => 'rand' // Sắp xếp ngẫu nhiên
-        ));
-        
-        if ( $random_posts->have_posts() ) {
-            echo '<ul style="padding-left: 20px; margin-bottom: 0;">';
-            while ( $random_posts->have_posts() ) {
-                $random_posts->the_post();
-                echo '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
-            }
-            echo '</ul>';
-            wp_reset_postdata();
-        } else {
-            echo '<p>Chưa có bài viết nào.</p>';
-        }
-        
-        echo '</div>';
-        
-        echo $args['after_widget'];
-    }
-}
-
-// Đăng ký widget với hệ thống WordPress
-function register_widget_test_4() {
-    register_widget( 'Widget_Test_4' );
-}
-add_action( 'widgets_init', 'register_widget_test_4' );
-// --- KẾT THÚC CODE WIDGET ---
+/*
+ * Load Widget Module #34
+ */
+require_once get_template_directory() . '/PhamLongVu-module-34.php';
