@@ -877,14 +877,20 @@ function add_bootstrap_to_theme() {
 add_action( 'wp_enqueue_scripts', 'add_bootstrap_to_theme' );
 // --- BẮT ĐẦU: BỘ ĐẾM LƯỢT XEM (POST VIEWS) ĐỂ CHỨNG MINH BÀI VIẾT "ĐỌC NHIỀU" ---
 function set_post_views($postID) {
+    static $counted_posts = array();
+    if ( empty($postID) || isset($counted_posts[$postID]) ) {
+        return; // Đảm bảo chỉ tăng đúng 1 lần cho mỗi lượt xem
+    }
+    $counted_posts[$postID] = true;
+
     $count_key = 'post_views_count';
     $count = get_post_meta($postID, $count_key, true);
     if ($count == '') {
-        $count = rand(50, 150); // Khởi tạo số lượt xem ban đầu ngẫu nhiên
+        $count = rand(50, 150); // Khởi tạo số lượt xem ban đầu
         delete_post_meta($postID, $count_key);
         add_post_meta($postID, $count_key, (string)$count);
     } else {
-        $count = (int)$count + 1;
+        $count = (int)$count + 1; // Chỉ tăng đúng 1 đơn vị
         update_post_meta($postID, $count_key, (string)$count);
     }
 }
