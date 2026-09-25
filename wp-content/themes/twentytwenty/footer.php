@@ -38,14 +38,19 @@
         }
 
         .footer-col ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            list-style: none !important;
+            padding: 0 !important;
+            padding-left: 0 !important;
+            margin: 0 !important;
+            margin-left: 0 !important;
         }
 
         .footer-col ul li {
             margin-bottom: 8px;
             font-size: 14px;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            list-style-type: none !important;
         }
 
         .footer-col ul li a {
@@ -84,12 +89,27 @@
         }
     </style>
 
+    <!-- 1. GỌI WIDGET_TEST_4 HIỂN THỊ PHÍA TRÊN FOOTER (TRANG CHỦ, TRANG DANH SÁCH, TRANG CHI TIẾT) -->
+    <?php 
+    // Điều kiện hiển thị đúng yêu cầu: Trang chủ, Trang danh sách (Archive/Search/Category/Tag/Date), Trang chi tiết (Single)
+    if ( is_home() || is_front_page() || is_archive() || is_search() || is_category() || is_tag() || is_date() || is_author() || is_single() || is_singular('post') ) : 
+    ?>
+        <div class="site-above-footer-wrapper" style="max-width: 1200px; margin: 30px auto 35px auto; padding: 0 15px; box-sizing: border-box;">
+            <?php 
+            if ( function_exists('the_widget') ) {
+                the_widget('Widget_Test_4');
+            }
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- 2. KHU VỰC FOOTER CHÍNH -->
     <footer class="custom-site-footer">
         <div class="footer-container">
             
             <div class="footer-grid">
                 
-                <!-- Cột 1: Thay Quick links giả bằng Bài viết mới (Recent Posts) trong DB -->
+                <!-- Cột 1: Bài viết mới (Recent Posts) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Bài viết mới</div>
                     <ul>
@@ -100,7 +120,8 @@
                         <?php endforeach; wp_reset_query(); ?>
                     </ul>
                 </div>
-<!-- Cột 2: Thay Quick links giả bằng Chuyên mục (Categories) trong DB -->
+
+                <!-- Cột 2: Chuyên mục (Categories) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Chuyên mục</div>
                     <ul>
@@ -112,7 +133,7 @@
                     </ul>
                 </div>
 
-                <!-- Cột 3: Thay Quick links giả bằng Bình luận mới (Comments) trong DB -->
+                <!-- Cột 3: Bình luận mới (Comments) -->
                 <div class="footer-col">
                     <div class="footer-col-title">Bình luận mới</div>
                     <ul>
