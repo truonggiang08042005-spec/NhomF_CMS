@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgPC" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="rgbFan1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <rect width="400" height="240" fill="url(#bgPC)"/>
+  
+  <!-- Desk surface -->
+  <rect y="215" width="400" height="25" fill="#27272a"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#3f3f46" stroke-width="2"/>
+
+  <!-- Gaming Monitor on left -->
+  <g transform="translate(60, 45)">
+    <!-- Stand -->
+    <path d="M75 140 L85 140 L90 170 L70 170 Z" fill="#52525b"/>
+    <path d="M50 170 L110 170 L115 172 L45 172 Z" fill="#71717a"/>
+    <!-- Screen Frame -->
+    <rect x="0" y="0" width="160" height="105" rx="5" fill="#000000" stroke="#3f3f46" stroke-width="2"/>
+    <!-- Display panel with gaming wallpaper -->
+    <rect x="4" y="4" width="152" height="97" rx="3" fill="#1e1b4b"/>
+    <polygon points="4,101 60,60 120,80 156,30 156,101" fill="#4338ca" opacity="0.6"/>
+    <polygon points="4,101 40,75 80,90 156,60 156,101" fill="#6366f1" opacity="0.4"/>
+    <circle cx="120" cy="35" r="14" fill="#ec4899" opacity="0.7" filter="url(#glow)"/>
+  </g>
+
+  <!-- PC Case on Right -->
+  <g transform="translate(245, 30)">
+    <!-- Main Case Body -->
+    <rect x="0" y="0" width="95" height="185" rx="6" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+    <!-- Glass Side Panel -->
+    <rect x="6" y="8" width="83" height="150" rx="3" fill="#09090b" opacity="0.85"/>
+    
+    <!-- RGB Fans inside -->
+    <circle cx="47" cy="45" r="22" fill="none" stroke="url(#rgbFan1)" stroke-width="4" filter="url(#glow)"/>
+    <circle cx="47" cy="45" r="8" fill="#18181b"/>
+    <circle cx="47" cy="100" r="22" fill="none" stroke="url(#rgbFan1)" stroke-width="4" filter="url(#glow)"/>
+    <circle cx="47" cy="100" r="8" fill="#18181b"/>
+
+    <!-- GPU with RGB line -->
+    <rect x="14" y="130" width="68" height="16" rx="2" fill="#27272a"/>
+    <line x1="16" y1="138" x2="80" y2="138" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
+
+    <!-- Power button on top -->
+    <circle cx="47" cy="4" r="2.5" fill="#38bdf8"/>
+    <!-- Feet -->
+    <rect x="10" y="185" width="16" height="4" fill="#3f3f46"/>
+    <rect x="69" y="185" width="16" height="4" fill="#3f3f46"/>
+  </g>
+</svg>

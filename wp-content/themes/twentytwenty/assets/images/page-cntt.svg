@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7397b8"/>
+      <stop offset="100%" stop-color="#8ba6c1"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="240" fill="url(#skyGrad)"/>
+
+  <!-- Clouds -->
+  <path d="M60 110 a25 25 0 0 1 45 -10 a35 35 0 0 1 60 5 a20 20 0 0 1 20 20 l-130 0 z" fill="#ffffff" opacity="0.45"/>
+  <path d="M220 90 a20 20 0 0 1 35 -8 a30 30 0 0 1 50 4 a18 18 0 0 1 18 18 l-105 0 z" fill="#ffffff" opacity="0.35"/>
+
+  <!-- Desk ground -->
+  <rect y="210" width="400" height="30" fill="#6785a2"/>
+
+  <!-- Laptop on Left -->
+  <g filter="url(#shadow)">
+    <!-- Base -->
+    <path d="M40 205 L150 205 L145 210 L45 210 Z" fill="#e2e8f0"/>
+    <rect x="75" y="206" width="40" height="2" fill="#94a3b8" rx="1"/>
+    <!-- Screen frame -->
+    <rect x="52" y="140" width="86" height="65" rx="3" fill="#ffffff"/>
+    <rect x="56" y="144" width="78" height="57" fill="#f8fafc"/>
+    <!-- Bar charts on screen -->
+    <rect x="62" y="178" width="8" height="18" fill="#38bdf8"/>
+    <rect x="74" y="165" width="8" height="31" fill="#0284c7"/>
+    <rect x="86" y="172" width="8" height="24" fill="#38bdf8"/>
+    <rect x="98" y="158" width="8" height="38" fill="#0284c7"/>
+    <rect x="110" y="162" width="8" height="34" fill="#38bdf8"/>
+    <line x1="60" y1="198" x2="124" y2="198" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>
+
+  <!-- Big Analytics Board in Center -->
+  <g filter="url(#shadow)">
+    <rect x="125" y="80" width="150" height="110" rx="4" fill="#ffffff"/>
+    <!-- Board header -->
+    <line x1="135" y1="95" x2="190" y2="95" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+    <!-- Line chart -->
+    <path d="M140 160 L165 140 L190 152 L215 115 L240 125 L260 100" fill="none" stroke="#0284c7" stroke-width="2.5"/>
+    <circle cx="140" cy="160" r="4" fill="#38bdf8"/>
+    <circle cx="165" cy="140" r="4" fill="#f97316"/>
+    <circle cx="190" cy="152" r="4" fill="#ef4444"/>
+    <circle cx="215" cy="115" r="4" fill="#0284c7"/>
+    <circle cx="240" cy="125" r="4" fill="#f97316"/>
+    <circle cx="260" cy="100" r="5" fill="#ef4444"/>
+    <!-- Grid dotted lines -->
+    <line x1="140" y1="172" x2="260" y2="172" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+  </g>
+
+  <!-- Tablet / Phone with Pie Chart on Right -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="130" width="55" height="75" rx="4" fill="#ffffff"/>
+    <rect x="254" y="134" width="47" height="67" fill="#f8fafc"/>
+    <!-- Pie Chart -->
+    <circle cx="277" cy="160" r="16" fill="#f97316"/>
+    <path d="M277 160 L277 144 A16 16 0 0 1 293 160 Z" fill="#ef4444"/>
+    <path d="M277 160 L293 160 A16 16 0 0 1 277 176 Z" fill="#0284c7"/>
+    <!-- Mini bars -->
+    <rect x="260" y="184" width="35" height="3" fill="#cbd5e1" rx="1.5"/>
+    <rect x="260" y="190" width="25" height="3" fill="#f97316" rx="1.5"/>
+  </g>
+</svg>
