@@ -1285,6 +1285,7 @@ function register_widget_test_4() {
 }
 add_action( 'widgets_init', 'register_widget_test_4' );
 // --- KẾT THÚC CODE WIDGET ---
+
 class LastPost_Widget extends WP_Widget
 {
 
