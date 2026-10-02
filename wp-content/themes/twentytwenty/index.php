@@ -62,16 +62,13 @@ get_header();
     /* ==========================================================================
      WIDGET KHỐI TRÁI (Archive 11) & PHẢI (Comments 12)
      ========================================================================== */
-    .categories-widget-box,
-    .comments-widget-box,
-    .post-statistics-widget-box {
+    .categories-widget-box {
         background-color: #ededed;
         background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
         padding: 20px 16px;
         border-radius: 4px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         box-sizing: border-box;
-        margin-bottom: 30px;
 
     }
 
@@ -306,6 +303,41 @@ get_header();
     /* ==========================================================================
      COMMENTS (12): CỘT BÊN PHẢI
      ========================================================================== */
+    /* Khung Comments giống mẫu */
+    .comments-widget-box,
+    .post-statistics-widget-box {
+        width: 100%;
+        padding: 20px 16px;
+        border-radius: 4px;
+        border: solid 1px #d9d9d9;
+        box-shadow: none;
+        margin-bottom: 30px;
+    }
+
+    /* Tiêu đề Comments */
+    .comments-widget-box .widget-title-styled {
+        margin: 0;
+        padding: 0 0 8px 0;
+
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #555;
+    }
+
+    /* Đường sọc dưới tiêu đề */
+    .comments-widget-box .widget-striped-bar,
+    .post-statistics-widget-box .widget-striped-bar {
+        height: 1px;
+        background: #aaa;
+        width: 30%;
+    }
+
+    .comments-widget-box .widget-white-container,
+    .post-statistics-widget-box .widget-white-container {
+        padding: 0;
+    }
+
     .comments-list-wrapper {
         list-style: none;
         margin: 0;
@@ -313,8 +345,9 @@ get_header();
     }
 
     .recent-comment-item {
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid #e2e2e2;
         padding: 10px 0;
+        margin: 0;
     }
 
     .recent-comment-item:last-child {
