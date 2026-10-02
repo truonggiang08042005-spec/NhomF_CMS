@@ -88,7 +88,236 @@
     .footer-copyright-text {
         line-height: 1.6;
     }
+    /* Module 10 - Truong Giang */
+    .truonggiang-module-10 {
+        max-width: 420px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #ffffff;
+        padding: 15px 15px 10px 15px;
+        box-sizing: border-box;
+        margin: 20px auto;
+        color: #222;
+    }
+
+    .truonggiang-module-10 .module-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 4px;
+    }
+
+    .truonggiang-module-10 .category-title {
+        color: #d3202a;
+        font-size: 20px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+        text-decoration: none;
+    }
+
+    .truonggiang-module-10 .category-title a {
+        color: #d3202a;
+        text-decoration: none;
+    }
+
+    .truonggiang-module-10 .subcategory-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #4a7ab5;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .truonggiang-module-10 .subcategory-link:hover {
+        color: #1a56a4;
+        text-decoration: underline;
+    }
+
+    .truonggiang-module-10 .sub-icon {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 14px;
+        height: 10px;
+    }
+
+    .truonggiang-module-10 .sub-icon span {
+        display: block;
+        height: 2px;
+        background-color: #777;
+        border-radius: 1px;
+    }
+    .truonggiang-module-10 .sub-icon span:first-child,
+    .truonggiang-module-10 .sub-icon span:last-child {
+        width:50%;
+        background_color: #000;
+        margin-left: auto;
+    }
+
+    /* Featured Post (Post 1: Thumbnail on left, Title on right) */
+    .truonggiang-module-10 .featured-post {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+    }
+
+    .truonggiang-module-10 .featured-thumbnail {
+        flex: 0 0 135px;
+        width: 135px;
+        height: 90px;
+        overflow: hidden;
+        border-radius: 2px;
+    }
+
+    .truonggiang-module-10 .featured-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .truonggiang-module-10 .featured-title {
+        flex: 1;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.35;
+    }
+
+    .truonggiang-module-10 .featured-title a {
+        color: #2c2c2c;
+        text-decoration: none;
+        display: block;
+    }
+
+    .truonggiang-module-10 .featured-title a:hover {
+        color: #d3202a;
+    }
+
+    /* Danh sách các bài viết phía dưới */
+    .truonggiang-module-10 .sub-posts-list {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 14px 0 0 -20px !important;
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 0px !important;
+    }
+
+    .truonggiang-module-10 .sub-post-item {
+        margin-bottom: 12px;
+        padding: 0;
+    }
+
+    .truonggiang-module-10 .sub-post-item:last-child {
+        margin-bottom: 6px;
+    }
+
+    .truonggiang-module-10 .sub-post-item a {
+        color: #333333;
+        font-weight: 500;
+        font-size: 14.5px;
+        line-height: 1.4;
+        text-decoration: none;
+        display: block;
+    }
+
+    .truonggiang-module-10 .sub-post-item a:hover {
+        color: #d3202a;
+    }
 </style>
+<!-- =====================================================
+     TRUONGGIANG MODULE #10 - FOOTER
+     ===================================================== -->
+
+<?php
+// 1. Truy vấn lấy 5 bài viết thuộc chuyên mục "Chính trị" hoặc mới nhất
+$chinh_tri_cat = get_category_by_slug('chinh-tri');
+$cat_id = $chinh_tri_cat ? $chinh_tri_cat->term_id : '';
+$cat_link = $chinh_tri_cat ? get_category_link($chinh_tri_cat->term_id) : '#';
+
+$xay_dung_dang_cat = get_category_by_slug('xay-dung-dang');
+$sub_cat_link = $xay_dung_dang_cat ? get_category_link($xay_dung_dang_cat->term_id) : '#';
+
+$args = array(
+    'posts_per_page' => 5,
+    'post_status'    => 'publish',
+    'orderby'        => 'date',
+    'order'          => 'DESC'
+);
+
+if (!empty($cat_id)) {
+    $args['cat'] = $cat_id;
+}
+
+$truonggiang_query = new WP_Query($args);
+
+if ($truonggiang_query->have_posts()) :
+    $post_count = 0;
+    ?>
+    <div class="truonggiang-module-10">
+        <!-- Module Header -->
+        <div class="module-header">
+            <h2 class="category-title">
+                <a href="<?php echo esc_url($cat_link); ?>">CHÍNH TRỊ</a>
+            </h2>
+            <a href="<?php echo esc_url($sub_cat_link); ?>" class="subcategory-link">
+                Xây dựng Đảng
+                <span class="sub-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+        </div>
+
+        <?php while ($truonggiang_query->have_posts()) : $truonggiang_query->the_post(); $post_count++; ?>
+            
+            <?php if ($post_count === 1) : ?>
+                <!-- BÀI VIẾT ĐẦU TIÊN (Ảnh bên trái + Tiêu đề bên phải) -->
+                <div class="featured-post">
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="featured-thumbnail">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail('medium'); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <h3 class="featured-title">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h3>
+                </div>
+
+                <!-- BẮT ĐẦU DANH SÁCH CÁC BÀI TIẾP THEO -->
+                <ul class="sub-posts-list">
+
+            <?php else : ?>
+                <!-- CÁC BÀI VIẾT TIẾP THEO (Chỉ hiển thị tiêu đề) -->
+                <li class="sub-post-item">
+                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                </li>
+            <?php endif; ?>
+
+        <?php endwhile; ?>
+        
+        <?php if ($post_count > 1) : ?>
+            </ul> <!-- Đóng danh sách sub-posts -->
+        <?php endif; ?>
+
+    </div>
+    <?php
+    wp_reset_postdata();
+endif;
+?>
+<!-- =====================================================
+     TONYQUYEN MODULE #23 - FOOTER
+     ===================================================== -->
+
 
 <!-- =====================================================
      PHAMLONGVU MODULE #34 - FOOTER
