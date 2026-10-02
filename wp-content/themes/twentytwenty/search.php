@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying search results pages (Trang danh sách tìm kiếm)
  * Bố cục chuẩn theo sơ đồ thiết kế trong Ảnh 2:
@@ -17,33 +18,34 @@ get_header();
 $theme_uri = get_template_directory_uri();
 
 // Lấy bài viết cho Module 13 (Pages)
-$pages_posts = get_posts( array(
+$pages_posts = get_posts(array(
     'post_type'      => 'post',
     'post_status'    => 'publish',
     'posts_per_page' => 3,
     'orderby'        => 'date',
     'order'          => 'DESC',
-) );
+));
 
-function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
+function nhomf_search_page_image($post_id, $post_title, $index = 0)
+{
     global $theme_uri;
-    
+
     // Nếu có thumbnail thật
-    if ( has_post_thumbnail( $post_id ) ) {
-        $thumb_url = get_the_post_thumbnail_url( $post_id, 'medium_large' );
-        if ( ! empty( $thumb_url ) ) {
+    if (has_post_thumbnail($post_id)) {
+        $thumb_url = get_the_post_thumbnail_url($post_id, 'medium_large');
+        if (! empty($thumb_url)) {
             return $thumb_url;
         }
     }
 
-    $title_lower = mb_strtolower( $post_title, 'UTF-8' );
-    if ( strpos( $title_lower, 'giặt' ) !== false || strpos( $title_lower, 'electrolux' ) !== false ) {
+    $title_lower = mb_strtolower($post_title, 'UTF-8');
+    if (strpos($title_lower, 'giặt') !== false || strpos($title_lower, 'electrolux') !== false) {
         return $theme_uri . '/assets/images/post-may-giat.svg';
-    } elseif ( strpos( $title_lower, 'robot' ) !== false || strpos( $title_lower, 'hút bụi' ) !== false ) {
+    } elseif (strpos($title_lower, 'robot') !== false || strpos($title_lower, 'hút bụi') !== false) {
         return $theme_uri . '/assets/images/post-robot-hut-bui.svg';
-    } elseif ( strpos( $title_lower, 'đồng hồ' ) !== false ) {
+    } elseif (strpos($title_lower, 'đồng hồ') !== false) {
         return $theme_uri . '/assets/images/post-dong-ho.svg';
-    } elseif ( strpos( $title_lower, 'gaming' ) !== false || strpos( $title_lower, 'pc' ) !== false ) {
+    } elseif (strpos($title_lower, 'gaming') !== false || strpos($title_lower, 'pc') !== false) {
         return $theme_uri . '/assets/images/post-pc-gaming.svg';
     }
 
@@ -54,7 +56,7 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
         $theme_uri . '/assets/images/page-graphic-design.svg',
     );
 
-    return isset( $sample_svgs[ $index ] ) ? $sample_svgs[ $index ] : $sample_svgs[0];
+    return isset($sample_svgs[$index]) ? $sample_svgs[$index] : $sample_svgs[0];
 }
 ?>
 
@@ -68,6 +70,7 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
         padding: 0 15px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         box-sizing: border-box;
+
     }
 
     /* ==========================================================================
@@ -91,6 +94,10 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
         gap: 10px;
     }
 
+    .search-top-form {
+        background-color: #f8fafc;
+    }
+
     .search-top-title {
         font-size: 20px;
         font-weight: 700;
@@ -99,7 +106,12 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
     }
 
     .search-top-title span {
-        color: #dc2626; /* Tô đỏ từ khóa tìm kiếm */
+        color: #dc2626;
+        /* Tô đỏ từ khóa tìm kiếm */
+    }
+    .search-top-form-content {
+        background-color: #ffe49f;
+        padding: 20px 200px;
     }
 
     .search-top-count {
@@ -135,7 +147,7 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
     }
 
     .search-input-form button {
-        background-color: #0284c7 !important;
+        background-color: #02c70f !important;
         color: #ffffff !important;
         border: none !important;
         padding: 9px 20px !important;
@@ -424,36 +436,85 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
     /* ==========================================================================
      MODULE SỐ 14: COMMENTS SIDEBAR
      ========================================================================== */
+
     .recent-comments-list {
         list-style: none;
-        padding: 0;
         margin: 0;
+        padding: 0;
     }
 
     .recent-comment-item {
-        padding: 10px 0;
-        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        margin: 0 0 8px;
+        padding: 0;
     }
 
-    .recent-comment-item:last-child {
-        border-bottom: none;
+    /* Avatar bên trái */
+    .recent-comment-avatar {
+        flex: 0 0 50px;
+        width: 50px;
+        margin-right: 10px;
     }
 
-    .comment-content a {
-        color: #5587b7;
+    .comment-avatar-img {
+        display: block;
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 0 !important;
+        object-fit: cover;
+    }
+
+    /* Phần bên phải */
+    .recent-comment-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Tên */
+    .recent-comment-author {
+        height: 25px;
+        line-height: 25px;
+        padding: 0 8px;
+
+        background: #f1f1f1;
+        border: 1px solid #dcdcdc;
+        border-bottom: 0;
+
+        color: #333;
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    /* Nội dung */
+    .recent-comment-content {
+        padding: 7px 9px;
+
+        background: #fff;
+        border: 1px solid #dedede;
+
+        font-size: 11px;
+        line-height: 16px;
+        color: #555;
+    }
+
+    .recent-comment-content a {
+        color: #555;
         text-decoration: none;
-        font-size: 13.5px;
-        line-height: 1.45;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
     }
 
-    .comment-content a:hover {
-        color: #1d4ed8;
-        text-decoration: underline;
+    .recent-comment-content a:hover {
+        color: #333;
     }
+
+    /* Khi không có comment */
+    .no-comments {
+        padding: 10px;
+        color: #777;
+        font-size: 13px;
+    }
+
 
     /* ==========================================================================
      3. Khối Số 15: Nằm ngang bên dưới 3 cột
@@ -567,20 +628,24 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
     <section class="search-top-bar-module block-4">
         <div class="search-top-header">
             <h1 class="search-top-title">
-                Kết quả tìm kiếm cho: "<span><?php echo esc_html( get_search_query() ); ?></span>"
+                Kết quả tìm kiếm cho: "<span><?php echo esc_html(get_search_query()); ?></span>"
             </h1>
-            <?php if ( have_posts() ) : ?>
+            <?php if (have_posts()) : ?>
                 <span class="search-top-count">
-                    Tìm thấy <strong><?php global $wp_query; echo $wp_query->found_posts; ?></strong> bài viết phù hợp
+                    Tìm thấy <strong><?php global $wp_query;
+                                        echo $wp_query->found_posts; ?></strong> bài viết phù hợp
                 </span>
             <?php endif; ?>
+        </div class="search-top-form">
+        <div>
+            <div class="search-top-form-content">
+                <form role="search" method="get" class="search-input-form" action="<?php echo esc_url(home_url('/')); ?>">
+                    <span style="font-size: 16px;">🔍</span>
+                    <input type="search" placeholder="Nhập từ khóa tìm kiếm khác..." value="<?php echo get_search_query(); ?>" name="s" required />
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
         </div>
-
-        <form role="search" method="get" class="search-input-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <span style="font-size: 16px;">🔍</span>
-            <input type="search" placeholder="Nhập từ khóa tìm kiếm khác..." value="<?php echo get_search_query(); ?>" name="s" required />
-            <button type="submit">Tìm kiếm</button>
-        </form>
     </section>
 
     <!-- 2. BỐ CỤC 3 CỘT: 13 (Pages) | Search result (5) | 14 (Comments) -->
@@ -594,33 +659,33 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
 
                 <div class="widget-inner-white-box">
                     <div class="module-13-vertical-list">
-                        <?php if ( ! empty( $pages_posts ) ) : ?>
-                            <?php foreach ( $pages_posts as $idx => $p_item ) : 
+                        <?php if (! empty($pages_posts)) : ?>
+                            <?php foreach ($pages_posts as $idx => $p_item) :
                                 $p_id    = $p_item->ID;
-                                $p_title = get_the_title( $p_id );
-                                $p_link  = get_permalink( $p_id );
-                                $p_img   = nhomf_search_page_image( $p_id, $p_title, $idx );
-                                $p_desc  = ! empty( $p_item->post_excerpt ) ? wp_trim_words( $p_item->post_excerpt, 15, '...' ) : wp_trim_words( wp_strip_all_tags( $p_item->post_content ), 15, '...' );
+                                $p_title = get_the_title($p_id);
+                                $p_link  = get_permalink($p_id);
+                                $p_img   = nhomf_search_page_image($p_id, $p_title, $idx);
+                                $p_desc  = ! empty($p_item->post_excerpt) ? wp_trim_words($p_item->post_excerpt, 15, '...') : wp_trim_words(wp_strip_all_tags($p_item->post_content), 15, '...');
                             ?>
                                 <article class="page-item-card">
                                     <h4 class="page-item-title">
-                                        <a href="<?php echo esc_url( $p_link ); ?>" title="<?php echo esc_attr( $p_title ); ?>">
-                                            <?php echo esc_html( $p_title ); ?>
+                                        <a href="<?php echo esc_url($p_link); ?>" title="<?php echo esc_attr($p_title); ?>">
+                                            <?php echo esc_html($p_title); ?>
                                         </a>
                                     </h4>
 
                                     <div class="page-item-divider"></div>
 
                                     <div class="page-item-thumb">
-                                        <a href="<?php echo esc_url( $p_link ); ?>">
-                                            <img src="<?php echo esc_url( $p_img ); ?>" 
-                                                 alt="<?php echo esc_attr( $p_title ); ?>" 
-                                                 loading="lazy" />
+                                        <a href="<?php echo esc_url($p_link); ?>">
+                                            <img src="<?php echo esc_url($p_img); ?>"
+                                                alt="<?php echo esc_attr($p_title); ?>"
+                                                loading="lazy" />
                                         </a>
                                     </div>
 
                                     <p class="page-item-desc">
-                                        <?php echo esc_html( $p_desc ); ?>
+                                        <?php echo esc_html($p_desc); ?>
                                     </p>
                                 </article>
                             <?php endforeach; ?>
@@ -633,20 +698,20 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
         <!-- CỘT Ở GIỮA: Search result (5) (Kết quả tìm kiếm) -->
         <div class="search-center-col-5">
             <main id="site-content">
-                <?php if ( have_posts() ) : ?>
+                <?php if (have_posts()) : ?>
                     <div class="search-results-list">
-                        <?php while ( have_posts() ) : the_post(); 
+                        <?php while (have_posts()) : the_post();
                             $day = get_the_date('d');
                             $month = get_the_date('m');
-                            $res_thumb = nhomf_search_page_image( get_the_ID(), get_the_title() );
+                            $res_thumb = nhomf_search_page_image(get_the_ID(), get_the_title());
                         ?>
                             <article class="post-card-item">
                                 <!-- 1. Ảnh Thumbnail -->
                                 <div class="post-card-thumb">
                                     <a href="<?php the_permalink(); ?>">
-                                        <img src="<?php echo esc_url( $res_thumb ); ?>" 
-                                             alt="<?php the_title_attribute(); ?>" 
-                                             loading="lazy" />
+                                        <img src="<?php echo esc_url($res_thumb); ?>"
+                                            alt="<?php the_title_attribute(); ?>"
+                                            loading="lazy" />
                                     </a>
                                 </div>
 
@@ -662,7 +727,7 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
                                         <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                     </h2>
                                     <p class="post-card-excerpt">
-                                        <?php echo wp_trim_words( get_the_excerpt(), 22, ' [...]' ); ?>
+                                        <?php echo wp_trim_words(get_the_excerpt(), 22, ' [...]'); ?>
                                     </p>
                                 </div>
                             </article>
@@ -672,17 +737,17 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
                     <!-- Phân trang -->
                     <div class="search-pagination">
                         <?php
-                        the_posts_pagination( array(
+                        the_posts_pagination(array(
                             'mid_size'  => 2,
                             'prev_text' => '&laquo; Trước',
                             'next_text' => 'Sau &raquo;',
-                        ) );
+                        ));
                         ?>
                     </div>
                 <?php else : ?>
                     <div class="search-no-results-box">
                         <p style="color: #64748b; font-size: 15px; margin-bottom: 0;">
-                            Không tìm thấy bài viết nào phù hợp với từ khóa "<strong><?php echo esc_html( get_search_query() ); ?></strong>". Vui lòng thử từ khóa khác.
+                            Không tìm thấy bài viết nào phù hợp với từ khóa "<strong><?php echo esc_html(get_search_query()); ?></strong>". Vui lòng thử từ khóa khác.
                         </p>
                     </div>
                 <?php endif; ?>
@@ -697,37 +762,83 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
 
                 <div class="widget-inner-white-box">
                     <ul class="recent-comments-list">
+
                         <?php
-                        $recent_comments = get_comments( array(
+                        $recent_comments = get_comments(array(
                             'number'      => 5,
                             'status'      => 'approve',
                             'post_status' => 'publish',
                             'type'        => 'comment',
-                        ) );
+                        ));
 
-                        if ( ! empty( $recent_comments ) ) :
-                            foreach ( $recent_comments as $comment ) :
-                                $comment_post = get_post( $comment->comment_post_ID );
-                                ?>
+                        if (! empty($recent_comments)) :
+
+                            foreach ($recent_comments as $comment) :
+                        ?>
+
                                 <li class="recent-comment-item">
-                                    <?php if ( $comment_post ) : ?>
-                                        <div class="comment-content">
-                                            <a class="comment-post-link" href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
-                                                <?php echo esc_html( wp_trim_words( $comment->comment_content, 12, '...' ) ); ?>
+
+                                    <!-- Avatar -->
+                                    <div class="recent-comment-avatar">
+                                        <?php
+                                        echo get_avatar(
+                                            $comment,
+                                            50,
+                                            '',
+                                            esc_attr($comment->comment_author),
+                                            array(
+                                                'class' => 'comment-avatar-img',
+                                            )
+                                        );
+                                        ?>
+                                    </div>
+
+                                    <!-- Nội dung -->
+                                    <div class="recent-comment-body">
+
+                                        <!-- Tên người comment -->
+                                        <div class="recent-comment-author">
+                                            <?php echo esc_html($comment->comment_author); ?>
+                                        </div>
+
+                                        <!-- Nội dung comment -->
+                                        <div class="recent-comment-content">
+                                            <a
+                                                href="<?php echo esc_url(get_comment_link($comment)); ?>"
+                                                class="comment-post-link">
+                                                <?php
+                                                echo esc_html(
+                                                    wp_trim_words(
+                                                        wp_strip_all_tags($comment->comment_content),
+                                                        35,
+                                                        '...'
+                                                    )
+                                                );
+                                                ?>
                                             </a>
                                         </div>
-                                    <?php endif; ?>
+
+                                    </div>
+
                                 </li>
+
                             <?php
                             endforeach;
+
                         else :
                             ?>
-                            <li>Chưa có bình luận nào.</li>
+
+                            <li class="no-comments">
+                                Chưa có bình luận nào.
+                            </li>
+
                         <?php endif; ?>
+
                     </ul>
                 </div>
             </aside>
         </div>
+
 
     </div><!-- .search-three-columns -->
 
@@ -736,13 +847,13 @@ function nhomf_search_page_image( $post_id, $post_title, $index = 0 ) {
         <h3 class="module-15-title">Khám phá theo chuyên mục & từ khóa</h3>
         <div class="module-15-tags-grid">
             <?php
-            $categories = get_categories( array( 'hide_empty' => false ) );
-            if ( ! empty( $categories ) ) :
-                foreach ( $categories as $cat ) : ?>
-                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>" class="module-15-tag-item">
-                        📁 <?php echo esc_html( $cat->name ); ?> (<?php echo $cat->count; ?>)
+            $categories = get_categories(array('hide_empty' => false));
+            if (! empty($categories)) :
+                foreach ($categories as $cat) : ?>
+                    <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" class="module-15-tag-item">
+                        📁 <?php echo esc_html($cat->name); ?> (<?php echo $cat->count; ?>)
                     </a>
-                <?php endforeach;
+            <?php endforeach;
             endif;
             ?>
         </div>

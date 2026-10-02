@@ -530,9 +530,6 @@ get_header();
 
             <?php if ( have_posts() ) : ?>
                 <?php while ( have_posts() ) : the_post(); 
-                    if ( function_exists('set_post_views') ) {
-                        set_post_views( get_the_ID() );
-                    }
                     $day   = get_the_date('d');
                     $month = get_the_date('m');
                     $year  = get_the_date('y');

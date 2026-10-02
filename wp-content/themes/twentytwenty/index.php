@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The main template file (index.php) - TRANG CHỦ
  * Bố cục 3 cột theo đúng sơ đồ thiết kế [Trang chủ] trong Ảnh:
@@ -10,7 +11,7 @@
  * @subpackage Twenty_Twenty
  */
 
-get_header(); 
+get_header();
 ?>
 
 <style>
@@ -61,14 +62,14 @@ get_header();
     /* ==========================================================================
      WIDGET KHỐI TRÁI (Archive 11) & PHẢI (Comments 12)
      ========================================================================== */
-    .categories-widget-box,
-    .comments-widget-box {
+    .categories-widget-box {
         background-color: #ededed;
         background-image: repeating-linear-gradient(45deg, #f4f4f4, #f4f4f4 10px, #e9e9e9 10px, #e9e9e9 20px);
         padding: 20px 16px;
         border-radius: 4px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         box-sizing: border-box;
+
     }
 
     .widget-title-styled {
@@ -302,6 +303,41 @@ get_header();
     /* ==========================================================================
      COMMENTS (12): CỘT BÊN PHẢI
      ========================================================================== */
+    /* Khung Comments giống mẫu */
+    .comments-widget-box,
+    .post-statistics-widget-box {
+        width: 100%;
+        padding: 20px 16px;
+        border-radius: 4px;
+        border: solid 1px #d9d9d9;
+        box-shadow: none;
+        margin-bottom: 30px;
+    }
+
+    /* Tiêu đề Comments */
+    .comments-widget-box .widget-title-styled {
+        margin: 0;
+        padding: 0 0 8px 0;
+
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #555;
+    }
+
+    /* Đường sọc dưới tiêu đề */
+    .comments-widget-box .widget-striped-bar,
+    .post-statistics-widget-box .widget-striped-bar {
+        height: 1px;
+        background: #aaa;
+        width: 30%;
+    }
+
+    .comments-widget-box .widget-white-container,
+    .post-statistics-widget-box .widget-white-container {
+        padding: 0;
+    }
+
     .comments-list-wrapper {
         list-style: none;
         margin: 0;
@@ -309,8 +345,9 @@ get_header();
     }
 
     .recent-comment-item {
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid #e2e2e2;
         padding: 10px 0;
+        margin: 0;
     }
 
     .recent-comment-item:last-child {
@@ -341,37 +378,37 @@ get_header();
         <aside class="categories-widget-box block-11">
             <h3 class="widget-title-styled">Archive</h3>
             <div class="widget-striped-bar"></div>
-            
+
             <div class="widget-white-container">
                 <!-- Danh sách bài viết đánh số thứ tự (1, 2, 3...) theo Ảnh 1 -->
                 <div class="archive-ranked-list">
                     <?php
-                    $archive_posts = wp_get_recent_posts( array(
+                    $archive_posts = wp_get_recent_posts(array(
                         'numberposts' => 5,
                         'post_status' => 'publish',
-                    ) );
+                    ));
 
-                    if ( ! empty( $archive_posts ) ) :
-                        foreach ( $archive_posts as $idx => $a_post ) :
+                    if (! empty($archive_posts)) :
+                        foreach ($archive_posts as $idx => $a_post) :
                             $rank = $idx + 1;
-                            $link = get_permalink( $a_post['ID'] );
-                            $comments = get_comments_number( $a_post['ID'] );
-                            $post_date = get_the_date( 'd/m', $a_post['ID'] );
-                        ?>
+                            $link = get_permalink($a_post['ID']);
+                            $comments = get_comments_number($a_post['ID']);
+                            $post_date = get_the_date('d/m', $a_post['ID']);
+                    ?>
                             <div class="archive-rank-item">
                                 <div class="archive-rank-number"><?php echo $rank; ?></div>
                                 <div class="archive-rank-body">
                                     <h4 class="archive-rank-title">
-                                        <a href="<?php echo esc_url( $link ); ?>">
-                                            <?php echo esc_html( wp_trim_words( $a_post['post_title'], 9, '...' ) ); ?>
+                                        <a href="<?php echo esc_url($link); ?>">
+                                            <?php echo esc_html(wp_trim_words($a_post['post_title'], 9, '...')); ?>
                                         </a>
                                     </h4>
                                     <div class="archive-rank-meta">
                                         <span><?php echo $post_date; ?></span>
-                                        <?php if ( $comments > 0 ) : ?>
+                                        <?php if ($comments > 0) : ?>
                                             <span class="archive-comment-badge">
                                                 <svg class="comment-bubble-icon" viewBox="0 0 20 20">
-                                                    <path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z"/>
+                                                    <path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z" />
                                                 </svg>
                                                 <?php echo $comments; ?>
                                             </span>
@@ -379,7 +416,7 @@ get_header();
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach;
+                    <?php endforeach;
                     endif;
                     ?>
                 </div>
@@ -388,14 +425,14 @@ get_header();
                 <div class="archive-month-section-title">Lưu trữ theo tháng</div>
                 <ul class="archive-month-list">
                     <?php
-                    $archives_list = wp_get_archives( array(
+                    $archives_list = wp_get_archives(array(
                         'type'            => 'monthly',
                         'format'          => 'html',
                         'show_post_count' => true,
                         'echo'            => false
-                    ) );
+                    ));
 
-                    if ( ! empty( $archives_list ) ) {
+                    if (! empty($archives_list)) {
                         echo $archives_list;
                     } else {
                         echo '<li><a href="#">October 2023</a></li>';
@@ -409,8 +446,8 @@ get_header();
     <!-- CỘT Ở GIỮA: Content (2) -->
     <div class="center-content-column">
         <main id="site-content">
-            <?php if ( have_posts() ) : ?>
-                <?php while ( have_posts() ) : the_post(); 
+            <?php if (have_posts()) : ?>
+                <?php while (have_posts()) : the_post();
                     $day = get_the_date('d');
                     $month = get_the_date('m');
                 ?>
@@ -427,7 +464,7 @@ get_header();
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h2>
                             <p class="post-card-excerpt">
-                                <?php echo wp_trim_words( get_the_excerpt(), 25, ' [...]' ); ?>
+                                <?php echo wp_trim_words(get_the_excerpt(), 25, ' [...]'); ?>
                             </p>
                         </div>
                     </article>
@@ -447,22 +484,22 @@ get_header();
             <div class="widget-white-container">
                 <ul class="comments-list-wrapper">
                     <?php
-                    $recent_comments = get_comments( array(
+                    $recent_comments = get_comments(array(
                         'number'      => 5,
                         'status'      => 'approve',
                         'post_status' => 'publish',
                         'type'        => 'comment',
-                    ) );
+                    ));
 
-                    if ( ! empty( $recent_comments ) ) :
-                        foreach ( $recent_comments as $comment ) :
-                            $comment_post = get_post( $comment->comment_post_ID );
-                            ?>
+                    if (! empty($recent_comments)) :
+                        foreach ($recent_comments as $comment) :
+                            $comment_post = get_post($comment->comment_post_ID);
+                    ?>
                             <li class="recent-comment-item">
-                                <?php if ( $comment_post ) : ?>
+                                <?php if ($comment_post) : ?>
                                     <div class="comment-content">
-                                        <a class="comment-post-link" href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
-                                            <?php echo esc_html( wp_trim_words( $comment->comment_content, 12, '...' ) ); ?>
+                                        <a class="comment-post-link" href="<?php echo esc_url(get_comment_link($comment)); ?>">
+                                            <?php echo esc_html(wp_trim_words($comment->comment_content, 12, '...')); ?>
                                         </a>
                                     </div>
                                 <?php endif; ?>
@@ -474,6 +511,59 @@ get_header();
                         <li>Chưa có bình luận nào.</li>
                     <?php endif; ?>
                 </ul>
+            </div>
+        </aside>
+        <!-- Post Statistics -->
+        <aside class="post-statistics-widget-box">
+            <h3 class="widget-title-styled">Post Statistics</h3>
+            <div class="widget-striped-bar"></div>
+
+            <div class="widget-white-container post-statistics-container">
+
+                <div class="post-stat-item">
+                    <span class="post-stat-label">Posts</span>
+                    <strong>
+                        <?php
+                        $post_count = wp_count_posts('post');
+                        echo esc_html($post_count->publish);
+                        ?>
+                    </strong>
+                </div>
+
+                <div class="post-stat-item">
+                    <span class="post-stat-label">Comments</span>
+                    <strong>
+                        <?php
+                        $comment_count = wp_count_comments();
+                        echo esc_html($comment_count->approved);
+                        ?>
+                    </strong>
+                </div>
+
+                <div class="post-stat-item">
+                    <span class="post-stat-label">Categories</span>
+                    <strong>
+                        <?php
+                        $category_count = wp_count_terms('category', array(
+                            'hide_empty' => true
+                        ));
+                        echo esc_html($category_count);
+                        ?>
+                    </strong>
+                </div>
+
+                <div class="post-stat-item">
+                    <span class="post-stat-label">Tags</span>
+                    <strong>
+                        <?php
+                        $tag_count = wp_count_terms('post_tag', array(
+                            'hide_empty' => true
+                        ));
+                        echo esc_html($tag_count);
+                        ?>
+                    </strong>
+                </div>
+
             </div>
         </aside>
     </div>
