@@ -107,6 +107,8 @@ if (is_search()) :
 
     </div>
 
+<?php endif; ?>
+
     <!-- 1. GỌI WIDGET_TEST_4 (TIN MỚI | ĐỌC NHIỀU - MODULE 23) PHÍA TRÊN FOOTER -->
     <?php 
     if ( is_home() || is_front_page() || is_archive() || is_search() || is_category() || is_tag() || is_date() || is_author() || is_single() || is_singular('post') ) : 
