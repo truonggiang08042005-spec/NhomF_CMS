@@ -898,11 +898,8 @@ function set_post_views($postID) {
         $count = (int)$count + 1; // Chỉ tăng đúng 1 đơn vị
         update_post_meta($postID, $count_key, (string)$count);
     }
-
-function add_bootstrap_to_theme()
-{
-	wp_enqueue_style('bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 }
+
 class LastPost_Widget extends WP_Widget
 {
 
@@ -1019,7 +1016,6 @@ class LastPost_Widget extends WP_Widget
 		echo $lastpost_args['after_widget'];
 	}
 }
-add_action('wp_enqueue_scripts', 'add_bootstrap_to_theme');
 
 require_once get_template_directory() . '/PhamLongVu-module-34.php';
 
