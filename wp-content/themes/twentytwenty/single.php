@@ -402,6 +402,87 @@ get_header();
     .recent-posts-btn-banner:hover {
         background-color: #2e8b89;
     }
+	
+	/* ==========================================================================
+       Widget Recent Post (#12 Phía bên phải) - Thiết kế chuẩn mẫu
+       ========================================================================== */
+	/* CSS CHO MODULE ĐỌC NHIỀU / BÌNH LUẬN NHIỀU */
+.custom-tab-widget {
+    background: #ffffff;
+    margin-bottom: 25px;
+    font-family: Arial, sans-serif;
+}
+
+.tab-headers {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 15px;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 10px 15px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #888;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+	white-space: nowrap;
+}
+
+.tab-link:hover { color: #2a6fbe; }
+
+.tab-link.active {
+    color: #2a6fbe; /* Màu xanh của tab đang chọn */
+    border-bottom: 3px solid #2a6fbe;
+}
+
+.numbered-post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.numbered-post-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #eee;
+}
+
+.numbered-post-list li:last-child {
+    border-bottom: none;
+}
+
+/* Số thứ tự 1, 2, 3... to và đậm */
+.post-number {
+    font-size: 38px;
+    font-weight: 900;
+    color: #222;
+    margin-right: 15px;
+    min-width: 25px;
+    text-align: center;
+    line-height: 0.8;
+}
+
+.post-title {
+    font-size: 15px;
+    color: #444;
+    text-decoration: none;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-title:hover {
+    color: #2a6fbe;
+}
 </style>
 
 <div class="detail-page-wrapper" style="max-width: 1280px; margin: 30px auto; padding: 0 15px; box-sizing: border-box;">
@@ -498,8 +579,79 @@ get_header();
             <?php endif; ?>
         </div>
 
-        <!-- CỘT BÊN PHẢI: Recent post (#10) -->
+       <!-- CỘT BÊN PHẢI: Recent post (#10) & Widget Đọc Nhiều -->
         <div class="right-sidebar-column">
+            
+            <!-- MODULE: ĐỌC NHIỀU / BÌNH LUẬN NHIỀU (Vừa thêm vào) -->
+            <div class="custom-tab-widget">
+                <!-- Nút chuyển Tab -->
+                <div class="tab-headers">
+                    <button class="tab-link active" onclick="openTab(event, 'doc-nhieu')">ĐỌC NHIỀU</button>
+                    <button class="tab-link" onclick="openTab(event, 'binh-luan')">BÌNH LUẬN NHIỀU</button>
+                </div>
+
+                <!-- Tab 1: Đọc nhiều -->
+                <div id="doc-nhieu" class="tab-content" style="display: block;">
+                    <ul class="numbered-post-list">
+                        <?php
+                        $popular_query = new WP_Query( array(
+                            'posts_per_page' => 9,
+                            'orderby'        => 'rand', // Đang lấy ngẫu nhiên, nếu web có plugin đếm view thì sửa lại
+                            'ignore_sticky_posts' => 1
+                        ) );
+                        $count = 1;
+                        while ( $popular_query->have_posts() ) : $popular_query->the_post(); ?>
+                            <li>
+                                <span class="post-number"><?php echo $count; ?></span>
+                                <a class="post-title" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </li>
+                        <?php $count++; endwhile; wp_reset_postdata(); ?>
+                    </ul>
+                </div>
+
+                <!-- Tab 2: Bình luận nhiều -->
+                <div id="binh-luan" class="tab-content" style="display: none;">
+                    <ul class="numbered-post-list">
+                        <?php
+                        $comment_query = new WP_Query( array(
+                            'posts_per_page' => 9,
+                            'orderby'        => 'comment_count',
+                            'order'          => 'DESC',
+                            'ignore_sticky_posts' => 1
+                        ) );
+                        $count = 1;
+                        while ( $comment_query->have_posts() ) : $comment_query->the_post(); ?>
+                            <li>
+                                <span class="post-number"><?php echo $count; ?></span>
+                                <a class="post-title" href="<?php the_permalink(); ?>">
+                                    <?php the_title(); ?>
+                                    <span style="color:#5587b7; font-size:12px;"> 💬 <?php echo get_comments_number(); ?></span>
+                                </a>
+                            </li>
+                        <?php $count++; endwhile; wp_reset_postdata(); ?>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- JavaScript để chuyển Tab (Bắt buộc phải có để bấm tab nhảy qua lại) -->
+            <script>
+            function openTab(evt, tabName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tab-link");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].classList.remove("active");
+                }
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.classList.add("active");
+            }
+            </script>
+            <!-- KẾT THÚC MODULE: ĐỌC NHIỀU / BÌNH LUẬN NHIỀU -->
+
+            <!-- KHỐI BÀI VIẾT GẦN ĐÂY MÀU XANH NGỌC (Giữ nguyên của bạn) -->
             <aside class="recent-posts-teal-card">
                 <div class="recent-posts-teal-list">
                     <?php
@@ -541,6 +693,7 @@ get_header();
                     XEM TẤT CẢ TIN TỨC
                 </a>
             </aside>
+            
         </div>
 
     </div><!-- .page-three-column-layout -->
