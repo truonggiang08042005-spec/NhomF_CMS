@@ -154,7 +154,7 @@
     .truonggiang-module-10 .sub-icon span:first-child,
     .truonggiang-module-10 .sub-icon span:last-child {
         width:50%;
-        background_color: #000;
+        background-color: #000;
         margin-left: auto;
     }
 
@@ -234,15 +234,52 @@
      TRUONGGIANG MODULE #10 - FOOTER
      ===================================================== -->
 
+
 <?php
-// 1. Truy vấn lấy 5 bài viết thuộc chuyên mục "Chính trị" hoặc mới nhất
-$chinh_tri_cat = get_category_by_slug('chinh-tri');
-$cat_id = $chinh_tri_cat ? $chinh_tri_cat->term_id : '';
-$cat_link = $chinh_tri_cat ? get_category_link($chinh_tri_cat->term_id) : '#';
+// 1. Tìm 1 bài viết mới nhất để lấy thông tin chuyên mục
+$latest_post_args = array(
+    'posts_per_page' => 1,
+    'post_status'    => 'publish',
+    'orderby'        => 'date',
+    'order'          => 'DESC'
+);
+$latest_post_query = new WP_Query($latest_post_args);
 
-$xay_dung_dang_cat = get_category_by_slug('xay-dung-dang');
-$sub_cat_link = $xay_dung_dang_cat ? get_category_link($xay_dung_dang_cat->term_id) : '#';
+$cat_id          = '';
+$cat_name        = 'TIN TỨC'; // Tên mặc định nếu không có chuyên mục
+$cat_link        = '#';
+$cat_description = '';        // Biến lưu mô tả chuyên mục
 
+if ($latest_post_query->have_posts()) {
+    while ($latest_post_query->have_posts()) {
+        $latest_post_query->the_post();
+        
+        // Lấy tất cả categories của bài viết mới nhất
+        $categories = get_the_category();
+        
+        if (!empty($categories)) {
+            $selected_cat = $categories[0];
+            
+            // Nếu là chuyên mục con -> lấy chuyên mục cha làm tiêu đề chính
+            if ($selected_cat->category_parent != 0) {
+                $parent_cat      = get_category($selected_cat->category_parent);
+                $cat_id          = $parent_cat->term_id;
+                $cat_name        = $parent_cat->name;
+                $cat_link        = get_category_link($parent_cat->term_id);
+                $cat_description = $parent_cat->description; // Lấy description của chuyên mục cha
+            } else {
+                // Chuyên mục chính
+                $cat_id          = $selected_cat->term_id;
+                $cat_name        = $selected_cat->name;
+                $cat_link        = get_category_link($selected_cat->term_id);
+                $cat_description = $selected_cat->description; // Lấy description của chuyên mục
+            }
+        }
+    }
+    wp_reset_postdata();
+}
+
+// 2. Truy vấn lấy 5 bài viết thuộc chuyên mục vừa tìm được
 $args = array(
     'posts_per_page' => 5,
     'post_status'    => 'publish',
@@ -263,22 +300,25 @@ if ($truonggiang_query->have_posts()) :
         <!-- Module Header -->
         <div class="module-header">
             <h2 class="category-title">
-                <a href="<?php echo esc_url($cat_link); ?>">CHÍNH TRỊ</a>
+                <a href="<?php echo esc_url($cat_link); ?>"><?php echo esc_html(mb_strtoupper($cat_name, 'UTF-8')); ?></a>
             </h2>
-            <a href="<?php echo esc_url($sub_cat_link); ?>" class="subcategory-link">
-                Xây dựng Đảng
-                <span class="sub-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </a>
+            
+            <?php if (!empty($cat_description)) : ?>
+                <a href="<?php echo esc_url($cat_link); ?>" class="subcategory-link">
+                    <?php echo esc_html($cat_description); ?>
+                    <span class="sub-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
+            <?php endif; ?>
         </div>
 
         <?php while ($truonggiang_query->have_posts()) : $truonggiang_query->the_post(); $post_count++; ?>
             
             <?php if ($post_count === 1) : ?>
-                <!-- BÀI VIẾT ĐẦU TIÊN (Ảnh bên trái + Tiêu đề bên phải) -->
+                <!-- BÀI VIẾT ĐẦU TIÊN (Ảnh + Tiêu đề) -->
                 <div class="featured-post">
                     <?php if (has_post_thumbnail()) : ?>
                         <div class="featured-thumbnail">
