@@ -70,6 +70,7 @@ function nhomf_search_page_image($post_id, $post_title, $index = 0)
         padding: 0 15px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         box-sizing: border-box;
+
     }
 
     /* ==========================================================================
@@ -93,6 +94,10 @@ function nhomf_search_page_image($post_id, $post_title, $index = 0)
         gap: 10px;
     }
 
+    .search-top-form {
+        background-color: #f8fafc;
+    }
+
     .search-top-title {
         font-size: 20px;
         font-weight: 700;
@@ -103,6 +108,10 @@ function nhomf_search_page_image($post_id, $post_title, $index = 0)
     .search-top-title span {
         color: #dc2626;
         /* Tô đỏ từ khóa tìm kiếm */
+    }
+    .search-top-form-content {
+        background-color: #ffe49f;
+        padding: 20px 200px;
     }
 
     .search-top-count {
@@ -138,7 +147,7 @@ function nhomf_search_page_image($post_id, $post_title, $index = 0)
     }
 
     .search-input-form button {
-        background-color: #0284c7 !important;
+        background-color: #02c70f !important;
         color: #ffffff !important;
         border: none !important;
         padding: 9px 20px !important;
@@ -627,13 +636,16 @@ function nhomf_search_page_image($post_id, $post_title, $index = 0)
                                         echo $wp_query->found_posts; ?></strong> bài viết phù hợp
                 </span>
             <?php endif; ?>
+        </div class="search-top-form">
+        <div>
+            <div class="search-top-form-content">
+                <form role="search" method="get" class="search-input-form" action="<?php echo esc_url(home_url('/')); ?>">
+                    <span style="font-size: 16px;">🔍</span>
+                    <input type="search" placeholder="Nhập từ khóa tìm kiếm khác..." value="<?php echo get_search_query(); ?>" name="s" required />
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
         </div>
-
-        <form role="search" method="get" class="search-input-form" action="<?php echo esc_url(home_url('/')); ?>">
-            <span style="font-size: 16px;">🔍</span>
-            <input type="search" placeholder="Nhập từ khóa tìm kiếm khác..." value="<?php echo get_search_query(); ?>" name="s" required />
-            <button type="submit">Tìm kiếm</button>
-        </form>
     </section>
 
     <!-- 2. BỐ CỤC 3 CỘT: 13 (Pages) | Search result (5) | 14 (Comments) -->
