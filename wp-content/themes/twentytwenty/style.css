@@ -7822,3 +7822,29 @@ a.to-the-top>* {
 	}
 
 }
+
+.post-statistics-container {
+	padding: 10px 15px;
+}
+
+.post-stat-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 9px 0;
+	border-bottom: 1px solid #eee;
+	font-size: 13px;
+}
+
+.post-stat-item:last-child {
+	border-bottom: none;
+}
+
+.post-stat-label {
+	color: #555;
+}
+
+.post-stat-item strong {
+	font-size: 14px;
+	color: #222;
+}
