@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Twenty Twenty functions and definitions
  *
@@ -180,8 +179,6 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
 
-
-
 /**
  * Registers block patterns and pattern categories.
  *
@@ -263,12 +260,9 @@ add_action('wp_enqueue_scripts', 'twentytwenty_register_scripts');
 function twentytwenty_skip_link_focus_fix()
 {
 	// The following is minified via `terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
-?>
+	?>
 	<script>
-		/(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", function() {
-			var t, e = location.hash.substring(1);
-			/^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())
-		}, !1);
+		/(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", function () {var t, e = location.hash.substring(1); /^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())}, !1);
 	</script>
 	<?php
 }
@@ -363,6 +357,7 @@ function twentytwenty_get_custom_logo($html)
 			}
 
 			$html = preg_replace($search, $replace, $html);
+
 		}
 	}
 
@@ -866,6 +861,7 @@ function twentytwenty_custom_comment_reply_script()
 	) {
 		wp_enqueue_script('comment-reply');
 	}
+
 }
 
 add_action(
@@ -875,7 +871,6 @@ add_action(
 /**
  * Nhúng CSS Bootstrap 4 cho giao diện form comment Module 8
  */
-
 function add_bootstrap_to_theme() {
     wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
 }
@@ -1285,130 +1280,3 @@ function register_widget_test_4() {
 }
 add_action( 'widgets_init', 'register_widget_test_4' );
 // --- KẾT THÚC CODE WIDGET ---
-class LastPost_Widget extends WP_Widget
-{
-
-	function __construct()
-	{
-
-		parent::__construct(
-			'lastpost_widget',
-			'Last Post - Latest News',
-			array(
-				'description' => __('Hiển thị 3 bài viết mới nhất', 'text_domain')
-			)
-		);
-	}
-
-
-	// Hiển thị widget
-	public function widget($lastpost_args, $lastpost_instance)
-	{
-
-		echo $lastpost_args['before_widget'];
-
-	?>
-
-		<div class="lastpost-widget">
-
-			<h4 class="lastpost-title">
-				Latest News
-			</h4>
-
-			<?php
-
-			// Lấy 3 bài viết mới nhất
-			$lastpost_query = new WP_Query(array(
-				'posts_per_page' => 3,
-				'post_status'    => 'publish',
-				'orderby'        => 'date',
-				'order'          => 'DESC'
-			));
-
-			if ($lastpost_query->have_posts()) :
-
-				echo '<div class="lastpost-list">';
-
-				while ($lastpost_query->have_posts()) :
-
-					$lastpost_query->the_post();
-
-			?>
-
-					<div class="lastpost-item">
-
-						<!-- Chấm timeline -->
-						<span class="lastpost-dot"></span>
-
-						<div class="lastpost-content">
-
-							<!-- Tiêu đề + ngày -->
-							<div class="lastpost-header">
-
-								<a
-									href="<?php echo esc_url(get_permalink()); ?>"
-									class="lastpost-post-title">
-									<?php echo esc_html(get_the_title()); ?>
-								</a>
-
-								<span class="lastpost-date">
-									<?php echo esc_html(get_the_date('j F, Y')); ?>
-								</span>
-
-							</div>
-
-							<!-- Nội dung bài viết -->
-							<div class="lastpost-excerpt">
-
-								<?php
-								echo esc_html(
-									wp_trim_words(
-										get_the_excerpt(),
-										20,
-										'...'
-									)
-								);
-								?>
-
-							</div>
-
-						</div>
-
-					</div>
-
-			<?php
-
-				endwhile;
-
-				echo '</div>';
-
-				wp_reset_postdata();
-
-			else :
-
-				echo '<p class="lastpost-empty">
-                    Chưa có bài viết nào.
-                </p>';
-
-			endif;
-
-			?>
-
-		</div>
-
-<?php
-
-		echo $lastpost_args['after_widget'];
-	}
-}
-
-require_once get_template_directory() . '/PhamLongVu-module-34.php';
-
-
-function register_lastpost_widget()
-{
-
-	register_widget('LastPost_Widget');
-}
-
-add_action('widgets_init', 'register_lastpost_widget');
