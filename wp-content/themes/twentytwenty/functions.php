@@ -180,6 +180,8 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
 
+
+
 /**
  * Registers block patterns and pattern categories.
  *
@@ -870,6 +872,13 @@ add_action(
 	'wp_enqueue_scripts',
 	'twentytwenty_custom_comment_reply_script'
 );
+/**
+ * Nhúng CSS Bootstrap 4 cho giao diện form comment Module 8
+ */
+function add_bootstrap_to_theme()
+{
+	wp_enqueue_style('bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+}
 class LastPost_Widget extends WP_Widget
 {
 
@@ -986,7 +995,9 @@ class LastPost_Widget extends WP_Widget
 		echo $lastpost_args['after_widget'];
 	}
 }
+add_action('wp_enqueue_scripts', 'add_bootstrap_to_theme');
 
+require_once get_template_directory() . '/PhamLongVu-module-34.php';
 
 
 function register_lastpost_widget()

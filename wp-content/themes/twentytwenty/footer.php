@@ -90,6 +90,9 @@
     }
 </style>
 
+<!-- =====================================================
+     PHAMLONGVU MODULE #34 - FOOTER
+     ===================================================== -->
 <?php
 if (is_search()) :
 ?>
@@ -105,7 +108,20 @@ if (is_search()) :
     </div>
 
 <?php endif; ?>
+<div class="phamlongvu-footer-module-34">
 
+    <?php
+    the_widget(
+        'PhamLongVu_Module_34_Widget',
+        array(),
+        array(
+            'before_widget' => '',
+            'after_widget'  => '',
+        )
+    );
+    ?>
+
+</div>
 
 <!-- 2. KHU VỰC FOOTER CHÍNH -->
 <footer class="custom-site-footer">
