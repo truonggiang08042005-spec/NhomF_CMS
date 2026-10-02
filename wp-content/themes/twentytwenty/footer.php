@@ -93,7 +93,21 @@
 <!-- =====================================================
      PHAMLONGVU MODULE #34 - FOOTER
      ===================================================== -->
+<?php
+if (is_search()) :
+?>
 
+    <div class="site-above-footer-wrapper">
+
+        <?php
+        if (function_exists('the_widget')) {
+            the_widget('LastPost_Widget');
+        }
+        ?>
+
+    </div>
+
+<?php endif; ?>
 <div class="phamlongvu-footer-module-34">
 
     <?php
